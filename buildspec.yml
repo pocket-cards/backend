@@ -7,12 +7,23 @@ phases:
   build:
     commands:
       - npm run build:prod
+      - npm run build:zip
   # post_build:
-    # commands:
-      # - npm test
-# artifacts:
-  # base-directory: 'api/dist'
-  # files:
-  #   - 'api/dist/index.zip'
-  #   - 'api/dist/appspec.yml'
-  # discard-paths: true
+  #   commands:
+  #     - npm test
+artifacts:
+  base-directory: dist
+  files:
+    - D0_D001.zip
+  name: D0_D001.zip
+  secondary-artifacts:
+    D0_D001:
+      type: s3
+      location: pocket-cards-artifacts
+      files:
+        - D0_D001.zip
+      name: D0_D002.zip
+      base-directory: dist
+      # discard-paths: yes
+      # base-directory: location
+
