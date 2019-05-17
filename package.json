@@ -4,21 +4,33 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "build:prod": "webpack --config ./configs/webpack.prod.ts"
+    "build:dev": "webpack -w --config ./configs/webpack.dev.ts",
+    "build:prod": "webpack --config ./configs/webpack.prod.ts",
+    "test": "mocha -r ts-node/register \"test/**/*.ts\" --timeout 10000"
   },
   "dependencies": {
-    "@types/zip-webpack-plugin": "^3.0.0"
+    "moment": "^2.24.0",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.25",
+    "@types/chai": "^4.1.7",
+    "@types/jest": "^24.0.13",
+    "@types/mocha": "^5.2.6",
     "@types/node": "^12.0.0",
+    "@types/uuid": "^3.4.4",
     "@types/webpack": "^4.4.31",
     "@types/webpack-merge": "^4.1.5",
+    "@types/zip-webpack-plugin": "^3.0.0",
     "aws-lambda": "^0.1.2",
     "aws-sdk": "^2.449.0",
+    "axios": "^0.18.0",
+    "chai": "^4.2.0",
     "clean-webpack-plugin": "^2.0.1",
     "copy-webpack-plugin": "^5.0.3",
     "glob": "^7.1.4",
+    "jest": "^24.8.0",
+    "mocha": "^6.1.4",
     "ts-loader": "^5.4.5",
     "ts-node": "^8.1.0",
     "typescript": "^3.4.5",

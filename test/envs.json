@@ -1,7 +1,7 @@
 {
   "D001": {
     "EXCLUDE_WORD": "",
-    "EXCLUDE_MARK": "\\,(,),/,.,,,ˌ,ˈ",
+    "EXCLUDE_MARK": "\\,(,),/,., ,,?,?",
     "IMAGE_BUCKET": "pocket-cards-images"
   }
 }

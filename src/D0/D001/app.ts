@@ -1,6 +1,8 @@
-import { Rekognition, S3 } from "aws-sdk";
-import { APIGatewayEvent } from "aws-lambda";
-import { Result } from "./index";
+import { Rekognition, S3 } from 'aws-sdk';
+import { APIGatewayEvent } from 'aws-lambda';
+import * as uuid from 'uuid';
+import * as moment from 'moment';
+import { Result } from './index';
 
 // Rekognition
 let rekognitionClient: Rekognition;
@@ -11,32 +13,30 @@ let s3Client: S3;
 const bucket = process.env.IMAGE_BUCKET as string;
 /** 除外文字列 */
 const excludeWord = process.env.EXCLUDE_WORD
-  ? process.env.EXCLUDE_WORD.split(",")
+  ? process.env.EXCLUDE_WORD.split(',')
   : [];
 /** 除外記号 */
 const excludeMark = process.env.EXCLUDE_MARK
-  ? process.env.EXCLUDE_MARK.split(",")
+  ? process.env.EXCLUDE_MARK.split(',')
   : [];
 
 const excludeId: number[] = [];
 
 export const app = async (event: APIGatewayEvent): Promise<Result> => {
-  if (!event.isBase64Encoded || !event.body) {
+  if (!event.body) {
     return (undefined as unknown) as Result;
   }
-
-  const pathKey = "1111.jpg";
 
   // save data in s3
   const params = {
     Bucket: bucket,
-    Key: pathKey,
-    ContentType: "image/jpeg",
-    Body: new Buffer(event.body, "base64")
+    Key: `${moment().format('YYYYMMDD')}/${uuid.v4()}`,
+    ContentType: 'image/jpeg',
+    Body: new Buffer(event.body, 'base64')
   };
 
   // S3 Client初期化
-  if (s3Client) {
+  if (!s3Client) {
     s3Client = new S3({
       region: process.env.AWS_REGION
     });
@@ -49,13 +49,13 @@ export const app = async (event: APIGatewayEvent): Promise<Result> => {
     Image: {
       S3Object: {
         Bucket: bucket,
-        Name: pathKey
+        Name: params.Key
       }
     }
   };
 
   // S3 Client初期化
-  if (rekognitionClient) {
+  if (!rekognitionClient) {
     rekognitionClient = new Rekognition({
       region: process.env.AWS_REGION
     });
@@ -81,9 +81,9 @@ export const app = async (event: APIGatewayEvent): Promise<Result> => {
     results.push(item.DetectedText);
   });
 
-  // 結果返却
+  // 重複結果を削除してから返却する
   return {
-    words: results
+    words: Array.from(new Set(results))
   };
 };
 
@@ -99,7 +99,7 @@ const filter = (item: Rekognition.TextDetection): boolean => {
   const text = item.DetectedText;
 
   // 行の場合、対象外単語を含めた場合
-  if (item.Type === "LINE") {
+  if (item.Type === 'LINE') {
     if (excludeWord.find(word => text.includes(word))) {
       if (item.Id !== undefined) {
         excludeId.push(item.Id);

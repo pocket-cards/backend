@@ -3,19 +3,16 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - cd api
-      # - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-      # - echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-      # - sudo apt-get update && sudo apt-get install yarn
+      - echo hello
   build:
     commands:
       - npm install  
   post_build:
     commands:
-      - npm run build
-artifacts:
+      - npm test
+# artifacts:
   # base-directory: 'api/dist'
-  files:
-    - 'api/dist/index.zip'
-    - 'api/dist/appspec.yml'
-  discard-paths: true
+  # files:
+  #   - 'api/dist/index.zip'
+  #   - 'api/dist/appspec.yml'
+  # discard-paths: true

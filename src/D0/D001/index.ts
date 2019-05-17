@@ -1,5 +1,5 @@
-import { app } from "./app";
-import { APIGatewayEvent, Callback } from "aws-lambda";
+import { app } from './app';
+import { APIGatewayEvent, Callback } from 'aws-lambda';
 
 // イベント入口
 export const handler = (
@@ -40,16 +40,4 @@ export interface Response {
 
 export interface Result {
   words: string[];
-}
-
-export interface QueryParams {}
-
-export interface WordItem {
-  word: string;
-  ipa: string;
-}
-
-export interface SymbolItem {
-  id: string;
-  ipa: string;
 }

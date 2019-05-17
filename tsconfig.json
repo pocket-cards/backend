@@ -7,6 +7,9 @@
     "rootDirs": ["src", "configs"],
     "outDir": "build",
     "strict": true /* Enable all strict type-checking options. */,
-    "noImplicitAny": false
-  }
+    "noImplicitAny": false,
+    "resolveJsonModule": true
+  },
+  "files": ["./typings/types.d.ts"],
+  "include": ["src/**/*", "test/**/*"]
 }
