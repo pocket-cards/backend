@@ -29,8 +29,6 @@ const getEntries = () => {
   return entries;
 };
 
-console.log(getEntries());
-
 const configs: Configuration = {
   target: 'node',
   entry: getEntries(),
