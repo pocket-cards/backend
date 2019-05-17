@@ -18,8 +18,6 @@ artifacts:
   name: D0_D001.zip
   secondary-artifacts:
     D0_D001:
-      type: s3
-      location: pocket-cards-artifacts
       files:
         - D0_D001.zip
       name: D0_D002.zip
