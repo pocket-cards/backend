@@ -12,16 +12,15 @@ phases:
   #   commands:
   #     - npm test
 artifacts:
-  base-directory: dist
-  files:
-    - D0_D001.zip
-  name: D0_D001.zip
   secondary-artifacts:
     D0_D001:
       files:
         - D0_D001.zip
+      name: D0_D001.zip
+      base-directory: dist
+    D0_D002:
+      files:
+        - D0_D002.zip
       name: D0_D002.zip
       base-directory: dist
-      # discard-paths: yes
-      # base-directory: location
 
