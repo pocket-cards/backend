@@ -18,13 +18,18 @@ const getEntries = () => {
   const entries: { [key: string]: string } = {};
 
   targets.forEach(item => {
-    const key = item.replace(`${SRC_PATH}/`, '').replace(ENTRY_NAME, 'index');
+    const key = item
+      .replace(`${SRC_PATH}/`, '')
+      .replace(/\//g, '_')
+      .replace(`_${ENTRY_NAME}`, '/index');
 
     entries[key] = item;
   });
 
   return entries;
 };
+
+console.log(getEntries());
 
 const configs: Configuration = {
   target: 'node',

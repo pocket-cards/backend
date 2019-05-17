@@ -3,13 +3,13 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - echo hello
+      - npm install
   build:
     commands:
-      - npm install  
-  post_build:
-    commands:
-      - npm test
+      - npm run build:prod
+  # post_build:
+    # commands:
+      # - npm test
 # artifacts:
   # base-directory: 'api/dist'
   # files:

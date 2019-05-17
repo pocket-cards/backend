@@ -6,6 +6,7 @@
   "scripts": {
     "build:dev": "webpack -w --config ./configs/webpack.dev.ts",
     "build:prod": "webpack --config ./configs/webpack.prod.ts",
+    "sam:api": "sam local start-api -t test/template.yml -n test/envs.json",
     "test": "mocha -r ts-node/register \"test/**/*.ts\" --timeout 10000"
   },
   "dependencies": {
