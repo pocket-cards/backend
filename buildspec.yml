@@ -13,14 +13,12 @@ phases:
   #     - npm test
 artifacts:
   secondary-artifacts:
-    D0_D001:
+    D001:
       files:
-        - D0_D001.zip
-      name: D0_D001.zip
+        - D001.zip
       base-directory: dist
-    D0_D002:
+    D002:
       files:
-        - D0_D002.zip
-      name: D0_D002.zip
+        - D002.zip
       base-directory: dist
 
