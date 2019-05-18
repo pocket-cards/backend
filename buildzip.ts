@@ -51,17 +51,17 @@ const appspec = async (functionName: string) => {
   // result.Versions[0].Version;
 
   return `version: 0.0
-  Resources:
-    - ${functionName}:
-        Type: AWS::Lambda::Function
-        Properties:
-          Name: ${functionName}
-          CurrentVersion: ${version}
-          TargetVersion: ${version + 1}
-  Hooks:
-    - BeforeAllowTraffic: "LambdaFunctionToValidateBeforeTrafficShift"
-    - AfterAllowTraffic: "LambdaFunctionToValidateAfterTrafficShift"
-  `;
+Resources:
+  - ${functionName}:
+      Type: AWS::Lambda::Function
+      Properties:
+        Name: ${functionName}
+        CurrentVersion: "${version}"
+        TargetVersion: "${version + 1}"
+Hooks:
+  - BeforeAllowTraffic: "LambdaFunctionToValidateBeforeTrafficShift"
+  - AfterAllowTraffic: "LambdaFunctionToValidateAfterTrafficShift"
+`;
 };
 
 const makezip = () => {
