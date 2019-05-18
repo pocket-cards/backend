@@ -16,9 +16,11 @@ artifacts:
     D001:
       files:
         - D001.zip
-      base-directory: dist
+        - appspec.yml
+      base-directory: dist/D0_D001
     D002:
       files:
         - D002.zip
-      base-directory: dist
+        - appspec.yml
+      base-directory: dist/D0_D002
 

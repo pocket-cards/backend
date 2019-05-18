@@ -1,8 +1,10 @@
 import { Lambda } from 'aws-sdk';
+import * as mkdirp from 'mkdirp';
 import { sync } from 'glob';
 import * as archiver from 'archiver';
 import * as fs from 'fs';
 import * as rimraf from 'rimraf';
+import { rejects } from 'assert';
 
 const ROOT_PATH = 'build';
 const DEST_PATH = 'dist';
@@ -25,6 +27,17 @@ const clear = () => {
   rimraf.sync(DEST_PATH);
   fs.mkdirSync(DEST_PATH);
 };
+
+const mkdir = (dir: string) =>
+  new Promise<string>((resolve, reject) =>
+    mkdirp(dir, (err, made) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve();
+    })
+  );
 
 const appspec = async (functionName: string) => {
   const version = 1;
@@ -55,23 +68,31 @@ const makezip = () => {
   // 元ファイル一覧を取得する
   const targets = sync(`${ROOT_PATH}/**/*.js`);
 
-  targets.forEach(item => {
+  targets.forEach(async item => {
     const zip = archiver.create('zip', {
       zlib: { level: 9 }
     });
 
-    const folder = item.split(/\//g)[1].split('_')[1];
+    const folder = item.split(/\//g)[1];
+    const funcName = folder.split('_')[1];
 
-    appspec(`${PROJECT}-${folder}`).then(value => {
-      // 保存先
-      zip.pipe(fs.createWriteStream(`dist/${folder}.zip`));
+    const savePath = `${DEST_PATH}/${folder}`;
 
-      // ファイル追加
-      zip.append(fs.createReadStream(item), { name: 'index.js' });
-      zip.append(value, { name: 'appspec.xml' });
+    // 保存先フォルダ作成
+    await mkdir(savePath);
 
-      // ファイル出力
-      zip.finalize();
+    // 保存先
+    zip.pipe(fs.createWriteStream(`${savePath}/${funcName}.zip`));
+    // ファイル追加
+    zip.append(fs.createReadStream(item), { name: 'index.js' });
+    // ファイル出力
+    zip.finalize();
+
+    // Lambda用appspec情報を作成する
+    const file_text = await appspec(`${PROJECT}-${funcName}`);
+
+    fs.writeFileSync(`${savePath}/appspec.yml`, file_text, {
+      encoding: 'utf-8'
     });
   });
 };
