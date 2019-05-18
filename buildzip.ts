@@ -6,6 +6,7 @@ import * as rimraf from 'rimraf';
 
 const ROOT_PATH = 'build';
 const DEST_PATH = 'dist';
+const PROJECT = 'pocket-cards';
 
 const client = new Lambda({
   region: 'ap-northeast-1'
@@ -59,9 +60,9 @@ const makezip = () => {
       zlib: { level: 9 }
     });
 
-    appspec('pocket-cards-D001').then(value => {
-      const folder = item.split(/\//g)[1].split('_')[1];
+    const folder = item.split(/\//g)[1].split('_')[1];
 
+    appspec(`${PROJECT}-${folder}`).then(value => {
       // 保存先
       zip.pipe(fs.createWriteStream(`dist/${folder}.zip`));
 
