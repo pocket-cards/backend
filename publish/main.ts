@@ -71,7 +71,7 @@ const start = async () => {
   // S3に保存する
   await s3Client
     .upload({
-      Bucket: process.env.Bucket,
+      Bucket: process.env.ARTIFACTS_BUCKET as string,
       Key: 'appspec.yml',
       Body: jsyaml.dump(appspec)
     })
