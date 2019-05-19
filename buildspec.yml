@@ -14,13 +14,15 @@ phases:
 artifacts:
   secondary-artifacts:
     D001:
+      type: YAML
       files:
-        # - D001.zip
+        - D001.zip
         - appspec.yml
       base-directory: dist/D0_D001
     D002:
+      type: YAML
       files:
-        # - D002.zip
+        - D002.zip
         - appspec.yml
       base-directory: dist/D0_D002
 
