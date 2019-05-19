@@ -24,20 +24,18 @@ const start = async () => {
     item => item.FunctionName && item.FunctionName.startsWith(PROJECT_NAME)
   );
 
-  const resources = [] as any;
-
-  functions.forEach(async item => {
+  const proc = functions.map(async item => {
     const { FunctionName: funcName } = item;
 
     // 必須チェック
-    if (!funcName) return;
+    if (!funcName) return {};
 
     const fileName = `${funcName
       .replace(PROJECT_NAME, '')
       .replace('-', '')}.zip`;
 
     // 更新用モジュールが存在しない
-    if (!fs.existsSync(fileName)) return;
+    if (!fs.existsSync(fileName)) return {};
 
     console.log('filename', fileName);
 
@@ -45,12 +43,19 @@ const start = async () => {
       .updateFunctionCode({
         FunctionName: funcName,
         Publish: true,
-        ZipFile: fs.createReadStream(fileName)
+        ZipFile: fs.readFileSync(fileName)
+      })
+      .promise();
+
+    const oldFunc = await client
+      .getAlias({
+        FunctionName: funcName,
+        Name: FUNCTION_ALIAS
       })
       .promise();
 
     // Version Publish失敗の場合、処理スキップする
-    if (!newFunc.Version) return;
+    if (!newFunc.Version || !oldFunc.FunctionVersion) return;
 
     const resouce = {} as any;
     const keyName = funcName.replace('-', '');
@@ -60,20 +65,26 @@ const start = async () => {
       Properties: {
         Name: funcName,
         Alias: FUNCTION_ALIAS,
-        CurrentVersion: 1,
-        TargetVersion: newFunc.Version
+        CurrentVersion: Number(oldFunc.FunctionVersion),
+        TargetVersion: Number(newFunc.Version)
       }
     };
 
-    resources.push(resouce);
+    return resouce;
   });
 
-  appspec['version'] = '0.0';
-  appspec['Resources'] = resources;
+  Promise.all(proc).then(values => {
+    const resources = values.filter(item => Object.keys(item).length !== 0);
 
-  console.log(appspec);
+    appspec['version'] = '0.0';
+    appspec['Resources'] = resources;
 
-  fs.writeFileSync(jsyaml.dump(appspec), 'appspec.yml');
+    console.log(appspec);
+
+    fs.writeFileSync('appspec.yml', jsyaml.dump(appspec), {
+      encoding: 'utf-8'
+    });
+  });
 
   // S3に保存する
   // await s3Client
