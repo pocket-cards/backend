@@ -1,0 +1,12 @@
+version: 0.0
+Resources:
+  - pocket-cards-D001:
+      Type: AWS::Lambda::Function
+      Properties:
+        Name: pocket-cards-D001
+        Alias: dev
+        CurrentVersion: 8
+        TargetVersion: 9
+Hooks:
+  - BeforeAllowTraffic: "LambdaFunctionToValidateBeforeTrafficShift"
+  - AfterAllowTraffic: "LambdaFunctionToValidateAfterTrafficShift"
