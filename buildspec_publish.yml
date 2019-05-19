@@ -7,7 +7,7 @@ phases:
   build:
     commands:
       - npm run start
-artifacts:
-  type: YAML
-  files:
-    - appspec.yml
+# artifacts:
+#   type: YAML
+#   files:
+#     - appspec.yml
