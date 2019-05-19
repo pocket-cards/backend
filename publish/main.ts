@@ -1,4 +1,4 @@
-import { Lambda } from 'aws-sdk';
+import { Lambda, S3 } from 'aws-sdk';
 import * as jsyaml from 'js-yaml';
 import * as fs from 'fs';
 
@@ -6,6 +6,9 @@ const PROJECT_NAME = process.env.PROJECT_NAME as string;
 const FUNCTION_ALIAS = process.env.FUNCTION_ALIAS as string;
 
 const client = new Lambda({
+  region: process.env.AWS_DEFAULT_REGION
+});
+const s3Client = new S3({
   region: process.env.AWS_DEFAULT_REGION
 });
 const appspec = {} as any;
@@ -73,7 +76,7 @@ const start = async () => {
     return resouce;
   });
 
-  Promise.all(proc).then(values => {
+  Promise.all(proc).then(async values => {
     const resources = values.filter(item => Object.keys(item).length !== 0);
 
     appspec['version'] = '0.0';
@@ -81,19 +84,18 @@ const start = async () => {
 
     console.log(appspec);
 
-    fs.writeFileSync('appspec.yml', jsyaml.dump(appspec), {
-      encoding: 'utf-8'
-    });
+    // fs.writeFileSync('appspec.yml', jsyaml.dump(appspec), {
+    //   encoding: 'utf-8'
+    // });
+    // S3に保存する
+    await s3Client
+      .upload({
+        Bucket: process.env.ARTIFACTS_BUCKET as string,
+        Key: 'appspec.yml',
+        Body: jsyaml.dump(appspec)
+      })
+      .promise();
   });
-
-  // S3に保存する
-  // await s3Client
-  //   .upload({
-  //     Bucket: process.env.ARTIFACTS_BUCKET as string,
-  //     Key: 'appspec.yml',
-  //     Body: jsyaml.dump(appspec)
-  //   })
-  //   .promise();
 };
 
 start();
