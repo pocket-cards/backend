@@ -4,11 +4,11 @@ import { sync } from 'glob';
 import * as archiver from 'archiver';
 import * as fs from 'fs';
 import * as rimraf from 'rimraf';
-import { rejects } from 'assert';
 
 const ROOT_PATH = 'build';
 const DEST_PATH = 'dist';
 const PROJECT = 'pocket-cards';
+const LATEST_VERSION = '$LATEST';
 
 const client = new Lambda({
   region: 'ap-northeast-1'
@@ -39,16 +39,37 @@ const mkdir = (dir: string) =>
     })
   );
 
+/** Appspec.yml ファイルを作成する */
 const appspec = async (functionName: string) => {
-  const version = 1;
-
+  // Function version一覧を取得する
   const result = await client
     .listVersionsByFunction({
       FunctionName: functionName
     })
     .promise();
 
-  // result.Versions[0].Version;
+  // Function version is not exists
+  if (!result.Versions) {
+    throw new Error(
+      `Function version is not initialize. Name: ${functionName}`
+    );
+  }
+
+  // LATEST versionを削除する
+  const versions = result.Versions.filter(
+    value => value.Version !== LATEST_VERSION
+  );
+
+  // Function version is not exists
+  if (versions.length === 0 || !versions[0].Version) {
+    throw new Error(
+      `Function version is not initialize. Name: ${functionName}`
+    );
+  }
+
+  const version = versions[0].Version;
+
+  console.log(version);
 
   return `version: 0.0
 Resources:
@@ -56,8 +77,9 @@ Resources:
       Type: AWS::Lambda::Function
       Properties:
         Name: ${functionName}
-        CurrentVersion: "${version}"
-        TargetVersion: "${version + 1}"
+        Alias: dev
+        CurrentVersion: ${version}
+        TargetVersion: ${Number(version) + 1}
 Hooks:
   - BeforeAllowTraffic: "LambdaFunctionToValidateBeforeTrafficShift"
   - AfterAllowTraffic: "LambdaFunctionToValidateAfterTrafficShift"
