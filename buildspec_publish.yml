@@ -9,6 +9,5 @@ phases:
       - npm run start
 artifacts:
   type: YAML
-  name: abcdedf.yml
   files:
     - appspec.yml
