@@ -12,16 +12,20 @@ phases:
   #   commands:
   #     - npm test
 artifacts:
-  type: YAML
-  secondary-artifacts:
-    D001:
-      files:
-        - D001.zip
-        - appspec.yml
-      base-directory: dist/D0_D001
-    D002:
-      files:
-        - D002.zip
-        - appspec.yml
-      base-directory: dist/D0_D002
+  files:
+    - D0_D001/D001.zip
+    - D0_D002/D002.zip
+  discard-paths: yes
+  base-directory: dist
+  # type: YAML
+  # secondary-artifacts:
+  #   D001:
+  #     files:
+  #       - D001.zip
+  #     base-directory: dist/D0_D001
+  #   D002:
+  #     files:
+  #       - D002.zip
+  #       - appspec.yml
+  #     base-directory: dist/D0_D002
 
