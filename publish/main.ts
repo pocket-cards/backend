@@ -1,4 +1,4 @@
-import { Lambda, S3 } from 'aws-sdk';
+import { Lambda } from 'aws-sdk';
 import * as jsyaml from 'js-yaml';
 import * as fs from 'fs';
 
@@ -8,10 +8,6 @@ const FUNCTION_ALIAS = process.env.FUNCTION_ALIAS as string;
 const client = new Lambda({
   region: process.env.AWS_DEFAULT_REGION
 });
-const s3Client = new S3({
-  region: process.env.AWS_DEFAULT_REGION
-});
-
 const appspec = {} as any;
 
 const start = async () => {
@@ -68,14 +64,16 @@ const start = async () => {
 
   console.log(appspec);
 
+  fs.writeFileSync(jsyaml.dump(appspec), 'appspec.yml');
+
   // S3に保存する
-  await s3Client
-    .upload({
-      Bucket: process.env.ARTIFACTS_BUCKET as string,
-      Key: 'appspec.yml',
-      Body: jsyaml.dump(appspec)
-    })
-    .promise();
+  // await s3Client
+  //   .upload({
+  //     Bucket: process.env.ARTIFACTS_BUCKET as string,
+  //     Key: 'appspec.yml',
+  //     Body: jsyaml.dump(appspec)
+  //   })
+  //   .promise();
 };
 
 start();
