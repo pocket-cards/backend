@@ -13,6 +13,7 @@ phases:
   #     - npm test
 artifacts:
   files:
+    - ../buildspec_publish.yml
     - D0_D001/D001.zip
     - D0_D002/D002.zip
   discard-paths: yes
