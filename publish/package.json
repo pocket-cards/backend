@@ -1,0 +1,11 @@
+{
+  "name": "publish",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "aws-sdk": "^2.458.0",
+    "ts-node": "^8.1.0",
+    "typescript": "^3.4.5"
+  }
+}
