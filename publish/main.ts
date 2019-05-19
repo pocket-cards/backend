@@ -24,7 +24,9 @@ const start = async () => {
     item => item.FunctionName && item.FunctionName.startsWith(PROJECT_NAME)
   );
 
-  const resources = functions.map(async item => {
+  const resources = [] as any;
+
+  functions.forEach(async item => {
     const { FunctionName: funcName } = item;
 
     // 必須チェック
@@ -54,9 +56,7 @@ const start = async () => {
       }
     };
 
-    console.log(resouce);
-
-    return resouce;
+    resources.push(resouce);
   });
 
   appspec['version'] = '0.0';
