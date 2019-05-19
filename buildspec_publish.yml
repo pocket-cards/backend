@@ -3,9 +3,6 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      # - ls /tmp/
-      # - unzip -q /tmp/artifacts.zip
-      - ls
       - npm install
   build:
     commands:

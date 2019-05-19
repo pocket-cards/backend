@@ -32,11 +32,20 @@ const start = async () => {
     // 必須チェック
     if (!funcName) return;
 
+    const fileName = `${funcName
+      .replace(PROJECT_NAME, '')
+      .replace('-', '')}.zip`;
+
+    // 更新用モジュールが存在しない
+    if (!fs.existsSync(fileName)) return;
+
+    console.log('filename', fileName);
+
     const newFunc = await client
       .updateFunctionCode({
         FunctionName: funcName,
         Publish: true,
-        ZipFile: fs.createReadStream(funcName.replace(PROJECT_NAME, ''))
+        ZipFile: fs.createReadStream(fileName)
       })
       .promise();
 
