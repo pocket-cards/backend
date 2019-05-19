@@ -13,11 +13,13 @@ phases:
   #     - npm test
 artifacts:
   files:
-    - ../buildspec_publish.yml
-    - D0_D001/D001.zip
-    - D0_D002/D002.zip
+    - buildspec_publish.yml
+    - publish/main.ts
+    - publish/package.json
+    - publish/tsconfig.json
+    - dist/D0_D001/D001.zip
+    - dist/D0_D002/D002.zip
   discard-paths: yes
-  base-directory: dist
   # type: YAML
   # secondary-artifacts:
   #   D001:

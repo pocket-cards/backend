@@ -6,7 +6,7 @@ phases:
       - ls /tmp/
       - unzip -q /tmp/artifacts.zip
       - ls
+      - npm install
   build:
     commands:
-      - aws lambda update-function-code --function-name ${PROJECT_NAME}-D001 --zip-file fileb://./D001.zip --publish
-      - aws lambda update-function-code --function-name ${PROJECT_NAME}-D002 --zip-file fileb://./D002.zip --publish
+      - npm run start
