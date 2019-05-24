@@ -18,7 +18,7 @@ Resources:
   D001:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: ../build/D0/D001/
+      CodeUri: ../build/D0_D001/
       Events:
         HelloWorld:
           Type: Api
@@ -38,10 +38,49 @@ Resources:
   D002:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: ../build/D0/D002/
+      CodeUri: ../build/D0_D002/
       Events:
         HelloWorld:
           Type: Api
           Properties:
             Path: /speech
             Method: GET
+
+  # ---------------------------------------
+  # Path: /groups/{groupId}/words
+  # Method: POST
+  # Description: regist all words
+  # ---------------------------------------
+  C001:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../build/C0_C001/
+      Events:
+        HelloWorld:
+          Type: Api
+          Properties:
+            Path: /groups/{groupId}/words
+            Method: POST
+      Environment:
+        Variables:
+          WORDS_TABLE: dummy
+          GROUPS_TABLE: dummy
+  # ---------------------------------------
+  # Path: /groups/{groupId}/words
+  # Method: GET
+  # Description: get words info
+  # ---------------------------------------
+  C001:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../build/C0_C002/
+      Events:
+        HelloWorld:
+          Type: Api
+          Properties:
+            Path: /groups/{groupId}/words
+            Method: GET
+      Environment:
+        Variables:
+          WORDS_TABLE: dummy
+          GROUPS_TABLE: dummy

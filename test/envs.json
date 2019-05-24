@@ -3,5 +3,18 @@
     "EXCLUDE_WORD": "",
     "EXCLUDE_MARK": "\\,(,),/,., ,,?,?",
     "IMAGE_BUCKET": "pocket-cards-images"
+  },
+  "D002": {
+    "EXCLUDE_WORD": "",
+    "EXCLUDE_MARK": "\\,(,),/,., ,,?,?",
+    "IMAGE_BUCKET": "pocket-cards-images"
+  },
+  "C001": {
+    "WORDS_TABLE": "Words",
+    "GROUPS_TABLE": "Groups"
+  },
+  "C002": {
+    "WORDS_TABLE": "Words",
+    "GROUPS_TABLE": "Groups"
   }
 }
