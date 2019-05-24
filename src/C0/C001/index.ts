@@ -11,13 +11,12 @@ export const handler = (
   console.log(event);
 
   app(event)
-    .then((result: Result) => {
+    .then((result: ResponseBody) => {
       // 終了ログ
       console.log(result);
       callback(null, {
         statusCode: 200,
-        isBase64Encoded: false,
-        body: JSON.stringify(result)
+        isBase64Encoded: false
       });
     })
     .catch(err => {
@@ -38,4 +37,8 @@ export interface Response {
   body?: string;
 }
 
-export interface Result {}
+export interface RequestBody {
+  words: string[];
+}
+
+export interface ResponseBody {}

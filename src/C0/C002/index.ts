@@ -11,12 +11,15 @@ export const handler = (
   console.log(event);
 
   app(event)
-    .then((result: Result) => {
+    .then((result: ResponseBody[]) => {
       // 終了ログ
       console.log(result);
       callback(null, {
         statusCode: 200,
         isBase64Encoded: false,
+        headers: {
+          'content-type': 'application/json'
+        },
         body: JSON.stringify(result)
       });
     })
@@ -24,7 +27,11 @@ export const handler = (
       // エラーログ
       console.log(err);
       callback(err, {
-        statusCode: 502
+        statusCode: 502,
+        isBase64Encoded: false,
+        headers: {
+          'content-type': 'application/json'
+        }
       } as Response);
     });
 };
@@ -38,4 +45,10 @@ export interface Response {
   body?: string;
 }
 
-export interface Result {}
+export interface RequestBody {
+  words: string[];
+}
+
+export interface ResponseBody {
+  word: string;
+}
