@@ -10,8 +10,8 @@
     // "src": true,
     "**/A0": true,
     "**/B0": true,
-    "**/X0": true,
-    "**/D0": true,
-    "**/Z0": true
+    "**/X0": true
+    // "**/D0": true
+    // "**/Z0": true
   }
 }
