@@ -16,5 +16,10 @@
   "C002": {
     "WORDS_TABLE": "Words",
     "GROUPS_TABLE": "Groups"
+  },
+  "C006": {
+    "WORDS_LIMIT": 20,
+    "WORDS_TABLE": "Words",
+    "GROUPS_TABLE": "Groups"
   }
 }

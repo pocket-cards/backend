@@ -84,3 +84,23 @@ Resources:
         Variables:
           WORDS_TABLE: dummy
           GROUPS_TABLE: dummy
+  # ---------------------------------------
+  # Path: /groups/{groupId}/new
+  # Method: GET
+  # Description: 新規学習モード単語一覧
+  # ---------------------------------------
+  C006:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../build/C0_C006/
+      Events:
+        HelloWorld:
+          Type: Api
+          Properties:
+            Path: /groups/{groupId}/new
+            Method: GET
+      Environment:
+        Variables:
+          WORDS_LIMIT: 20
+          WORDS_TABLE: dummy
+          GROUPS_TABLE: dummy
