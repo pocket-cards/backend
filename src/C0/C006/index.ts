@@ -1,20 +1,26 @@
+import { app } from './app';
 import { APIGatewayEvent, Callback } from 'aws-lambda';
-import validate from './validator';
-import app from './app';
 
 // イベント入口
-export const handler = (event: APIGatewayEvent, _: any, callback: Callback<Response>) => {
+export const handler = (
+  event: APIGatewayEvent,
+  _: any,
+  callback: Callback<Response>
+) => {
   // イベントログ
   console.log(event);
 
-  validate(event)
-    .then(() => app(event))
-    .then((result: ResponseBody) => {
+  app(event)
+    .then((result: ResponseBody[]) => {
       // 終了ログ
       console.log(result);
       callback(null, {
         statusCode: 200,
         isBase64Encoded: false,
+        headers: {
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify(result)
       });
     })
     .catch(err => {
@@ -22,6 +28,10 @@ export const handler = (event: APIGatewayEvent, _: any, callback: Callback<Respo
       console.log(err);
       callback(err, {
         statusCode: 502,
+        isBase64Encoded: false,
+        headers: {
+          'content-type': 'application/json'
+        }
       } as Response);
     });
 };
@@ -39,4 +49,6 @@ export interface RequestBody {
   words: string[];
 }
 
-export interface ResponseBody {}
+export interface ResponseBody {
+  word: string;
+}

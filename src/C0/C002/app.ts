@@ -1,8 +1,8 @@
 import { DynamoDB, AWSError } from 'aws-sdk';
 import { APIGatewayEvent } from 'aws-lambda';
 import { ResponseBody, RequestBody } from './index';
-import { dynamoDB } from '../../Z0/clientUtils';
-import { Words_Item, Groups_Item } from '../../../typings/types';
+import { GroupsItem } from '@typings/tables';
+import { dynamoDB } from '@utils/clientUtils';
 
 let client: DynamoDB.DocumentClient;
 
@@ -31,7 +31,7 @@ export const app = async (event: APIGatewayEvent): Promise<ResponseBody[]> => {
   return queryResult.Items.map(
     item =>
       ({
-        word: (item as Groups_Item).word
+        word: (item as GroupsItem).word
       } as ResponseBody)
   );
 };
