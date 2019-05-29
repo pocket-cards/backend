@@ -39,7 +39,11 @@ const configs: Configuration = {
     libraryTarget: 'commonjs2'
   },
   resolve: {
-    extensions: ['.ts', '.js']
+    extensions: ['.ts', '.js'],
+    alias: {
+      '@utils': path.resolve(__dirname, '../src/Z0'),
+      '@typings': path.resolve(__dirname, '../typings')
+    }
   },
   externals: ['aws-sdk'],
   module: {
