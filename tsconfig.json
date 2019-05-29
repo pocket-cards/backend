@@ -8,7 +8,12 @@
     "outDir": "build",
     "strict": true /* Enable all strict type-checking options. */,
     "noImplicitAny": false,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "paths": {
+      "@typings/*": ["./typings/*"],
+      "@utils/*": ["./src/Z0/*"]
+    }
   },
   "files": ["./typings/types.d.ts"],
   "include": ["src/**/*", "test/**/*"]
