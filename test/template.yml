@@ -35,16 +35,16 @@ Resources:
   # Method: GET
   # Description: word to speech
   # ---------------------------------------
-  D002:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: ../build/D0_D002/
-      Events:
-        HelloWorld:
-          Type: Api
-          Properties:
-            Path: /speech
-            Method: GET
+  # D002:
+  #   Type: AWS::Serverless::Function
+  #   Properties:
+  #     CodeUri: ../build/D0_D002/
+  #     Events:
+  #       HelloWorld:
+  #         Type: Api
+  #         Properties:
+  #           Path: /speech
+  #           Method: GET
 
   # ---------------------------------------
   # Path: /groups/{groupId}/words
@@ -65,29 +65,32 @@ Resources:
         Variables:
           WORDS_TABLE: dummy
           GROUPS_TABLE: dummy
+          IPA_URL: dummy
+          IPA_API_KEY: dummy
+          MP3_BUCKET: dummy
+          CDN_PATH : dummy
   # ---------------------------------------
   # Path: /groups/{groupId}/words
   # Method: GET
   # Description: get words info
   # ---------------------------------------
-  C001:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: ../build/C0_C002/
-      Events:
-        HelloWorld:
-          Type: Api
-          Properties:
-            Path: /groups/{groupId}/words
-            Method: GET
-      Environment:
-        Variables:
-          WORDS_TABLE: dummy
-          GROUPS_TABLE: dummy
+  # C002:
+  #   Type: AWS::Serverless::Function
+  #   Properties:
+  #     CodeUri: ../build/C0_C002/
+  #     Events:
+  #       HelloWorld:
+  #         Type: Api
+  #         Properties:
+  #           Path: /groups/{groupId}/words
+  #           Method: GET
+  #     Environment:
+  #       Variables:
+  #         WORDS_TABLE: dummy
+  #         GROUPS_TABLE: dummy
   # ---------------------------------------
   # Path: /groups/{groupId}/new
   # Method: GET
-  # Description: 新規学習モード単語一覧
   # ---------------------------------------
   C006:
     Type: AWS::Serverless::Function
@@ -104,3 +107,41 @@ Resources:
           WORDS_LIMIT: 20
           WORDS_TABLE: dummy
           GROUPS_TABLE: dummy
+  # ---------------------------------------
+  # Path: /groups/{groupId}/test
+  # Method: GET
+  # ---------------------------------------
+  C007:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../build/C0_C007/
+      Events:
+        HelloWorld:
+          Type: Api
+          Properties:
+            Path: /groups/{groupId}/test
+            Method: GET
+      Environment:
+        Variables:
+          WORDS_TABLE: dummy
+          GROUPS_TABLE: dummy
+          WORDS_LIMIT: 20
+  # ---------------------------------------
+  # Path: /groups/{groupId}/review
+  # Method: GET
+  # ---------------------------------------
+  C008:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../build/C0_C008/
+      Events:
+        HelloWorld:
+          Type: Api
+          Properties:
+            Path: /groups/{groupId}/review
+            Method: GET
+      Environment:
+        Variables:
+          WORDS_TABLE: dummy
+          GROUPS_TABLE: dummy
+          WORDS_LIMIT: 20

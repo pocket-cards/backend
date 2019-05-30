@@ -9,9 +9,9 @@ export const handler = (event: APIGatewayEvent, _: any, callback: Callback<Respo
 
   validate(event)
     .then(() => app(event))
-    .then((result: ResponseBody) => {
+    .then(() => {
+      console.log('Success');
       // 終了ログ
-      console.log(result);
       callback(null, {
         statusCode: 200,
         isBase64Encoded: false,
@@ -19,9 +19,13 @@ export const handler = (event: APIGatewayEvent, _: any, callback: Callback<Respo
     })
     .catch(err => {
       // エラーログ
-      console.log(err);
+      console.log('Error:', err);
       callback(err, {
         statusCode: 502,
+        isBase64Encoded: false,
+        headers: {
+          'Content-Type': 'application/json',
+        },
       } as Response);
     });
 };

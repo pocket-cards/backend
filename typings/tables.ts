@@ -1,7 +1,13 @@
 export interface GroupsItem {
   id: string;
+  // 単語
+  word: string;
+  // 次の学習時間
   nextTime: string;
-  word?: string;
+  // 最後の学習時間
+  lastTime?: string;
+  // 学習回数
+  times: number;
 }
 
 export interface WordsItem {
