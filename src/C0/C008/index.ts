@@ -18,6 +18,7 @@ export const handler = (event: APIGatewayEvent, _: any, callback: Callback<Respo
         isBase64Encoded: false,
         headers: {
           'content-type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
         },
         body: JSON.stringify(result),
       });
@@ -30,6 +31,7 @@ export const handler = (event: APIGatewayEvent, _: any, callback: Callback<Respo
         isBase64Encoded: false,
         headers: {
           'content-type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
         },
       } as Response);
     });
