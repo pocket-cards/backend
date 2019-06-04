@@ -2,8 +2,8 @@ import { DynamoDB } from 'aws-sdk';
 import { APIGatewayEvent } from 'aws-lambda';
 import { dynamoDB } from '@utils/clientUtils';
 import { GroupsItem, WordsItem } from '@typings/tables';
-import { ResponseBody } from './index';
 import { queryItem_words, queryItem_groups } from './db';
+import { C006Response, C006Item } from '@typings/api';
 
 let client: DynamoDB.DocumentClient;
 
@@ -13,9 +13,12 @@ const GROUPS_TABLE = process.env.GROUPS_TABLE as string;
 // 最大単語数、default 10件
 const WORDS_LIMIT = process.env.WORDS_LIMIT ? Number(process.env.WORDS_LIMIT) : 10;
 
-export default async (event: APIGatewayEvent): Promise<ResponseBody[]> => {
+export default async (event: APIGatewayEvent): Promise<C006Response> => {
   if (!event.pathParameters) {
-    return [] as ResponseBody[];
+    return {
+      count: 0,
+      words: [],
+    };
   }
 
   const groupId = event.pathParameters['groupId'];
@@ -27,27 +30,40 @@ export default async (event: APIGatewayEvent): Promise<ResponseBody[]> => {
 
   // 検索結果０件の場合
   if (queryResult.Count === 0 || !queryResult.Items) {
-    return [] as ResponseBody[];
+    return {
+      count: 0,
+      words: [],
+    };
   }
 
   // 時間順で上位N件を対象とします
-  const targets = queryResult.Items.length > WORDS_LIMIT ? queryResult.Items.slice(WORDS_LIMIT) : queryResult.Items;
+  const targets = queryResult.Items.length > WORDS_LIMIT ? queryResult.Items.slice(0, WORDS_LIMIT) : queryResult.Items;
 
   // 単語明細情報を取得する
   const tasks = targets.map(item => client.get(queryItem_words(WORDS_TABLE, (item as GroupsItem).word as string)).promise());
-
   const wordsInfo = await Promise.all(tasks);
 
-  // 明細情報存在しないデータを除外する
-  const res = wordsInfo.reduce(
-    (prev, curr) => {
-      if (!curr.Item) return prev;
+  // 返却結果
+  const items: C006Item[] = [];
 
-      prev.push(curr.Item as ResponseBody);
-      return prev;
-    },
-    [] as ResponseBody[]
-  );
+  targets.forEach((item, idx) => {
+    const word = wordsInfo[idx].Item;
 
-  return res;
+    // 明細情報存在しないデータを除外する
+    if (!word) return;
+
+    items.push({
+      word: word.word,
+      mp3: word.mp3,
+      pronounce: word.pronounce,
+      vocChn: word.vocChn,
+      vocJpn: word.vocJpn,
+      times: item.times,
+    } as C006Item);
+  });
+
+  return {
+    count: items.length,
+    words: items,
+  };
 };
