@@ -19,7 +19,7 @@ export const handler = (event: APIGatewayEvent, _: any, callback: Callback<BaseR
           'content-type': 'application/json',
           'Access-Control-Allow-Headers': '*',
           'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Method': '*',
+          'Access-Control-Allow-Methods': '*',
         },
       });
     })
@@ -33,7 +33,7 @@ export const handler = (event: APIGatewayEvent, _: any, callback: Callback<BaseR
           'content-type': 'application/json',
           'Access-Control-Allow-Headers': '*',
           'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Method': '*',
+          'Access-Control-Allow-Methods': '*',
         },
       });
     });
