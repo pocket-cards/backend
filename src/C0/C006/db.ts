@@ -7,7 +7,7 @@ import { DynamoDB } from 'aws-sdk';
 export const queryItem_groups = (table: string, groupId: string) =>
   ({
     TableName: table,
-    ProjectionExpression: 'nextTime, word',
+    ProjectionExpression: 'nextTime, word, times',
     KeyConditionExpression: '#id = :id',
     FilterExpression: '#times = :times',
     ExpressionAttributeNames: {
