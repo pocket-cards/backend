@@ -18,6 +18,7 @@ export const handler = (event: APIGatewayEvent, _: any, callback: Callback<BaseR
         headers: {
           'content-type': 'application/json',
           'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Method': 'PUT',
         },
       });
     })
@@ -30,6 +31,7 @@ export const handler = (event: APIGatewayEvent, _: any, callback: Callback<BaseR
         headers: {
           'content-type': 'application/json',
           'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Method': 'PUT',
         },
       });
     });
