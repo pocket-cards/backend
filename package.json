@@ -8,7 +8,8 @@
     "build:prod": "webpack --config ./configs/webpack.prod.ts",
     "build:zip": "ts-node buildzip",
     "sam:api": "sam local start-api -t test/template.yml -n test/envs.json",
-    "test": "mocha -r ts-node/register \"test/**/*.ts\" --timeout 10000"
+    "test": "mocha -r ts-node/register \"test/**/*.ts\" --timeout 10000",
+    "valid": "tsc --noEmit"
   },
   "dependencies": {
     "moment": "^2.24.0",

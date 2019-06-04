@@ -1,10 +1,10 @@
 import { APIGatewayEvent, Callback } from 'aws-lambda';
-import { Response } from 'typings/api';
 import app from './app';
 import validate from './validator';
+import { BaseResponse } from '@typings/api';
 
 // イベント入口
-export const handler = (event: APIGatewayEvent, _: any, callback: Callback<Response>) => {
+export const handler = (event: APIGatewayEvent, _: any, callback: Callback<BaseResponse>) => {
   // イベントログ
   console.log(event);
 
