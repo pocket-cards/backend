@@ -2,5 +2,21 @@ POST http://127.0.0.1:3000/groups/x001/words HTTP/1.1
 content-type: application/json
 
 {
-    "words": ["america", "english"]
+    "words": [ 
+        "america",
+        "english",
+        "administration",
+        "aid",
+        "campaign",
+        "civil",
+        "density",
+        "distinct",
+        "distribution",
+        "fund",
+        "grace",
+        "hence",
+        "provision",
+        "ratio",
+        "republic"
+    ]
 }

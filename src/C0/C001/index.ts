@@ -15,6 +15,9 @@ export const handler = (event: APIGatewayEvent, _: any, callback: Callback<Respo
       callback(null, {
         statusCode: 200,
         isBase64Encoded: false,
+        headers: {
+          'Content-Type': 'application/json',
+        },
       });
     })
     .catch(err => {
