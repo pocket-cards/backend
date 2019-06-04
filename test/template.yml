@@ -89,6 +89,23 @@ Resources:
   #         WORDS_TABLE: dummy
   #         GROUPS_TABLE: dummy
   # ---------------------------------------
+  # Path: /groups/{groupId}/words/{word}
+  # Method: PUT
+  # ---------------------------------------
+  C004:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../build/C0_C004/
+      Events:
+        HelloWorld:
+          Type: Api
+          Properties:
+            Path: /groups/{groupId}/words/{word}
+            Method: PUT
+      Environment:
+        Variables:
+          GROUPS_TABLE: dummy
+  # ---------------------------------------
   # Path: /groups/{groupId}/new
   # Method: GET
   # ---------------------------------------

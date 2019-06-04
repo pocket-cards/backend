@@ -1,0 +1,14 @@
+PUT http://127.0.0.1:3000/groups/x001/words/america HTTP/1.1
+
+{
+  "correct": true,
+  "times": 0
+}
+
+
+PUT http://127.0.0.1:3000/groups/x001/words/america HTTP/1.1
+
+{
+  "correct": false,
+  "times": 1
+}
