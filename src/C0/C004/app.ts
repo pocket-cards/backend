@@ -29,11 +29,11 @@ export default async (event: APIGatewayEvent): Promise<void> => {
   // 正解の場合
   if (input.correct) {
     times = input.times + 1;
-    nextTime = `${getNextTime(2)}000000`;
-  } else {
-    // 不正解の場合
-    times = 0;
     nextTime = `${getNextTime(1)}000000`;
+  } else {
+    // 不正解の場合、今日の新規単語になります
+    times = 0;
+    nextTime = `${getNextTime(0)}000000`;
   }
 
   await client
