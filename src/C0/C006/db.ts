@@ -1,23 +1,27 @@
 import { DynamoDB } from 'aws-sdk';
+import { getNow } from '@utils/utils';
 
 /**
  * 新規学習単語対象一覧を取得する
- * 対象： Times = 0
+ * 対象：  Times = 0, NextTime <= now, NextTime DESC
  */
 export const queryItem_groups = (table: string, groupId: string) =>
   ({
     TableName: table,
     ProjectionExpression: 'nextTime, word, times',
-    KeyConditionExpression: '#id = :id',
+    KeyConditionExpression: '#id = :id and #nextTime <= :nextTime',
     FilterExpression: '#times = :times',
     ExpressionAttributeNames: {
       '#id': 'id',
       '#times': 'times',
+      '#nextTime': 'nextTime',
     },
     ExpressionAttributeValues: {
       ':id': groupId,
       ':times': 0,
+      ':nextTime': getNow(),
     },
+    IndexName: 'lsiIdx1',
     ScanIndexForward: false,
   } as DynamoDB.DocumentClient.QueryInput);
 

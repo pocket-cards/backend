@@ -1,16 +1,17 @@
 import { DynamoDB } from 'aws-sdk';
 import moment = require('moment');
+import { getNow } from '@utils/utils';
 
 /**
- * 新規学習単語対象一覧を取得する
- * 対象： Times <> 0
+ * 復習単語対象一覧を取得する
+ * 対象： Times = 1, NextTime = now
  */
 export const queryItem_groups = (table: string, groupId: string) =>
   ({
     TableName: table,
-    ProjectionExpression: 'nextTime, word',
+    ProjectionExpression: 'nextTime, word, times',
     KeyConditionExpression: '#id = :id and begins_with(#nextTime, :nextTime)',
-    FilterExpression: '#times <> :times',
+    FilterExpression: '#times = :times',
     ExpressionAttributeNames: {
       '#id': 'id',
       '#nextTime': 'nextTime',
@@ -18,8 +19,8 @@ export const queryItem_groups = (table: string, groupId: string) =>
     },
     ExpressionAttributeValues: {
       ':id': groupId,
-      ':nextTime': moment().format('YYYYMMDD'),
-      ':times': 0,
+      ':nextTime': getNow(),
+      ':times': 1,
     },
     IndexName: 'lsiIdx1',
     ScanIndexForward: false,
