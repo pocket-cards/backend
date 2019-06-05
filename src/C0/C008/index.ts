@@ -1,16 +1,16 @@
 import { APIGatewayEvent, Callback } from 'aws-lambda';
 import app from './app';
 import validate from './validator';
-import { GroupsItem } from '@typings/tables';
+import { BaseResponse, C008Response } from '@typings/api';
 
 // イベント入口
-export const handler = (event: APIGatewayEvent, _: any, callback: Callback<Response>) => {
+export const handler = (event: APIGatewayEvent, _: any, callback: Callback<BaseResponse>) => {
   // イベントログ
   console.log(event);
 
   validate(event)
     .then(() => app(event))
-    .then((result: ResponseBody[]) => {
+    .then((result: C008Response) => {
       // 終了ログ
       console.log(result);
       callback(null, {
@@ -33,21 +33,6 @@ export const handler = (event: APIGatewayEvent, _: any, callback: Callback<Respo
           'content-type': 'application/json',
           'Access-Control-Allow-Origin': '*',
         },
-      } as Response);
+      });
     });
 };
-
-export interface Response {
-  statusCode: number;
-  headers?: {
-    [key: string]: string;
-  };
-  isBase64Encoded: boolean;
-  body?: string;
-}
-
-export interface RequestBody {
-  words: string[];
-}
-
-export interface ResponseBody extends GroupsItem {}

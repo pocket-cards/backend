@@ -1,9 +1,9 @@
 import { DynamoDB } from 'aws-sdk';
 import { APIGatewayEvent } from 'aws-lambda';
 import { dynamoDB } from '@utils/clientUtils';
-import { GroupsItem, WordsItem } from '@typings/tables';
+import { GroupsItem } from '@typings/tables';
 import { queryItem_words, queryItem_groups } from './db';
-import { C006Response, C006Item } from '@typings/api';
+import { C006Response, WordItem } from '@typings/api';
 
 let client: DynamoDB.DocumentClient;
 
@@ -15,10 +15,7 @@ const WORDS_LIMIT = process.env.WORDS_LIMIT ? Number(process.env.WORDS_LIMIT) : 
 
 export default async (event: APIGatewayEvent): Promise<C006Response> => {
   if (!event.pathParameters) {
-    return {
-      count: 0,
-      words: [],
-    };
+    return EmptyResponse();
   }
 
   const groupId = event.pathParameters['groupId'];
@@ -30,10 +27,7 @@ export default async (event: APIGatewayEvent): Promise<C006Response> => {
 
   // 検索結果０件の場合
   if (queryResult.Count === 0 || !queryResult.Items) {
-    return {
-      count: 0,
-      words: [],
-    };
+    return EmptyResponse();
   }
 
   // 時間順で上位N件を対象とします
@@ -44,7 +38,7 @@ export default async (event: APIGatewayEvent): Promise<C006Response> => {
   const wordsInfo = await Promise.all(tasks);
 
   // 返却結果
-  const items: C006Item[] = [];
+  const items: WordItem[] = [];
 
   targets.forEach((item, idx) => {
     const word = wordsInfo[idx].Item;
@@ -59,7 +53,7 @@ export default async (event: APIGatewayEvent): Promise<C006Response> => {
       vocChn: word.vocChn,
       vocJpn: word.vocJpn,
       times: item.times,
-    } as C006Item);
+    } as WordItem);
   });
 
   return {
@@ -67,3 +61,8 @@ export default async (event: APIGatewayEvent): Promise<C006Response> => {
     words: items,
   };
 };
+
+const EmptyResponse = (): C006Response => ({
+  count: 0,
+  words: [],
+});
