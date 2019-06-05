@@ -162,3 +162,22 @@ Resources:
           WORDS_TABLE: dummy
           GROUPS_TABLE: dummy
           WORDS_LIMIT: 20
+  # ---------------------------------------
+  # Path: /groups/{groupId}/newtest
+  # Method: GET
+  # ---------------------------------------
+  C009:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../build/C0_C009/
+      Events:
+        HelloWorld:
+          Type: Api
+          Properties:
+            Path: /groups/{groupId}/newtest
+            Method: GET
+      Environment:
+        Variables:
+          WORDS_TABLE: dummy
+          GROUPS_TABLE: dummy
+          WORDS_LIMIT: 10

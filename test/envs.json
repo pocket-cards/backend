@@ -37,5 +37,10 @@
     "WORDS_TABLE": "Words",
     "GROUPS_TABLE": "Groups",
     "WORDS_LIMIT": 20
+  },
+  "C009": {
+    "WORDS_TABLE": "Words",
+    "GROUPS_TABLE": "Groups",
+    "WORDS_LIMIT": 10
   }
 }
