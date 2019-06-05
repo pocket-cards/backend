@@ -31,7 +31,7 @@ export default async (event: APIGatewayEvent): Promise<C007Response> => {
   }
 
   // 時間順で上位N件を対象とします
-  const targets = queryResult.Items.length > WORDS_LIMIT ? queryResult.Items.slice(WORDS_LIMIT) : queryResult.Items;
+  const targets = queryResult.Items.length > WORDS_LIMIT ? queryResult.Items.slice(0, WORDS_LIMIT) : queryResult.Items;
 
   // 単語明細情報を取得する
   const tasks = targets.map(item => client.get(queryItem_words(WORDS_TABLE, (item as GroupsItem).word as string)).promise());
