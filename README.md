@@ -16,5 +16,6 @@
 |             | /groups/{groupId}/new          | GET         | C006        | 新規学習モード単語一覧 |
 |             | /groups/{groupId}/test         | GET         | C007        | テストモード単語一覧   |
 |             | /groups/{groupId}/review       | GET         | C008        | 復習モード単語一覧     |
+|             | /groups/{groupId}/newtest      | GET         | C009        | 新規学習モードテスト   |
 |             | /image2text                    | POST        | D001        | 画像から単語に変換する |
 | **Deleted** | /speech                        | GET         | D002        | word to speech         |
