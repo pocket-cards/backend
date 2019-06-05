@@ -4,6 +4,7 @@ import { dynamoDB } from '@utils/clientUtils';
 import { updateItem_groups } from './db';
 import { C004Request } from '@typings/api';
 import moment = require('moment');
+import { getNow } from '@utils/utils';
 
 let client: DynamoDB.DocumentClient;
 
@@ -22,18 +23,18 @@ export default async (event: APIGatewayEvent): Promise<void> => {
   // DynamoDB Client 初期化
   client = dynamoDB(client);
 
-  const lastTime = moment().format('YYYYMMDDHHmmss');
+  const lastTime = getNow();
   let nextTime: string;
   let times: number;
 
   // 正解の場合
-  if (input.correct) {
+  if (input.correct && input.times === 0) {
     times = input.times + 1;
-    nextTime = `${getNextTime(1)}000000`;
+    nextTime = input.times === 0 ? getNow() : `${getNextTime(1)}000000`;
   } else {
     // 不正解の場合、今日の新規単語になります
     times = 0;
-    nextTime = `${getNextTime(0)}000000`;
+    nextTime = getNow();
   }
 
   await client

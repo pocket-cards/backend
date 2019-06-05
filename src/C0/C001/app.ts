@@ -5,7 +5,7 @@ import moment = require('moment');
 import { RequestBody } from './index';
 import { dynamoDB, polly, translate, s3 } from '@utils/clientUtils';
 import { putItem_groups, getItem_words, putItem_words } from './db';
-import { axiosGet } from '@utils/utils';
+import { axiosGet, getNow } from '@utils/utils';
 
 let client: DynamoDB.DocumentClient;
 let pollyClient: Polly;
@@ -38,7 +38,7 @@ export default async (event: APIGatewayEvent): Promise<void> => {
         putItem_groups(GROUPS_TABLE, {
           id: groupId,
           word: item,
-          nextTime: '99999999999999',
+          nextTime: getNow(),
           times: 0,
         })
       )
