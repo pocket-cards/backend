@@ -1,5 +1,3 @@
-import { GroupsItem } from './tables';
-
 // ------------------------------
 // Common
 // ------------------------------
@@ -61,6 +59,15 @@ export interface C007Response {
 export interface C008Request {}
 
 export interface C008Response {
+  count: number;
+  words: WordItem[];
+}
+// ------------------------------
+// C009
+// ------------------------------
+export interface C009Request {}
+
+export interface C009Response {
   count: number;
   words: WordItem[];
 }
