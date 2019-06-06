@@ -1,5 +1,5 @@
 import { APIGatewayEvent } from 'aws-lambda';
-import { RequestBody } from './index';
+import { C001Request } from '@typings/api';
 
 export default (event: APIGatewayEvent) =>
   new Promise((resolve, reject) => {
@@ -8,7 +8,7 @@ export default (event: APIGatewayEvent) =>
       return;
     }
 
-    const input = JSON.parse(event.body) as RequestBody;
+    const input = JSON.parse(event.body) as C001Request;
 
     // 対象単語なし
     if (input.words.length === 0) {
