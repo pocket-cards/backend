@@ -1,43 +1,38 @@
-import { app } from './app';
 import { APIGatewayEvent, Callback } from 'aws-lambda';
+import { BaseResponse, D001Response } from '@typings/api';
+import { app } from './app';
+import validate from './validator';
 
 // イベント入口
-export const handler = (
-  event: APIGatewayEvent,
-  _: any,
-  callback: Callback<Response>
-) => {
+export const handler = (event: APIGatewayEvent, _: any, callback: Callback<BaseResponse>) => {
   // イベントログ
   console.log(event);
 
-  app(event)
-    .then((result: Result) => {
+  validate(event)
+    .then(() => app(event))
+    .then((result: D001Response) => {
       // 終了ログ
       console.log(result);
       callback(null, {
         statusCode: 200,
         isBase64Encoded: false,
-        body: JSON.stringify(result)
+        headers: {
+          'content-type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+        body: JSON.stringify(result),
       });
     })
     .catch(err => {
       // エラーログ
       console.log(err);
       callback(err, {
-        statusCode: 502
-      } as Response);
+        statusCode: 502,
+        isBase64Encoded: false,
+        headers: {
+          'content-type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+      });
     });
 };
-
-export interface Response {
-  statusCode: number;
-  headers?: {
-    [key: string]: string;
-  };
-  isBase64Encoded: boolean;
-  body?: string;
-}
-
-export interface Result {
-  words: string[];
-}

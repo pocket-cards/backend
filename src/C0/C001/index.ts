@@ -1,9 +1,10 @@
 import { APIGatewayEvent, Callback } from 'aws-lambda';
 import validate from './validator';
 import app from './app';
+import { BaseResponse } from '@typings/api';
 
 // イベント入口
-export const handler = (event: APIGatewayEvent, _: any, callback: Callback<Response>) => {
+export const handler = (event: APIGatewayEvent, _: any, callback: Callback<BaseResponse>) => {
   // イベントログ
   console.log(event);
 
@@ -29,21 +30,6 @@ export const handler = (event: APIGatewayEvent, _: any, callback: Callback<Respo
         headers: {
           'Content-Type': 'application/json',
         },
-      } as Response);
+      });
     });
 };
-
-export interface Response {
-  statusCode: number;
-  headers?: {
-    [key: string]: string;
-  };
-  isBase64Encoded: boolean;
-  body?: string;
-}
-
-export interface RequestBody {
-  words: string[];
-}
-
-export interface ResponseBody {}

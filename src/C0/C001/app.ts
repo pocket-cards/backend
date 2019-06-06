@@ -2,10 +2,10 @@ import { DynamoDB, AWSError, Polly, S3, Translate } from 'aws-sdk';
 import { APIGatewayEvent } from 'aws-lambda';
 import { v4 } from 'uuid';
 import moment = require('moment');
-import { RequestBody } from './index';
 import { dynamoDB, polly, translate, s3 } from '@utils/clientUtils';
 import { putItem_groups, getItem_words, putItem_words } from './db';
 import { axiosGet, getNow } from '@utils/utils';
+import { C001Request } from '@typings/api';
 
 let client: DynamoDB.DocumentClient;
 let pollyClient: Polly;
@@ -25,7 +25,7 @@ export default async (event: APIGatewayEvent): Promise<void> => {
     return;
   }
 
-  const input = JSON.parse(event.body) as RequestBody;
+  const input = JSON.parse(event.body) as C001Request;
   const groupId = event.pathParameters['groupId'];
 
   // DynamoDB Client 初期化

@@ -2,7 +2,7 @@ import { Rekognition, S3 } from 'aws-sdk';
 import { APIGatewayEvent } from 'aws-lambda';
 import * as uuid from 'uuid';
 import * as moment from 'moment';
-import { Result } from './index';
+import { D001Response, D001Request } from '@typings/api';
 
 // Rekognition
 let rekognitionClient: Rekognition;
@@ -12,33 +12,31 @@ let s3Client: S3;
 /** S3_BUCKET */
 const bucket = process.env.IMAGE_BUCKET as string;
 /** 除外文字列 */
-const excludeWord = process.env.EXCLUDE_WORD
-  ? process.env.EXCLUDE_WORD.split(',')
-  : [];
+const excludeWord = process.env.EXCLUDE_WORD ? process.env.EXCLUDE_WORD.split(',') : [];
 /** 除外記号 */
-const excludeMark = process.env.EXCLUDE_MARK
-  ? process.env.EXCLUDE_MARK.split(',')
-  : [];
+const excludeMark = process.env.EXCLUDE_MARK ? process.env.EXCLUDE_MARK.split(',') : [];
 
 const excludeId: number[] = [];
 
-export const app = async (event: APIGatewayEvent): Promise<Result> => {
+export const app = async (event: APIGatewayEvent): Promise<D001Response> => {
   if (!event.body) {
-    return (undefined as unknown) as Result;
+    return EmptyResponse();
   }
+
+  const input = JSON.parse(event.body) as D001Request;
 
   // save data in s3
   const params = {
     Bucket: bucket,
     Key: `${moment().format('YYYYMMDD')}/${uuid.v4()}`,
-    ContentType: 'image/jpeg',
-    Body: new Buffer(event.body, 'base64')
+    ContentType: input.type,
+    Body: new Buffer(input.image, 'base64'),
   };
 
   // S3 Client初期化
   if (!s3Client) {
     s3Client = new S3({
-      region: process.env.AWS_REGION
+      region: process.env.AWS_REGION,
     });
   }
 
@@ -49,15 +47,15 @@ export const app = async (event: APIGatewayEvent): Promise<Result> => {
     Image: {
       S3Object: {
         Bucket: bucket,
-        Name: params.Key
-      }
-    }
+        Name: params.Key,
+      },
+    },
   };
 
   // S3 Client初期化
   if (!rekognitionClient) {
     rekognitionClient = new Rekognition({
-      region: process.env.AWS_REGION
+      region: process.env.AWS_REGION,
     });
   }
 
@@ -65,9 +63,7 @@ export const app = async (event: APIGatewayEvent): Promise<Result> => {
 
   // 認識結果なし
   if (!result.TextDetections) {
-    return {
-      words: []
-    };
+    return EmptyResponse();
   }
 
   const results: string[] = [];
@@ -82,8 +78,11 @@ export const app = async (event: APIGatewayEvent): Promise<Result> => {
   });
 
   // 重複結果を削除してから返却する
+  const words = Array.from(new Set(results));
+
   return {
-    words: Array.from(new Set(results))
+    count: words.length,
+    words,
   };
 };
 
@@ -124,3 +123,8 @@ const filter = (item: Rekognition.TextDetection): boolean => {
 
   return true;
 };
+
+const EmptyResponse = (): D001Response => ({
+  count: 0,
+  words: [],
+});

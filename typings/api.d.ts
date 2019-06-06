@@ -26,6 +26,15 @@ export interface WordItem {
 }
 
 // ------------------------------
+// C001
+// ------------------------------
+export interface C001Request {
+  words: string[];
+}
+
+export interface C001Response {}
+
+// ------------------------------
 // C004
 // ------------------------------
 export interface C004Request {
@@ -63,11 +72,14 @@ export interface C008Response {
   words: WordItem[];
 }
 // ------------------------------
-// C009
+// D001
 // ------------------------------
-export interface C009Request {}
+export interface D001Request {
+  type: string;
+  image: string;
+}
 
-export interface C009Response {
+export interface D001Response {
   count: number;
-  words: WordItem[];
+  words: string[];
 }
