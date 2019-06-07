@@ -31,14 +31,16 @@ export default async (event: APIGatewayEvent): Promise<void> => {
   // DynamoDB Client 初期化
   client = dynamoDB(client);
 
-  // 単語は全部小文字で登録する
+  // 単語は全部小文字で処理する
+  input.words = input.words.map(item => item.toLowerCase());
+
   // グループ単語登録用タスクを作成する
   let putTasks = input.words.map(item =>
     client
       .put(
         putItem_groups(GROUPS_TABLE, {
           id: groupId,
-          word: item.toLowerCase(),
+          word: item,
           nextTime: getNow(),
           times: 0,
         })
