@@ -18,7 +18,7 @@ const GROUPS_TABLE = process.env.GROUPS_TABLE as string;
 const IPA_URL = process.env.IPA_URL as string;
 const IPA_API_KEY = process.env.IPA_API_KEY as string;
 const MP3_BUCKET = process.env.MP3_BUCKET as string;
-const CDN_PATH = process.env.CDN_PATH as string;
+const PATH_PATTERN = process.env.PATH_PATTERN as string;
 
 export default async (event: APIGatewayEvent): Promise<void> => {
   if (!event.body || !event.pathParameters) {
@@ -128,7 +128,7 @@ const getMP3 = async (word: string): Promise<string> => {
   // ファイル名
   const filename: string = `${v1()}.mp3`;
   const prefix: string = `${moment().format('YYYYMMDD')}`;
-  const key: string = `${prefix}/${filename}`;
+  const key: string = `${PATH_PATTERN}/${prefix}/${filename}`;
 
   const putRequest: S3.Types.PutObjectRequest = {
     Bucket: MP3_BUCKET,
