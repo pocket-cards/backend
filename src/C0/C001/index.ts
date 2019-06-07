@@ -18,6 +18,7 @@ export const handler = (event: APIGatewayEvent, _: any, callback: Callback<BaseR
         isBase64Encoded: false,
         headers: {
           'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
         },
       });
     })
@@ -29,6 +30,7 @@ export const handler = (event: APIGatewayEvent, _: any, callback: Callback<BaseR
         isBase64Encoded: false,
         headers: {
           'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
         },
       });
     });
