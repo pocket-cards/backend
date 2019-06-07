@@ -31,13 +31,14 @@ export default async (event: APIGatewayEvent): Promise<void> => {
   // DynamoDB Client 初期化
   client = dynamoDB(client);
 
+  // 単語は全部小文字で登録する
   // グループ単語登録用タスクを作成する
   let putTasks = input.words.map(item =>
     client
       .put(
         putItem_groups(GROUPS_TABLE, {
           id: groupId,
-          word: item,
+          word: item.toLowerCase(),
           nextTime: getNow(),
           times: 0,
         })
@@ -55,6 +56,8 @@ export default async (event: APIGatewayEvent): Promise<void> => {
     }
   }
 
+  console.log('単語登録完了しました.');
+
   // 単語存在確認
   const getTasks = input.words.map(item => client.get(getItem_words(WORDS_TABLE, item)).promise());
   const getResults = await Promise.all(getTasks);
@@ -67,6 +70,8 @@ export default async (event: APIGatewayEvent): Promise<void> => {
     }
   });
 
+  console.log('単語の存在チェックは完了しました.');
+
   // すでに辞書に存在しました
   if (targets.length === 0) {
     return;
@@ -76,6 +81,8 @@ export default async (event: APIGatewayEvent): Promise<void> => {
   const taskArray = targets.map(item => Promise.all([getPronounce(item), getMP3(item), getTranslate(item, 'zh'), getTranslate(item, 'ja')]));
 
   const result = await Promise.all(taskArray);
+
+  console.log('単語情報を収集しました.');
 
   // 単語辞書登録
   putTasks = result.map(item => {
@@ -99,6 +106,8 @@ export default async (event: APIGatewayEvent): Promise<void> => {
 
   // 辞書登録処理
   await Promise.all(putTasks);
+
+  console.log('単語辞書の登録は完了しました.');
 };
 
 const getPronounce = async (word: string) => {
