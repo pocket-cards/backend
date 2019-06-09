@@ -31,7 +31,7 @@ export default async (event: APIGatewayEvent): Promise<C008Response> => {
   }
 
   // 時間順で上位N件を対象とします
-  const targets = queryResult.Items.length > WORDS_LIMIT ? queryResult.Items.slice(0, WORDS_LIMIT) : queryResult.Items;
+  const targets = getRandom(queryResult.Items, WORDS_LIMIT);
 
   // 単語明細情報を取得する
   const tasks = targets.map(item => client.get(queryItem_words(WORDS_TABLE, (item as GroupsItem).word as string)).promise());
@@ -66,3 +66,22 @@ const EmptyResponse = (): C008Response => ({
   count: 0,
   words: [],
 });
+
+const getRandom = (items: DynamoDB.DocumentClient.AttributeMap[], maxItems: number) => {
+  if (maxItems >= items.length) {
+    return items;
+  }
+
+  const results: DynamoDB.DocumentClient.AttributeMap[] = [];
+
+  const min = 0;
+  const max = items.length - 1;
+
+  for (let i = 0; i < maxItems; i = i + 1) {
+    const random = Math.floor(Math.random() * (max + 1 - min)) + min;
+
+    results.push(items[random]);
+  }
+
+  return results;
+};
