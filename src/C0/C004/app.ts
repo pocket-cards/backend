@@ -3,8 +3,7 @@ import { APIGatewayEvent } from 'aws-lambda';
 import { dynamoDB } from '@utils/clientUtils';
 import { updateItem_groups } from './db';
 import { C004Request } from '@typings/api';
-import moment = require('moment');
-import { getNow } from '@utils/utils';
+import { getNow, getNextTime } from '@utils/utils';
 
 let client: DynamoDB.DocumentClient;
 
@@ -30,7 +29,7 @@ export default async (event: APIGatewayEvent): Promise<void> => {
   // 正解の場合
   if (input.correct && input.times === 0) {
     times = input.times + 1;
-    nextTime = input.times === 0 ? getNow() : `${getNextTime(1)}000000`;
+    nextTime = getNextTime(input.times);
   } else {
     // 不正解の場合、今日の新規単語になります
     times = 0;
@@ -49,8 +48,3 @@ export default async (event: APIGatewayEvent): Promise<void> => {
     )
     .promise();
 };
-
-const getNextTime = (add: number) =>
-  moment()
-    .add(add, 'd')
-    .format('YYYYMMDD');
