@@ -74,13 +74,13 @@ const getRandom = (items: DynamoDB.DocumentClient.AttributeMap[], maxItems: numb
 
   const results: DynamoDB.DocumentClient.AttributeMap[] = [];
 
-  const min = 0;
-  const max = items.length - 1;
+  while (results.length != maxItems) {
+    const min = 0;
+    const max = items.length - 1;
 
-  for (let i = 0; i < maxItems; i = i + 1) {
     const random = Math.floor(Math.random() * (max + 1 - min)) + min;
 
-    results.push(items[random]);
+    results.push(items.splice(random, 1));
   }
 
   return results;
