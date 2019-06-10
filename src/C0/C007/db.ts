@@ -7,7 +7,7 @@ import { getNow } from '@utils/utils';
  */
 export const queryItem_groups = (table: string, groupId: string): DynamoDB.DocumentClient.QueryInput => ({
   TableName: table,
-  ProjectionExpression: 'nextTime, word',
+  ProjectionExpression: 'nextTime, word, times',
   KeyConditionExpression: '#id = :id and #nextTime <= :nextTime',
   FilterExpression: '#times <> :times',
   ExpressionAttributeNames: {
