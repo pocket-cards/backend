@@ -17,7 +17,7 @@ export const axiosPost = (url: string, config?: AxiosRequestConfig) =>
       .catch(err => reject(err));
   });
 
-export const getNow = () => `${moment().format('YYYYMMDD')}000000`;
+export const getNow = () => `${moment().format('YYYYMMDD')}`;
 
 const days = [1, 2, 4, 7, 15, 30, 60, 90];
 
@@ -31,5 +31,5 @@ export const getNextTime = (times: number) => {
     .add(addValue, 'days')
     .format('YYYYMMDD');
 
-  return `${nextTime}000000`;
+  return `${nextTime}`;
 };
