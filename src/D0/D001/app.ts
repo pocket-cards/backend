@@ -13,8 +13,6 @@ let s3Client: S3;
 const bucket = process.env.IMAGE_BUCKET as string;
 /** 除外文字列 */
 const excludeWord = process.env.EXCLUDE_WORD ? process.env.EXCLUDE_WORD.split(',') : [];
-/** 除外記号 */
-const excludeMark = process.env.EXCLUDE_MARK ? process.env.EXCLUDE_MARK.split(',') : [];
 
 const excludeId: number[] = [];
 
@@ -116,12 +114,9 @@ const filter = (item: Rekognition.TextDetection): boolean => {
   // 2桁以下の対象外
   if (text.length <= 2) return false;
 
-  // 記号を含むのは単語ではない
-  const target = excludeMark.find(mark => text.indexOf(mark) !== -1);
-  // 記号がある場合
-  if (target) return false;
+  const regex = new RegExp(/^[a-zA-Z]+$/);
 
-  return true;
+  return regex.test(text);
 };
 
 const EmptyResponse = (): D001Response => ({
