@@ -26,7 +26,7 @@ export default async (event: APIGatewayEvent): Promise<void> => {
 
   // 正解の場合
   const times = input.correct ? input.times + 1 : 0;
-  const nextTime = getNextTime(times);
+  const nextTime = input.correct ? getNextTime(input.times) : getNextTime(0);
 
   await client
     .update(
