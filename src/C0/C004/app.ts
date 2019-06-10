@@ -23,18 +23,10 @@ export default async (event: APIGatewayEvent): Promise<void> => {
   client = dynamoDB(client);
 
   const lastTime = getNow();
-  let nextTime: string;
-  let times: number;
 
   // 正解の場合
-  if (input.correct && input.times === 0) {
-    times = input.times + 1;
-    nextTime = getNextTime(input.times);
-  } else {
-    // 不正解の場合、今日の新規単語になります
-    times = 0;
-    nextTime = getNow();
-  }
+  const times = input.correct ? input.times + 1 : 0;
+  const nextTime = getNextTime(times);
 
   await client
     .update(

@@ -21,26 +21,21 @@
     "GROUPS_TABLE": "Groups"
   },
   "C004": {
-    "GROUPS_TABLE": "Groups"
+    "GROUPS_TABLE": "PocketCards_Groups"
   },
   "C006": {
-    "WORDS_LIMIT": 20,
-    "WORDS_TABLE": "Words",
-    "GROUPS_TABLE": "Groups"
+    "WORDS_LIMIT": 10,
+    "WORDS_TABLE": "PocketCards_Words",
+    "GROUPS_TABLE": "PocketCards_Groups"
   },
   "C007": {
-    "WORDS_TABLE": "Words",
-    "GROUPS_TABLE": "Groups",
-    "WORDS_LIMIT": 20
+    "WORDS_TABLE": "PocketCards_Words",
+    "GROUPS_TABLE": "PocketCards_Groups",
+    "WORDS_LIMIT": 10
   },
   "C008": {
-    "WORDS_TABLE": "Words",
-    "GROUPS_TABLE": "Groups",
-    "WORDS_LIMIT": 20
-  },
-  "C009": {
-    "WORDS_TABLE": "Words",
-    "GROUPS_TABLE": "Groups",
+    "WORDS_TABLE": "PocketCards_Words",
+    "GROUPS_TABLE": "PocketCards_Groups",
     "WORDS_LIMIT": 10
   }
 }

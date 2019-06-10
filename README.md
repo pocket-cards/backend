@@ -25,7 +25,7 @@
 | -------------- | ------------------------------------------------------ |
 | New Targets    | Times = 0, NextTime <= now, NextTime ASC               |
 | New Success    | Times = Times + 1, LastTime = now , NextTime = now ASC |
-| Review Targets | Times = 1, NextTime = now                              |
+| Review Targets | Times = 1                                              |
 | Test Targets   | Times <> 0, NextTime <= now                            |
 | Test Success   | Times = Times + 1, LastTime = now, NextTime = now + x  |
 | Test Failure   | Times = 0, LastTime = now, NextTime = now              |

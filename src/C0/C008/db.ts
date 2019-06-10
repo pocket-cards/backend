@@ -10,16 +10,17 @@ export const queryItem_groups = (table: string, groupId: string) =>
   ({
     TableName: table,
     ProjectionExpression: 'nextTime, word, times',
-    KeyConditionExpression: '#id = :id and begins_with(#nextTime, :nextTime)',
+    // KeyConditionExpression: '#id = :id and begins_with(#nextTime, :nextTime)',
+    KeyConditionExpression: '#id = :id',
     FilterExpression: '#times = :times',
     ExpressionAttributeNames: {
       '#id': 'id',
-      '#nextTime': 'nextTime',
+      // '#nextTime': 'nextTime',
       '#times': 'times',
     },
     ExpressionAttributeValues: {
       ':id': groupId,
-      ':nextTime': getNow(),
+      // ':nextTime': getNow(),
       ':times': 1,
     },
     IndexName: 'lsiIdx1',
