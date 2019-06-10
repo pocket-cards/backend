@@ -29,7 +29,7 @@ export const queryItem_groups = (table: string, groupId: string) =>
     },
     ExpressionAttributeValues: {
       ':id': groupId,
-      ':lastTime': '20190609000000',
+      ':lastTime': '20190610000000',
     },
   } as DynamoDB.DocumentClient.QueryInput);
 
@@ -45,7 +45,7 @@ export const updateItem_groups = (table: string, id: string, word: string) =>
       '#lastTime': 'lastTime',
     },
     ExpressionAttributeValues: {
-      ':lastTime': '20190609',
+      ':lastTime': '20190610',
     },
   } as DynamoDB.DocumentClient.UpdateItemInput);
 

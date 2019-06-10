@@ -29,7 +29,7 @@ export const queryItem_groups = (table: string, groupId: string) =>
     },
     ExpressionAttributeValues: {
       ':id': groupId,
-      ':nextTime': '20190609000000',
+      ':nextTime': '20190611000000',
     },
   } as DynamoDB.DocumentClient.QueryInput);
 
@@ -45,7 +45,7 @@ export const updateItem_groups = (table: string, id: string, word: string) =>
       '#nextTime': 'nextTime',
     },
     ExpressionAttributeValues: {
-      ':nextTime': '20190609',
+      ':nextTime': '20190611',
     },
   } as DynamoDB.DocumentClient.UpdateItemInput);
 
