@@ -8,7 +8,7 @@ import { getNow } from '@utils/utils';
 export const queryItem_groups = (table: string, groupId: string) =>
   ({
     TableName: table,
-    ProjectionExpression: 'nextTime, word, times',
+    ProjectionExpression: 'nextTime, lastTime, word, times',
     KeyConditionExpression: '#id = :id and #nextTime <= :nextTime',
     FilterExpression: '#times = :times',
     ExpressionAttributeNames: {
