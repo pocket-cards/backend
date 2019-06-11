@@ -1,7 +1,7 @@
 import { DynamoDB, Polly, S3, Translate } from 'aws-sdk';
-import { v1 } from 'uuid';
 import moment = require('moment');
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import * as short from 'short-uuid';
 
 let pollyClient: Polly;
 let s3Client: S3;
@@ -132,7 +132,7 @@ const getMP3 = async (word: string): Promise<string> => {
   const response = await client.synthesizeSpeech(request).promise();
 
   // ファイル名
-  const filename: string = `${v1()}.mp3`;
+  const filename: string = `${short.generate()}.mp3`;
   const prefix: string = `${moment().format('YYYYMMDD')}`;
   const key: string = `${PATH_PATTERN}/${prefix}/${filename}`;
 
