@@ -4,6 +4,7 @@ import { dynamoDB } from '@utils/clientUtils';
 import { GroupsItem } from '@typings/tables';
 import { queryItem_words, queryItem_groups } from './db';
 import { C006Response, WordItem } from '@typings/api';
+import moment = require('moment');
 
 let client: DynamoDB.DocumentClient;
 
@@ -30,15 +31,26 @@ export default async (event: APIGatewayEvent): Promise<C006Response> => {
     return EmptyResponse();
   }
 
+  console.log(`Count: ${queryResult.Count}`);
+
+  const items = queryResult.Items as GroupsItem[];
+
+  items.sort((a, b) => {
+    if (!a.lastTime && b.lastTime) return 1;
+    if (a.lastTime && !b.lastTime) return -1;
+    if (a.lastTime === b.lastTime) return 0;
+
+    return moment(a.lastTime).isBefore(moment(b.lastTime)) ? 1 : -1;
+  });
   // 時間順で上位N件を対象とします
-  const targets = queryResult.Items.length > WORDS_LIMIT ? queryResult.Items.slice(0, WORDS_LIMIT) : queryResult.Items;
+  const targets = items.length > WORDS_LIMIT ? items.slice(0, WORDS_LIMIT) : items;
 
   // 単語明細情報を取得する
   const tasks = targets.map(item => client.get(queryItem_words(WORDS_TABLE, (item as GroupsItem).word as string)).promise());
   const wordsInfo = await Promise.all(tasks);
 
   // 返却結果
-  const items: WordItem[] = [];
+  const results: WordItem[] = [];
 
   targets.forEach((item, idx) => {
     const word = wordsInfo[idx].Item;
@@ -46,7 +58,7 @@ export default async (event: APIGatewayEvent): Promise<C006Response> => {
     // 明細情報存在しないデータを除外する
     if (!word) return;
 
-    items.push({
+    results.push({
       word: word.word,
       mp3: word.mp3,
       pronounce: word.pronounce,
@@ -57,8 +69,8 @@ export default async (event: APIGatewayEvent): Promise<C006Response> => {
   });
 
   return {
-    count: items.length,
-    words: items,
+    count: results.length,
+    words: results,
   };
 };
 
