@@ -1,6 +1,6 @@
 import { Rekognition, S3 } from 'aws-sdk';
 import { APIGatewayEvent } from 'aws-lambda';
-import * as uuid from 'uuid';
+import * as short from 'short-uuid';
 import * as moment from 'moment';
 import { D001Response, D001Request } from '@typings/api';
 
@@ -26,7 +26,7 @@ export const app = async (event: APIGatewayEvent): Promise<D001Response> => {
   // save data in s3
   const params = {
     Bucket: bucket,
-    Key: `${moment().format('YYYYMMDD')}/${uuid.v4()}`,
+    Key: `${moment().format('YYYYMMDD')}/${short.generate()}`,
     ContentType: input.type,
     Body: new Buffer(input.image, 'base64'),
   };

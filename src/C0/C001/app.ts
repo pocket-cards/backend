@@ -1,6 +1,6 @@
 import { DynamoDB, AWSError, Polly, S3, Translate } from 'aws-sdk';
 import { APIGatewayEvent } from 'aws-lambda';
-import { v1 } from 'uuid';
+import * as short from 'short-uuid';
 import moment = require('moment');
 import { dynamoDB, polly, translate, s3 } from '@utils/clientUtils';
 import { putItem_groups, getItem_words, putItem_words } from './db';
@@ -129,7 +129,7 @@ const getMP3 = async (word: string): Promise<string> => {
   const request: Polly.SynthesizeSpeechInput = {
     Text: word,
     TextType: 'text',
-    VoiceId: 'Emma',
+    VoiceId: 'Amy',
     OutputFormat: 'mp3',
     LanguageCode: 'en-GB',
   };
@@ -137,7 +137,7 @@ const getMP3 = async (word: string): Promise<string> => {
   const response = await client.synthesizeSpeech(request).promise();
 
   // ファイル名
-  const filename: string = `${v1()}.mp3`;
+  const filename: string = `${short.generate()}.mp3`;
   const prefix: string = `${moment().format('YYYYMMDD')}`;
   const key: string = `${PATH_PATTERN}/${prefix}/${filename}`;
 
