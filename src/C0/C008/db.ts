@@ -1,6 +1,4 @@
 import { DynamoDB } from 'aws-sdk';
-import moment = require('moment');
-import { getNow } from '@utils/utils';
 
 /**
  * 復習単語対象一覧を取得する

@@ -4,7 +4,7 @@ import { dynamoDB } from '@utils/clientUtils';
 import { GroupsItem } from '@typings/tables';
 import { queryItem_words, queryItem_groups } from './db';
 import { C006Response, WordItem } from '@typings/api';
-import moment = require('moment');
+import * as moment from 'moment';
 
 let client: DynamoDB.DocumentClient;
 

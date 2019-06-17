@@ -1,7 +1,6 @@
 import { DynamoDB, AWSError, Polly, S3, SSM } from 'aws-sdk';
 import { APIGatewayEvent } from 'aws-lambda';
 import * as short from 'short-uuid';
-import moment = require('moment');
 import { dynamoDB, polly, s3, ssm } from '@utils/clientUtils';
 import { putItem_groups, getItem_words, putItem_words } from './db';
 import { getNow } from '@utils/utils';
@@ -143,7 +142,7 @@ const getMP3 = async (word: string): Promise<string> => {
 
   // ファイル名
   const filename: string = `${short.generate()}.mp3`;
-  const prefix: string = `${moment().format('YYYYMMDD')}`;
+  const prefix: string = getNow();
   const key: string = `${PATH_PATTERN}/${prefix}/${filename}`;
 
   const putRequest: S3.Types.PutObjectRequest = {
