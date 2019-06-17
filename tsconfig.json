@@ -16,5 +16,6 @@
     }
   },
   "files": ["./typings/types.d.ts", "./typings/api.d.ts"],
-  "include": ["src/**/*", "test/**/*"]
+  "include": ["src/**/*", "test/**/*"],
+  "exclude": ["node_modules"]
 }
