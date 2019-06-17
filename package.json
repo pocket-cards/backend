@@ -11,6 +11,7 @@
     "valid": "tsc --noEmit"
   },
   "dependencies": {
+    "aws-xray-sdk": "^2.3.3",
     "axios": "^0.18.0",
     "moment": "^2.24.0",
     "short-uuid": "^3.1.1"
