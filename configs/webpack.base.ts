@@ -38,7 +38,7 @@ const configs: Configuration = {
       '@typings': path.resolve(__dirname, '../typings'),
     },
   },
-  externals: ['aws-sdk'],
+  externals: ['aws-sdk', 'aws-xray-sdk'],
   module: {
     rules: [
       {
