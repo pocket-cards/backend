@@ -1,16 +1,17 @@
-import { DynamoDB, AWSError, Polly, S3, Translate } from 'aws-sdk';
+import { DynamoDB, AWSError, Polly, S3, SSM } from 'aws-sdk';
 import { APIGatewayEvent } from 'aws-lambda';
 import * as short from 'short-uuid';
 import moment = require('moment');
-import { dynamoDB, polly, translate, s3 } from '@utils/clientUtils';
+import { dynamoDB, polly, s3, ssm } from '@utils/clientUtils';
 import { putItem_groups, getItem_words, putItem_words } from './db';
-import { axiosGet, getNow } from '@utils/utils';
+import { getNow } from '@utils/utils';
 import { C001Request } from '@typings/api';
+import axios from 'axios';
 
 let client: DynamoDB.DocumentClient;
 let pollyClient: Polly;
 let s3Client: S3;
-let translateClient: Translate;
+let ssmClient: SSM;
 
 // 環境変数
 const WORDS_TABLE = process.env.WORDS_TABLE as string;
@@ -19,6 +20,8 @@ const IPA_URL = process.env.IPA_URL as string;
 const IPA_API_KEY = process.env.IPA_API_KEY as string;
 const MP3_BUCKET = process.env.MP3_BUCKET as string;
 const PATH_PATTERN = process.env.PATH_PATTERN as string;
+const TRANSLATION_URL = process.env.TRANSLATION_URL as string;
+const TRANSLATION_API_KEY = process.env.TRANSLATION_API_KEY as string;
 
 export default async (event: APIGatewayEvent): Promise<void> => {
   if (!event.body || !event.pathParameters) {
@@ -113,9 +116,11 @@ export default async (event: APIGatewayEvent): Promise<void> => {
 };
 
 const getPronounce = async (word: string) => {
-  const res = await axiosGet(`${IPA_URL}?word=${word}`, {
+  const apiKey = await getSSMValue(IPA_API_KEY);
+
+  const res = await axios.get(`${IPA_URL}?word=${word}`, {
     headers: {
-      'x-api-key': IPA_API_KEY,
+      'x-api-key': apiKey,
     },
   });
 
@@ -154,16 +159,39 @@ const getMP3 = async (word: string): Promise<string> => {
   return key;
 };
 
-const getTranslate = async (word: string, targetLanguageCode: string): Promise<string> => {
-  const client = translate(translateClient);
+const getTranslate = async (word: string, targetLanguageCode: string) => {
+  const apiKey = getSSMValue(TRANSLATION_API_KEY);
 
-  const request: Translate.TranslateTextRequest = {
-    SourceLanguageCode: 'en',
-    TargetLanguageCode: targetLanguageCode,
-    Text: word,
-  };
+  const {
+    data: { translations },
+  } = await axios.post(`${TRANSLATION_URL}?key=${apiKey}`, {
+    q: word,
+    from: 'en',
+    target: targetLanguageCode,
+    format: 'text',
+  });
 
-  const response = await client.translateText(request).promise();
+  // 結果ない場合、エラーとする
+  if (!translations || translations.length === 0) {
+    throw new Error(`翻訳できません。Word:${word}`);
+  }
 
-  return response.TranslatedText;
+  return translations[0].translatedText;
+};
+
+/** SSM Value */
+const getSSMValue = async (key: string) => {
+  const client = ssm(ssmClient);
+
+  const result = await client
+    .getParameter({
+      Name: key,
+    })
+    .promise();
+
+  if (!result.Parameter || !result.Parameter.Value) {
+    throw new Error('Can not get parameters.');
+  }
+
+  return result.Parameter.Value;
 };
