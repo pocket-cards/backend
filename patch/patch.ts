@@ -10,7 +10,7 @@ let translateClient: Translate;
 const PATH_PATTERN = 'audio';
 const WORDS_TABLE = 'PocketCards_Words';
 const IPA_URL = 'https://m1rb1oo72l.execute-api.ap-northeast-1.amazonaws.com/v1';
-const IPA_API_KEY = 'FWbGwQrIIw3oqqIWy8O7W8lubvbAIpcG2Whor10b';
+const IPA_API_KEY = process.env.TF_VAR_ipa_api_key;
 const MP3_BUCKET = 'pocket-cards-mp3';
 
 export const queryItem_groups = (table: string, groupId: string) =>

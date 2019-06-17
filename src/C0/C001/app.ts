@@ -162,7 +162,9 @@ const getTranslate = async (word: string, targetLanguageCode: string) => {
   const apiKey = await getSSMValue(TRANSLATION_API_KEY);
 
   const {
-    data: { translations },
+    data: {
+      data: { translations },
+    },
   } = await axios.post(`${TRANSLATION_URL}?key=${apiKey}`, {
     q: word,
     from: 'en',
