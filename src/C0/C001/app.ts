@@ -159,7 +159,7 @@ const getMP3 = async (word: string): Promise<string> => {
 };
 
 const getTranslate = async (word: string, targetLanguageCode: string) => {
-  const apiKey = getSSMValue(TRANSLATION_API_KEY);
+  const apiKey = await getSSMValue(TRANSLATION_API_KEY);
 
   const {
     data: { translations },
