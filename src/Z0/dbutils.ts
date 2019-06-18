@@ -21,3 +21,10 @@ export const query = (input: DynamoDB.DocumentClient.QueryInput) => {
 
   return dynamoDB().query(input);
 };
+
+/** Update */
+export const update = (input: DynamoDB.DocumentClient.UpdateItemInput) => {
+  console.log(input);
+
+  return dynamoDB().update(input);
+};

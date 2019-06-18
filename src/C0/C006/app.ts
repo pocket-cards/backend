@@ -19,9 +19,6 @@ export default async (event: APIGatewayEvent): Promise<C006Response> => {
 
   const groupId = event.pathParameters['groupId'];
 
-  // DynamoDB Client 初期化
-  const client = dynamoDB();
-
   const queryResult = await DBUtils.query(queryItem_groups(GROUPS_TABLE, groupId)).promise();
 
   // 検索結果０件の場合

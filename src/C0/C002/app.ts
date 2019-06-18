@@ -1,11 +1,9 @@
-import { DynamoDB, AWSError } from 'aws-sdk';
+import { DynamoDB } from 'aws-sdk';
 import { APIGatewayEvent } from 'aws-lambda';
-import { ResponseBody, RequestBody } from './index';
+import { ResponseBody } from './index';
 import { GroupsItem } from '@typings/tables';
-import { dynamoDB } from '@utils/clientUtils';
+import * as DBUtils from '@utils/dbutils';
 
-// 環境変数
-const WORDS_TABLE = process.env.WORDS_TABLE as string;
 const GROUPS_TABLE = process.env.GROUPS_TABLE as string;
 
 export const app = async (event: APIGatewayEvent): Promise<ResponseBody[]> => {
@@ -15,10 +13,7 @@ export const app = async (event: APIGatewayEvent): Promise<ResponseBody[]> => {
 
   const groupId = event.pathParameters['groupId'];
 
-  // DynamoDB Client 初期化
-  const client = dynamoDB();
-
-  const queryResult = await client.query(queryItem_groups(groupId)).promise();
+  const queryResult = await DBUtils.query(queryItem_groups(groupId)).promise();
 
   // 検索結果０件の場合
   if (queryResult.Count === 0 || !queryResult.Items) {

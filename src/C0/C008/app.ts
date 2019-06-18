@@ -1,6 +1,5 @@
 import { DynamoDB } from 'aws-sdk';
 import { APIGatewayEvent } from 'aws-lambda';
-import { dynamoDB } from '@utils/clientUtils';
 import { GroupsItem } from '@typings/tables';
 import { queryItem_words, queryItem_groups } from './db';
 import { C008Response, WordItem } from '@typings/api';
@@ -19,10 +18,7 @@ export default async (event: APIGatewayEvent): Promise<C008Response> => {
 
   const groupId = event.pathParameters['groupId'];
 
-  // DynamoDB Client 初期化
-  const client = dynamoDB();
-
-  const queryResult = await client.query(queryItem_groups(GROUPS_TABLE, groupId)).promise();
+  const queryResult = await DBUtils.query(queryItem_groups(GROUPS_TABLE, groupId)).promise();
 
   // 検索結果０件の場合
   if (queryResult.Count === 0 || !queryResult.Items) {
