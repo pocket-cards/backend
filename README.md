@@ -18,6 +18,7 @@
 |             | /groups/{groupId}/review       | GET         | C008        | 復習モード単語一覧     |
 |             | /image2text                    | POST        | D001        | 画像から単語に変換する |
 | **Deleted** | /speech                        | GET         | D002        | word to speech         |
+|             | dynaomdb stream                |             | S001        | 履歴テーブルに保存する |
 
 ## Search Conditions
 
