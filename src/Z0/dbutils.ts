@@ -8,6 +8,14 @@ export const get = (input: DynamoDB.DocumentClient.GetItemInput) => {
   return dynamoDB().get(input);
 };
 
+export const getAsync = async (input: DynamoDB.DocumentClient.GetItemInput) => {
+  const result = get(input).promise();
+
+  console.log(result);
+
+  return result;
+};
+
 /** Put */
 export const put = (input: DynamoDB.DocumentClient.PutItemInput) => {
   console.log(input);
@@ -23,12 +31,8 @@ export const query = (input: DynamoDB.DocumentClient.QueryInput) => {
 };
 
 export const queryAsync = async (input: DynamoDB.DocumentClient.QueryInput) => {
-  console.log(input);
-
   // クエリ実行
-  const result = await dynamoDB()
-    .query(input)
-    .promise();
+  const result = await query(input).promise();
 
   console.log(result);
 
@@ -43,9 +47,7 @@ export const update = (input: DynamoDB.DocumentClient.UpdateItemInput) => {
 };
 
 export const updateAsync = async (input: DynamoDB.DocumentClient.UpdateItemInput) => {
-  console.log(input);
-
-  const result = await dynamoDB().update(input);
+  const result = await update(input).promise();
 
   console.log(result);
 
