@@ -1,16 +1,12 @@
 import { DynamoDB, AWSError, Polly, S3, SSM } from 'aws-sdk';
 import { APIGatewayEvent } from 'aws-lambda';
 import * as short from 'short-uuid';
+import axios from 'axios';
 import { dynamoDB, polly, s3, ssm } from '@utils/clientUtils';
 import { putItem_groups, getItem_words, putItem_words } from './db';
 import { getNow } from '@utils/utils';
 import { C001Request } from '@typings/api';
-import axios from 'axios';
-
-let client: DynamoDB.DocumentClient;
-let pollyClient: Polly;
-let s3Client: S3;
-let ssmClient: SSM;
+import * as DBUtils from '@utils/dbutils';
 
 // 環境変数
 const WORDS_TABLE = process.env.WORDS_TABLE as string;
@@ -30,24 +26,19 @@ export default async (event: APIGatewayEvent): Promise<void> => {
   const input = JSON.parse(event.body) as C001Request;
   const groupId = event.pathParameters['groupId'];
 
-  // DynamoDB Client 初期化
-  client = dynamoDB(client);
-
   // 単語は全部小文字で処理する
   input.words = input.words.map(item => item.toLowerCase());
 
   // グループ単語登録用タスクを作成する
   let putTasks = input.words.map(item =>
-    client
-      .put(
-        putItem_groups(GROUPS_TABLE, {
-          id: groupId,
-          word: item,
-          nextTime: getNow(),
-          times: 0,
-        })
-      )
-      .promise()
+    DBUtils.put(
+      putItem_groups(GROUPS_TABLE, {
+        id: groupId,
+        word: item,
+        nextTime: getNow(),
+        times: 0,
+      })
+    ).promise()
   );
 
   try {
@@ -63,7 +54,7 @@ export default async (event: APIGatewayEvent): Promise<void> => {
   console.log('単語登録完了しました.');
 
   // 単語存在確認
-  const getTasks = input.words.map(item => client.get(getItem_words(WORDS_TABLE, item)).promise());
+  const getTasks = input.words.map(item => DBUtils.get(getItem_words(WORDS_TABLE, item)).promise());
   const getResults = await Promise.all(getTasks);
 
   const targets: string[] = [];
@@ -95,17 +86,15 @@ export default async (event: APIGatewayEvent): Promise<void> => {
     const vocChn = item[2];
     const vocJpn = item[3];
 
-    return client
-      .put(
-        putItem_words(WORDS_TABLE, {
-          word: pronounce['word'],
-          pronounce: pronounce['pronounce'],
-          mp3,
-          vocChn,
-          vocJpn,
-        })
-      )
-      .promise();
+    return DBUtils.put(
+      putItem_words(WORDS_TABLE, {
+        word: pronounce['word'],
+        pronounce: pronounce['pronounce'],
+        mp3,
+        vocChn,
+        vocJpn,
+      })
+    ).promise();
   });
 
   // 辞書登録処理
@@ -127,7 +116,7 @@ const getPronounce = async (word: string) => {
 };
 
 const getMP3 = async (word: string): Promise<string> => {
-  const client = polly(pollyClient);
+  const client = polly();
 
   /**  */
   const request: Polly.SynthesizeSpeechInput = {
@@ -151,7 +140,7 @@ const getMP3 = async (word: string): Promise<string> => {
     Body: response.AudioStream,
   };
 
-  const sClient = s3(s3Client);
+  const sClient = s3();
   // S3に保存する
   await sClient.putObject(putRequest).promise();
 
@@ -182,7 +171,7 @@ const getTranslate = async (word: string, targetLanguageCode: string) => {
 
 /** SSM Value */
 const getSSMValue = async (key: string) => {
-  const client = ssm(ssmClient);
+  const client = ssm();
 
   const result = await client
     .getParameter({

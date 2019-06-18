@@ -4,8 +4,6 @@ import { ResponseBody, RequestBody } from './index';
 import { GroupsItem } from '@typings/tables';
 import { dynamoDB } from '@utils/clientUtils';
 
-let client: DynamoDB.DocumentClient;
-
 // 環境変数
 const WORDS_TABLE = process.env.WORDS_TABLE as string;
 const GROUPS_TABLE = process.env.GROUPS_TABLE as string;
@@ -18,7 +16,7 @@ export const app = async (event: APIGatewayEvent): Promise<ResponseBody[]> => {
   const groupId = event.pathParameters['groupId'];
 
   // DynamoDB Client 初期化
-  client = dynamoDB(client);
+  const client = dynamoDB();
 
   const queryResult = await client.query(queryItem_groups(groupId)).promise();
 
@@ -31,7 +29,7 @@ export const app = async (event: APIGatewayEvent): Promise<ResponseBody[]> => {
   return queryResult.Items.map(
     item =>
       ({
-        word: (item as GroupsItem).word
+        word: (item as GroupsItem).word,
       } as ResponseBody)
   );
 };
@@ -42,11 +40,11 @@ const queryItem_groups = (groupId: string) =>
     TableName: GROUPS_TABLE,
     KeyConditionExpression: '#id = :id',
     ExpressionAttributeNames: {
-      '#id': 'id'
+      '#id': 'id',
     },
     ExpressionAttributeValues: {
-      ':id': groupId
+      ':id': groupId,
     },
     Limit: 10,
-    ScanIndexForward: false
+    ScanIndexForward: false,
   } as DynamoDB.DocumentClient.QueryInput);

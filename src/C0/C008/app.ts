@@ -4,8 +4,7 @@ import { dynamoDB } from '@utils/clientUtils';
 import { GroupsItem } from '@typings/tables';
 import { queryItem_words, queryItem_groups } from './db';
 import { C008Response, WordItem } from '@typings/api';
-
-let client: DynamoDB.DocumentClient;
+import * as DBUtils from '@utils/dbutils';
 
 // 環境変数
 const WORDS_TABLE = process.env.WORDS_TABLE as string;
@@ -21,7 +20,7 @@ export default async (event: APIGatewayEvent): Promise<C008Response> => {
   const groupId = event.pathParameters['groupId'];
 
   // DynamoDB Client 初期化
-  client = dynamoDB(client);
+  const client = dynamoDB();
 
   const queryResult = await client.query(queryItem_groups(GROUPS_TABLE, groupId)).promise();
 
@@ -34,7 +33,7 @@ export default async (event: APIGatewayEvent): Promise<C008Response> => {
   const targets = getRandom(queryResult.Items, WORDS_LIMIT);
 
   // 単語明細情報を取得する
-  const tasks = targets.map(item => client.get(queryItem_words(WORDS_TABLE, (item as GroupsItem).word as string)).promise());
+  const tasks = targets.map(item => DBUtils.get(queryItem_words(WORDS_TABLE, (item as GroupsItem).word as string)).promise());
   const wordsInfo = await Promise.all(tasks);
 
   // 返却結果

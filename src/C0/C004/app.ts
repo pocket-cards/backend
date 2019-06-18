@@ -5,8 +5,6 @@ import { updateItem_groups } from './db';
 import { C004Request } from '@typings/api';
 import { getNow, getNextTime } from '@utils/utils';
 
-let client: DynamoDB.DocumentClient;
-
 // 環境変数
 const GROUPS_TABLE = process.env.GROUPS_TABLE as string;
 
@@ -20,7 +18,7 @@ export default async (event: APIGatewayEvent): Promise<void> => {
   const input = JSON.parse(event.body) as C004Request;
 
   // DynamoDB Client 初期化
-  client = dynamoDB(client);
+  const client = dynamoDB();
 
   const lastTime = getNow();
 
