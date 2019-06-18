@@ -57,6 +57,8 @@ export default async (event: APIGatewayEvent): Promise<void> => {
   const getTasks = input.words.map(item => DBUtils.get(getItem_words(WORDS_TABLE, item)).promise());
   const getResults = await Promise.all(getTasks);
 
+  console.log('検索結果', getResults);
+
   const targets: string[] = [];
   input.words.forEach((item, idx) => {
     const dbInfo = getResults[idx].Item;

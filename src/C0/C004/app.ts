@@ -22,7 +22,7 @@ export default async (event: APIGatewayEvent): Promise<void> => {
   const times = input.correct ? input.times + 1 : 0;
   const nextTime = input.correct ? getNextTime(input.times) : getNextTime(0);
 
-  await DBUtils.update(
+  await DBUtils.updateAsync(
     updateItem_groups(GROUPS_TABLE, {
       id: groupId,
       word,
@@ -30,5 +30,5 @@ export default async (event: APIGatewayEvent): Promise<void> => {
       nextTime,
       times,
     })
-  ).promise();
+  );
 };

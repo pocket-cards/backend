@@ -22,9 +22,32 @@ export const query = (input: DynamoDB.DocumentClient.QueryInput) => {
   return dynamoDB().query(input);
 };
 
+export const queryAsync = async (input: DynamoDB.DocumentClient.QueryInput) => {
+  console.log(input);
+
+  // クエリ実行
+  const result = await dynamoDB()
+    .query(input)
+    .promise();
+
+  console.log(result);
+
+  return result;
+};
+
 /** Update */
 export const update = (input: DynamoDB.DocumentClient.UpdateItemInput) => {
   console.log(input);
 
   return dynamoDB().update(input);
+};
+
+export const updateAsync = async (input: DynamoDB.DocumentClient.UpdateItemInput) => {
+  console.log(input);
+
+  const result = await dynamoDB().update(input);
+
+  console.log(result);
+
+  return result;
 };

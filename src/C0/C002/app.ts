@@ -13,7 +13,7 @@ export const app = async (event: APIGatewayEvent): Promise<ResponseBody[]> => {
 
   const groupId = event.pathParameters['groupId'];
 
-  const queryResult = await DBUtils.query(queryItem_groups(groupId)).promise();
+  const queryResult = await DBUtils.queryAsync(queryItem_groups(groupId));
 
   // 検索結果０件の場合
   if (queryResult.Count === 0 || !queryResult.Items) {
