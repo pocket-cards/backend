@@ -1,5 +1,5 @@
 import { APIGatewayEvent } from 'aws-lambda';
-import { GroupsItem } from '@typings/tables';
+import { GroupWordsItem } from '@typings/tables';
 import { queryItem_words, queryItem_groups } from './db';
 import { C007Response, WordItem } from '@typings/api';
 import * as DBUtils from '@utils/dbutils';
@@ -28,7 +28,7 @@ export default async (event: APIGatewayEvent): Promise<C007Response> => {
   const targets = queryResult.Items.length > WORDS_LIMIT ? queryResult.Items.slice(0, WORDS_LIMIT) : queryResult.Items;
 
   // 単語明細情報を取得する
-  const tasks = targets.map(item => DBUtils.get(queryItem_words(WORDS_TABLE, (item as GroupsItem).word as string)).promise());
+  const tasks = targets.map(item => DBUtils.get(queryItem_words(WORDS_TABLE, (item as GroupWordsItem).word as string)).promise());
   const wordsInfo = await Promise.all(tasks);
 
   console.log('検索結果', wordsInfo);

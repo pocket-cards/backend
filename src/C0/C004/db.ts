@@ -1,5 +1,5 @@
 import { DynamoDB } from 'aws-sdk';
-import { GroupsItem } from '@typings/tables';
+import { GroupWordsItem } from '@typings/tables';
 
 /**
  * 新規学習単語対象一覧を取得する
@@ -33,7 +33,7 @@ export const getItem_groups = (table: string, groupId: string, word: string) =>
   } as DynamoDB.DocumentClient.GetItemInput);
 
 /** 単語情報を更新する */
-export const updateItem_groups = (table: string, item: GroupsItem) =>
+export const updateItem_groups = (table: string, item: GroupWordsItem) =>
   ({
     TableName: table,
     Key: {

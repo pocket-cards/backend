@@ -1,5 +1,5 @@
 import { DynamoDB } from 'aws-sdk';
-import { WordsItem, GroupsItem } from '@typings/tables';
+import { WordsItem, GroupWordsItem } from '@typings/tables';
 
 /** Words Tableデータ検索 */
 export const getItem_words = (tableName: string, word: string) =>
@@ -19,7 +19,7 @@ export const putItem_words = (tableName: string, word: WordsItem) =>
   } as DynamoDB.DocumentClient.PutItemInput);
 
 /** Group Tableデータ登録 */
-export const putItem_groups = (tableName: string, item: GroupsItem) =>
+export const putItem_groups = (tableName: string, item: GroupWordsItem) =>
   ({
     TableName: tableName,
     Item: item,

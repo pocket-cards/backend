@@ -1,6 +1,6 @@
 import { APIGatewayEvent } from 'aws-lambda';
 import { dynamoDB } from '@utils/clientUtils';
-import { GroupsItem } from '@typings/tables';
+import { GroupWordsItem } from '@typings/tables';
 import { queryItem_words, queryItem_groups } from './db';
 import { C006Response, WordItem } from '@typings/api';
 import * as moment from 'moment';
@@ -28,7 +28,7 @@ export default async (event: APIGatewayEvent): Promise<C006Response> => {
 
   console.log(`Count: ${queryResult.Count}`);
 
-  const items = queryResult.Items as GroupsItem[];
+  const items = queryResult.Items as GroupWordsItem[];
 
   items.sort((a, b) => {
     if (!a.lastTime && b.lastTime) return 1;
@@ -41,7 +41,7 @@ export default async (event: APIGatewayEvent): Promise<C006Response> => {
   const targets = items.length > WORDS_LIMIT ? items.slice(0, WORDS_LIMIT) : items;
 
   // 単語明細情報を取得する
-  const tasks = targets.map(item => DBUtils.get(queryItem_words(WORDS_TABLE, (item as GroupsItem).word as string)).promise());
+  const tasks = targets.map(item => DBUtils.get(queryItem_words(WORDS_TABLE, (item as GroupWordsItem).word as string)).promise());
   const wordsInfo = await Promise.all(tasks);
 
   console.log('検索結果', wordsInfo);

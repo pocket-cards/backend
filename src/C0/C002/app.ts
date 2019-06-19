@@ -1,7 +1,7 @@
 import { DynamoDB } from 'aws-sdk';
 import { APIGatewayEvent } from 'aws-lambda';
 import { ResponseBody } from './index';
-import { GroupsItem } from '@typings/tables';
+import { GroupWordsItem } from '@typings/tables';
 import * as DBUtils from '@utils/dbutils';
 
 const GROUPS_TABLE = process.env.GROUPS_TABLE as string;
@@ -24,7 +24,7 @@ export const app = async (event: APIGatewayEvent): Promise<ResponseBody[]> => {
   return queryResult.Items.map(
     item =>
       ({
-        word: (item as GroupsItem).word,
+        word: (item as GroupWordsItem).word,
       } as ResponseBody)
   );
 };

@@ -1,7 +1,7 @@
 import { APIGatewayEvent, Callback } from 'aws-lambda';
 import app from './app';
 import validate from './validator';
-import { GroupsItem } from '@typings/tables';
+import { GroupWordsItem } from '@typings/tables';
 import { BaseResponse, C007Response } from '@typings/api';
 
 // イベント入口
@@ -51,4 +51,4 @@ export interface RequestBody {
   words: string[];
 }
 
-export interface ResponseBody extends GroupsItem {}
+export interface ResponseBody extends GroupWordsItem {}

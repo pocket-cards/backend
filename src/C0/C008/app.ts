@@ -1,6 +1,6 @@
 import { DynamoDB } from 'aws-sdk';
 import { APIGatewayEvent } from 'aws-lambda';
-import { GroupsItem } from '@typings/tables';
+import { GroupWordsItem } from '@typings/tables';
 import { queryItem_words, queryItem_groups } from './db';
 import { C008Response, WordItem } from '@typings/api';
 import * as DBUtils from '@utils/dbutils';
@@ -30,7 +30,7 @@ export default async (event: APIGatewayEvent): Promise<C008Response> => {
 
   console.log('対象単語', targets);
   // 単語明細情報を取得する
-  const tasks = targets.map(item => DBUtils.get(queryItem_words(WORDS_TABLE, (item as GroupsItem).word as string)).promise());
+  const tasks = targets.map(item => DBUtils.get(queryItem_words(WORDS_TABLE, (item as GroupWordsItem).word as string)).promise());
   const wordsInfo = await Promise.all(tasks);
 
   console.log('検索結果', wordsInfo);
