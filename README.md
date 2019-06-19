@@ -20,9 +20,9 @@
 | **Deleted** | /speech                        | GET         | D002        | word to speech         |
 |             | dynaomdb stream                |             | S001        | 履歴テーブルに保存する |
 
-## Search Conditions
+## UserInfo
 
-### UserInfo
+### Definition
 
 | Key      | Describe       |
 | -------- | -------------- |
@@ -31,11 +31,15 @@
 | email    | メールアドレス |
 | nickName | 名前           |
 
+### Search Conditions
+
 | Status        | Conditions   |
 | ------------- | ------------ |
 | User Settings | UserId = xxx |
 
-### GroupInfo
+## GroupInfo
+
+### Definition
 
 | Key       | Describe   |
 | --------- | ---------- |
@@ -43,10 +47,14 @@
 | groupId   | RangeKey   |
 | groupName | グループ名 |
 
+### GSI Definition
+
 | Key     | Describe      |
 | ------- | ------------- |
 | groupId | HashKey (GSI) |
 | userId  |               |
+
+### Search Conditions
 
 | Status             | Conditions                  | Index |
 | ------------------ | --------------------------- | ----- |
@@ -55,7 +63,7 @@
 
 ## GroupWords
 
-### Normal Definition
+### Definition
 
 | Key      | Describe |
 | -------- | -------- |
@@ -88,7 +96,7 @@
 
 ## WordDict
 
-### Normal Definition
+### Definition
 
 | Key       | Describe   |
 | --------- | ---------- |
@@ -107,7 +115,7 @@
 
 ## Histroy
 
-### Normal Definition
+### Definition
 
 | Key       | Describe |
 | --------- | -------- |
