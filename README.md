@@ -24,12 +24,12 @@
 
 ### Definition
 
-| Key      | Describe       |
-| -------- | -------------- |
-| userId   | HashKey        |
-| target   | 毎日単語目標数 |
-| email    | メールアドレス |
-| nickName | 名前           |
+| Item     | Key  | LSI1 | LSI2 | GSI1 | GSI2 |
+| -------- | ---- | ---- | ---- | ---- | ---- |
+| userId   | Hash |      |      |      |      |
+| target   |      |      |      |      |      |
+| email    |      |      |      |      |      |
+| nickName |      |      |      |      |      |
 
 ### Search Conditions
 
@@ -41,18 +41,11 @@
 
 ### Definition
 
-| Key       | Describe   |
-| --------- | ---------- |
-| userId    | HashKey    |
-| groupId   | RangeKey   |
-| groupName | グループ名 |
-
-### GSI Definition
-
-| Key     | Describe      |
-| ------- | ------------- |
-| groupId | HashKey (GSI) |
-| userId  |               |
+| Item      | Key   | LSI1 | LSI2 | GSI1 | GSI2 |
+| --------- | ----- | ---- | ---- | ---- | ---- |
+| userId    | Hash  |      |      | 〇   |      |
+| groupId   | Range |      |      | Hash |      |
+| groupName |       |      |      |      |      |
 
 ### Search Conditions
 
@@ -65,23 +58,13 @@
 
 ### Definition
 
-| Key      | Describe |
-| -------- | -------- |
-| groupId  | HashKey  |
-| word     | RangeKey |
-| nextTime |          |
-| lastTime |          |
-| times    |          |
-
-### LSI Definition
-
-| Key      | Describe    |
-| -------- | ----------- |
-| groupId  | Hash        |
-| nextTime | Range (LSI) |
-| nextTime |             |
-| lastTime |             |
-| times    |             |
+| Item     | Key   | LSI1  | LSI2 | GSI1 | GSI2 |
+| -------- | ----- | ----- | ---- | ---- | ---- |
+| groupId  | Hash  | Hash  |      |      |      |
+| word     | Range | 〇    |      |      |      |
+| nextTime |       | Range |      |      |      |
+| lastTime |       |       |      |      |      |
+| times    |       | 〇    |      |      |      |
 
 ### Search Conditions
 
@@ -98,13 +81,13 @@
 
 ### Definition
 
-| Key       | Describe   |
-| --------- | ---------- |
-| word      | HashKey    |
-| mp3       | 音声データ |
-| pronounce | 発音記号   |
-| ja        | 日本語翻訳 |
-| zh        | 中国語翻訳 |
+| Item      | Key  | LSI1 | LSI2 | GSI1 | GSI2 |
+| --------- | ---- | ---- | ---- | ---- | ---- |
+| word      | Hash |      |      |      |      |
+| mp3       |      |      |      |      |      |
+| pronounce |      |      |      |      |      |
+| ja        |      |      |      |      |      |
+| zh        |      |      |      |      |      |
 
 ### Search Conditions
 
