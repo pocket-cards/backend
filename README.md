@@ -33,9 +33,10 @@
 
 ### Search Conditions
 
-| Status        | Conditions   |
-| ------------- | ------------ |
-| User Settings | UserId = xxx |
+| Status       | Conditions   |
+| ------------ | ------------ |
+| Get Settings | UserId = xxx |
+| Put Settings | UserId = xxx |
 
 ## GroupInfo
 
@@ -49,10 +50,12 @@
 
 ### Search Conditions
 
-| Status             | Conditions                  | Index |
-| ------------------ | --------------------------- | ----- |
-| Get Group Settings | UserId = xxx, GroupId = xxx |       |
-| Get UserId         | GroupId = xxx               | GSI   |
+| Status       | Conditions                  | Index |
+| ------------ | --------------------------- | ----- |
+| Get Settings | UserId = xxx, GroupId = xxx |       |
+| Put Settings | UserId = xxx, GroupId = xxx |       |
+| Del Settings | UserId = xxx, GroupId = xxx |       |
+| Get UserId   | GroupId = xxx               | GSI   |
 
 ## GroupWords
 
@@ -100,18 +103,17 @@
 
 ### Definition
 
-| Key       | Describe |
-| --------- | -------- |
-| userId    | HashKey  |
-| timestamp | RangeKey |
-| word      | 単語     |
-| times     | 学習回数 |
+| Item      | Key   | LSI1 | LSI2 | GSI1 | GSI2 |
+| --------- | ----- | ---- | ---- | ---- | ---- |
+| userId    | Hash  |      |      |      |      |
+| timestamp | Range |      |      |      |      |
+| word      |       |      |      |      |      |
+| times     |       |      |      |      |      |
 
 ### Search Conditions
 
-| Status      | Conditions                                  |
-| ----------- | ------------------------------------------- |
-| Get Daily   | UserId = xxx, Timestamp begin_with YYYYMMDD |
-| Get Weekly  | UserId = xxx, Timestamp >= YYYYMMDD         |
-| Get Monthly | UserId = xxx, Timestamp >= YYYYMMDD         |
-| Put Word    | Word = xxx                                  |
+| Status      | Conditions                                   |
+| ----------- | -------------------------------------------- |
+| Get Daily   | UserId = xxx, Timestamp begin_with YYYYMMDD  |
+| Get Weekly  | UserId = xxx, Timestamp >= YYYYMMDD000000000 |
+| Get Monthly | UserId = xxx, Timestamp >= YYYYMMDD000000000 |
