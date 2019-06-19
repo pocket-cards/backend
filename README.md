@@ -22,6 +22,61 @@
 
 ## Search Conditions
 
+### UserInfo
+
+| Key      | Describe       |
+| -------- | -------------- |
+| userId   | HashKey        |
+| target   | 毎日単語目標数 |
+| email    | メールアドレス |
+| nickName | 名前           |
+
+| Status        | Conditions   |
+| ------------- | ------------ |
+| User Settings | UserId = xxx |
+
+### GroupInfo
+
+| Key       | Describe   |
+| --------- | ---------- |
+| userId    | HashKey    |
+| groupId   | RangeKey   |
+| groupName | グループ名 |
+
+| Key     | Describe      |
+| ------- | ------------- |
+| groupId | HashKey (GSI) |
+| userId  |               |
+
+| Status             | Conditions                  | Index |
+| ------------------ | --------------------------- | ----- |
+| Get Group Settings | UserId = xxx, GroupId = xxx |       |
+| Get UserId         | GroupId = xxx               | GSI   |
+
+## GroupWords
+
+### Normal Definition
+
+| Key      | Describe |
+| -------- | -------- |
+| groupId  | HashKey  |
+| word     | RangeKey |
+| nextTime |          |
+| lastTime |          |
+| times    |          |
+
+### LSI Definition
+
+| Key      | Describe    |
+| -------- | ----------- |
+| groupId  | Hash        |
+| nextTime | Range (LSI) |
+| nextTime |             |
+| lastTime |             |
+| times    |             |
+
+### Search Conditions
+
 | Status         | Conditions                                             |
 | -------------- | ------------------------------------------------------ |
 | New Targets    | Times = 0, NextTime <= now, NextTime ASC               |
@@ -30,3 +85,42 @@
 | Test Targets   | Times <> 0, NextTime <= now                            |
 | Test Success   | Times = Times + 1, LastTime = now, NextTime = now + x  |
 | Test Failure   | Times = 0, LastTime = now, NextTime = now              |
+
+## WordDict
+
+### Normal Definition
+
+| Key       | Describe   |
+| --------- | ---------- |
+| word      | HashKey    |
+| mp3       | 音声データ |
+| pronounce | 発音記号   |
+| ja        | 日本語翻訳 |
+| zh        | 中国語翻訳 |
+
+### Search Conditions
+
+| Status   | Conditions |
+| -------- | ---------- |
+| Get Word | Word = xxx |
+| Put Word | Word = xxx |
+
+## Histroy
+
+### Normal Definition
+
+| Key       | Describe |
+| --------- | -------- |
+| userId    | HashKey  |
+| timestamp | RangeKey |
+| word      | 単語     |
+| times     | 学習回数 |
+
+### Search Conditions
+
+| Status      | Conditions                                  |
+| ----------- | ------------------------------------------- |
+| Get Daily   | UserId = xxx, Timestamp begin_with YYYYMMDD |
+| Get Weekly  | UserId = xxx, Timestamp >= YYYYMMDD         |
+| Get Monthly | UserId = xxx, Timestamp >= YYYYMMDD         |
+| Put Word    | Word = xxx                                  |
