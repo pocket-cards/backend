@@ -12,7 +12,7 @@ export const handler = async (event: DynamoDBStreamEvent): Promise<void> => {
     await validate(event);
 
     // 本処理
-    const result = app(event);
+    const result = await app(event);
 
     // 本処理結果
     console.log(result);

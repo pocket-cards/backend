@@ -1,35 +1,27 @@
 import { DynamoDB } from 'aws-sdk';
 import { getNow } from '@utils/utils';
+import { HistoryItem } from '@typings/tables';
 
 /**
- * 新規学習単語対象一覧を取得する
- * 対象：  Times = 0, NextTime <= now, NextTime DESC
+ * グループIDより、ユーザIDを検索する
  */
-export const queryItem_groups = (table: string, groupId: string) =>
+export const queryItem_userGroups = (table: string, groupId: string) =>
   ({
     TableName: table,
-    ProjectionExpression: 'nextTime, lastTime, word, times',
-    KeyConditionExpression: '#id = :id and #nextTime <= :nextTime',
-    FilterExpression: '#times = :times',
+    ProjectionExpression: 'userId',
+    KeyConditionExpression: '#groupId = :groupId',
     ExpressionAttributeNames: {
-      '#id': 'id',
-      '#times': 'times',
-      '#nextTime': 'nextTime',
+      '#groupId': 'groupId',
     },
     ExpressionAttributeValues: {
-      ':id': groupId,
-      ':times': 0,
-      ':nextTime': getNow(),
+      ':groupId': groupId,
     },
-    IndexName: 'lsiIdx1',
-    ScanIndexForward: false,
+    IndexName: 'gsiIdx1',
   } as DynamoDB.DocumentClient.QueryInput);
 
-/** 単語情報を取得する */
-export const queryItem_words = (table: string, word: string) =>
+/** 履歴情報を登録する */
+export const putItem_history = (table: string, item: HistoryItem) =>
   ({
     TableName: table,
-    Key: {
-      word: word,
-    },
-  } as DynamoDB.DocumentClient.GetItemInput);
+    Item: item,
+  } as DynamoDB.DocumentClient.PutItemInput);
