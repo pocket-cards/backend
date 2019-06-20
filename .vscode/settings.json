@@ -1,17 +1,13 @@
 {
   "yaml.validate": false,
   "files.exclude": {
-    "**/.git": true,
-    "**/.svn": true,
-    "**/.hg": true,
-    "**/CVS": true,
     "**/.DS_Store": true,
-    "node_modules": true,
-    // "src": true,
-    "**/A0": true,
+    "**/.git": true,
+    "**/.hg": true,
+    "**/.svn": true,
     "**/B0": true,
-    "**/X0": true
-    // "**/D0": true
-    // "**/Z0": true
+    "**/CVS": true,
+    "**/X0": true,
+    "node_modules": true
   }
 }

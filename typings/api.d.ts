@@ -24,6 +24,16 @@ export interface WordItem {
   // 回数
   times: number;
 }
+// ------------------------------
+// A002
+// ------------------------------
+export interface A002Request {}
+
+export interface A002Response {
+  daily: number;
+  weekly: number;
+  monthly: number;
+}
 
 // ------------------------------
 // C001
