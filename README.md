@@ -2,8 +2,8 @@
 
 | Status      | Path                           | Http Method | Function ID | Comment                |
 | ----------- | ------------------------------ | ----------- | ----------- | ---------------------- |
-|             | /regist                        | POST        | A001        | ユーザ登録             |
-|             | /login                         | POST        | A002        | ユーザログイン         |
+|             | /users/{userId}                | GET         | A001        | ユーザ情報取得         |
+|             | /users/{userId}/history        | GET         | A002        | 学習履歴取得           |
 |             | /groups                        | POST        | B001        | グループ登録           |
 |             | /groups/{groupId}              | GET         | B002        | グループ情報取得       |
 |             | /groups/{groupId}              | PUT         | B003        | グループ情報変更       |

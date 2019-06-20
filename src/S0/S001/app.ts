@@ -9,31 +9,38 @@ const HISTORY_TABLE = process.env.HISTORY_TABLE as string;
 const USER_GROUPS_TABLE = process.env.USER_GROUPS_TABLE as string;
 
 const EVENT_NAME = 'MODIFY';
+const GROUP_IDS: { [key: string]: string } = {};
 
 export default async (event: DynamoDBStreamEvent): Promise<void> => {
-  console.log(process.env);
-  const tasks = event.Records.map(async record => {
+  // ユーザIDを確認する
+  for (const idx in event.Records) {
+    const record = event.Records[idx];
     const db = record.dynamodb;
     const newImage = db && db.NewImage;
 
     // 更新以外処理しない
     if (record.eventName !== EVENT_NAME || !db || !newImage) {
-      return;
+      continue;
     }
 
-    // 検索結果
-    const ugResult = await queryAsync(queryItem_userGroups(USER_GROUPS_TABLE, newImage['id'].S as string));
+    const groupId = newImage['id'].S as string;
 
-    console.log('User Search Success...');
-    // 検索結果０件
-    if (ugResult.Count === 0 || !ugResult.Items) {
-      return;
+    // すでに存在する
+    if (Object.keys(GROUP_IDS).includes(groupId)) {
+      continue;
     }
 
-    // 履歴追加する
+    // ユーザIDを検索する
+    const ugResult = await queryAsync(queryItem_userGroups(USER_GROUPS_TABLE, groupId));
+
+    if (!ugResult.Items) continue;
+
+    // 保存する
+    GROUP_IDS[groupId] = ((ugResult.Items[0] as unknown) as UserGroupsItem).userId;
+
     await putAsync(
       putItem_history(HISTORY_TABLE, {
-        userId: (ugResult.Items[0] as UserGroupsItem).userId,
+        userId: GROUP_IDS[groupId],
         timestamp: moment().format('YYYYMMDDHHmmssSSS'),
         word: newImage['word'].S,
         groupId: newImage['id'].S,
@@ -41,7 +48,5 @@ export default async (event: DynamoDBStreamEvent): Promise<void> => {
         times: Number(newImage['times'].N),
       })
     );
-  });
-
-  await Promise.all(tasks);
+  }
 };
