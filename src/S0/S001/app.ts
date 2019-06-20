@@ -25,18 +25,16 @@ export default async (event: DynamoDBStreamEvent): Promise<void> => {
 
     const groupId = newImage['id'].S as string;
 
-    // すでに存在する
-    if (Object.keys(GROUP_IDS).includes(groupId)) {
-      continue;
+    // 存在しない場合、検索し、保存する
+    if (!Object.keys(GROUP_IDS).includes(groupId)) {
+      // ユーザIDを検索する
+      const ugResult = await queryAsync(queryItem_userGroups(USER_GROUPS_TABLE, groupId));
+
+      if (!ugResult.Items) continue;
+
+      // 保存する
+      GROUP_IDS[groupId] = ((ugResult.Items[0] as unknown) as UserGroupsItem).userId;
     }
-
-    // ユーザIDを検索する
-    const ugResult = await queryAsync(queryItem_userGroups(USER_GROUPS_TABLE, groupId));
-
-    if (!ugResult.Items) continue;
-
-    // 保存する
-    GROUP_IDS[groupId] = ((ugResult.Items[0] as unknown) as UserGroupsItem).userId;
 
     await putAsync(
       putItem_history(HISTORY_TABLE, {
