@@ -10,7 +10,7 @@ const HISTORY_TABLE = process.env.HISTORY_TABLE as string;
 const TIMESTAMP_ENDFIX = '000000000';
 
 export default async (event: APIGatewayEvent): Promise<A002Response> => {
-  if (!event.body || !event.pathParameters) {
+  if (!event.pathParameters) {
     return EmptyResponse();
   }
 
