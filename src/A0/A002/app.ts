@@ -4,6 +4,7 @@ import { queryAsync } from '@utils/dbutils';
 import moment = require('moment');
 import { queryItem_history } from './db';
 import { A002Response } from '@typings/api';
+import * as _ from 'lodash';
 
 // 環境変数
 const HISTORY_TABLE = process.env.HISTORY_TABLE as string;
@@ -28,24 +29,32 @@ export default async (event: APIGatewayEvent): Promise<A002Response> => {
 
   const results = await queryAsync(queryItem_history(HISTORY_TABLE, userId, `${day3}`));
 
+  const items = results.Items;
   // 検索結果なし
-  if (results.Count === 0 || !results.Items) {
+  if (results.Count === 0 || !items) {
     return EmptyResponse();
   }
 
-  const daily = results.Items.filter(item => (item as HistoryItem).timestamp >= day1).length;
-  const weekly = results.Items.filter(item => (item as HistoryItem).timestamp >= day2).length;
-  const monthly = results.Items.filter(item => (item as HistoryItem).timestamp >= day3).length;
+  const daily = items.filter(item => (item as HistoryItem).timestamp >= day1);
+  const dailyNew = daily.filter(item => (item as HistoryItem).times === 1);
+  const weekly = items.filter(item => (item as HistoryItem).timestamp >= day2).length;
+  const monthly = items.filter(item => (item as HistoryItem).timestamp >= day3).length;
 
   return {
-    daily,
+    daily: {
+      total: daily.length,
+      new: dailyNew.length,
+    },
     weekly,
     monthly,
   };
 };
 
 const EmptyResponse = (): A002Response => ({
-  daily: 0,
+  daily: {
+    new: 0,
+    total: 0,
+  },
   monthly: 0,
   weekly: 0,
 });

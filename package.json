@@ -13,6 +13,7 @@
   "dependencies": {
     "aws-xray-sdk": "^2.3.3",
     "axios": "^0.18.0",
+    "lodash": "^4.17.11",
     "moment": "^2.24.0",
     "short-uuid": "^3.1.1"
   },
@@ -22,6 +23,7 @@
     "@types/chai": "^4.1.7",
     "@types/jest": "^24.0.13",
     "@types/jszip": "^3.1.5",
+    "@types/lodash": "^4.14.134",
     "@types/mkdirp": "^0.5.2",
     "@types/mocha": "^5.2.6",
     "@types/node": "^12.0.0",

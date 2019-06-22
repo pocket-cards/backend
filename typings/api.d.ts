@@ -30,7 +30,10 @@ export interface WordItem {
 export interface A002Request {}
 
 export interface A002Response {
-  daily: number;
+  daily: {
+    total: number;
+    new: number;
+  };
   weekly: number;
   monthly: number;
 }
