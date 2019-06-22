@@ -1,0 +1,10 @@
+{
+  "name": "s001",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "generate": "sam local generate-event apigateway aws-proxy > test001.json",
+    "test001": "sam local invoke A002 -t template.yml -e test001.json"
+  }
+}

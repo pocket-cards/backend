@@ -63,12 +63,14 @@ Resources:
             Method: POST
       Environment:
         Variables:
-          WORDS_TABLE: dummy
-          GROUPS_TABLE: dummy
-          IPA_URL: dummy
-          IPA_API_KEY: dummy
-          MP3_BUCKET: dummy
-          CDN_PATH : dummy
+          WORDS_TABLE: PocketCards_Words,
+          GROUPS_TABLE: PocketCards_Groups,
+          IPA_URL: https://m1rb1oo72l.execute-api.ap-northeast-1.amazonaws.com/v1,
+          IPA_API_KEY: /pocket-cards/ipa_api_key,
+          MP3_BUCKET: pocket-cards-mp3,
+          TRANSLATION_URL: https://translation.googleapis.com/language/translate/v2,
+          TRANSLATION_API_KEY: /pocket-cards/translation_api_key,
+          PATH_PATTERN: audio
   # ---------------------------------------
   # Path: /groups/{groupId}/words
   # Method: GET

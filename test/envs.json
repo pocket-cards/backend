@@ -9,11 +9,14 @@
     "IMAGE_BUCKET": "pocket-cards-images"
   },
   "C001": {
-    "WORDS_TABLE": "Words",
-    "GROUPS_TABLE": "Groups",
+    "WORDS_TABLE": "PocketCards_Words",
+    "GROUPS_TABLE": "PocketCards_Groups",
     "IPA_URL": "https://m1rb1oo72l.execute-api.ap-northeast-1.amazonaws.com/v1",
-    "IPA_API_KEY": "FWbGwQrIIw3oqqIWy8O7W8lubvbAIpcG2Whor10b",
-    "MP3_BUCKET": "pocket-cards-mp3"
+    "IPA_API_KEY": "/pocket-cards/ipa_api_key",
+    "MP3_BUCKET": "pocket-cards-mp3",
+    "TRANSLATION_URL": "https://translation.googleapis.com/language/translate/v2",
+    "TRANSLATION_API_KEY": "/pocket-cards/translation_api_key",
+    "PATH_PATTERN": "audio"
   },
   "C002": {
     "WORDS_TABLE": "Words",

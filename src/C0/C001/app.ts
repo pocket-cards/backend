@@ -69,6 +69,7 @@ export default async (event: APIGatewayEvent): Promise<void> => {
 
   console.log('単語の存在チェックは完了しました.');
 
+  console.log('対象数:', targets.length);
   // すでに辞書に存在しました
   if (targets.length === 0) {
     return;
