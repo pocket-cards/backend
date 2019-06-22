@@ -14,7 +14,7 @@ const start = async () => {
   const results = await client
     .scan({
       TableName: 'PocketCards_Words',
-      ProjectionExpression: 'word,mp3',
+      ProjectionExpression: 'word',
     })
     .promise();
 
@@ -27,10 +27,7 @@ const start = async () => {
     const item = results.Items[idx];
     const word = item.word;
 
-    if ((item.mp3 as string).indexOf('-') === -1) {
-      continue;
-    }
-    console.log(word, item.mp3);
+    console.log(word);
     const key = await getMP3(word);
 
     await client
@@ -60,9 +57,9 @@ const getMP3 = async (word: string): Promise<string> => {
   const request: Polly.SynthesizeSpeechInput = {
     Text: word,
     TextType: 'text',
-    VoiceId: 'Amy',
+    VoiceId: 'Salli',
     OutputFormat: 'mp3',
-    LanguageCode: 'en-GB',
+    LanguageCode: 'en-US',
   };
 
   const response = await client.synthesizeSpeech(request).promise();
