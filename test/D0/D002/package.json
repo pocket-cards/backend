@@ -4,6 +4,6 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "test001": "sam local invoke D002 -t ./test/D0/D002/template.yml -e ./test/D0/D002/test001.json"
+    "test001": "sam local invoke D002 -t ./template.yml -e ./test001.json"
   }
 }

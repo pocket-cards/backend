@@ -5,13 +5,10 @@ Resources:
   D002:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      CodeUri: ../../../build/D0/D002/
+      CodeUri: ../../../build/D0_D002/
       Handler: index.handler
       Runtime: nodejs8.10
-      Events:
-        HelloWorld:
-          Type: Api
-          Properties:
-            Path: /hello/aaa
-            Method: get
-
+      Environment:
+        Variables:
+          IMAGE_BUCKET: pocket-cards-images
+          TZ: Asia/Tokyo
