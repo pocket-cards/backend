@@ -33,6 +33,7 @@ export interface A002Response {
   daily: {
     total: number;
     new: number;
+    review: number;
   };
   weekly: number;
   monthly: number;
