@@ -17,9 +17,10 @@ export default async (event: DynamoDBStreamEvent): Promise<void> => {
     const record = event.Records[idx];
     const db = record.dynamodb;
     const newImage = db && db.NewImage;
+    const oldImage = db && db.OldImage;
 
     // 更新以外処理しない
-    if (record.eventName !== EVENT_NAME || !db || !newImage) {
+    if (record.eventName !== EVENT_NAME || !db || !newImage || !oldImage) {
       continue;
     }
 
@@ -42,7 +43,7 @@ export default async (event: DynamoDBStreamEvent): Promise<void> => {
         timestamp: moment().format('YYYYMMDDHHmmssSSS'),
         word: newImage['word'].S,
         groupId: newImage['id'].S,
-        lastTime: newImage['lastTime'].S,
+        lastTime: oldImage['lastTime'].S,
         times: Number(newImage['times'].N),
       })
     );
