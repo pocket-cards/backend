@@ -29,21 +29,23 @@ export default async (event: APIGatewayEvent): Promise<A002Response> => {
 
   const results = await queryAsync(queryItem_history(HISTORY_TABLE, userId, `${day3}`));
 
-  const items = results.Items;
+  const items = (results.Items as unknown) as HistoryItem[];
   // 検索結果なし
   if (results.Count === 0 || !items) {
     return EmptyResponse();
   }
 
-  const daily = items.filter(item => (item as HistoryItem).timestamp >= day1);
-  const dailyNew = daily.filter(item => (item as HistoryItem).times === 1);
-  const weekly = items.filter(item => (item as HistoryItem).timestamp >= day2).length;
-  const monthly = items.filter(item => (item as HistoryItem).timestamp >= day3).length;
+  const daily = items.filter(item => item.timestamp >= day1);
+  const dailyReview = daily.filter(item => item.times === 1 && item.lastTime);
+  const dailyNew = daily.filter(item => item.times === 1 && !item.lastTime);
+  const weekly = items.filter(item => item.timestamp >= day2).length;
+  const monthly = items.filter(item => item.timestamp >= day3).length;
 
   return {
     daily: {
       total: daily.length,
       new: dailyNew.length,
+      review: dailyReview.length,
     },
     weekly,
     monthly,
@@ -53,6 +55,7 @@ export default async (event: APIGatewayEvent): Promise<A002Response> => {
 const EmptyResponse = (): A002Response => ({
   daily: {
     new: 0,
+    review: 0,
     total: 0,
   },
   monthly: 0,
