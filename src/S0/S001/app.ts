@@ -43,7 +43,7 @@ export default async (event: DynamoDBStreamEvent): Promise<void> => {
         timestamp: moment().format('YYYYMMDDHHmmssSSS'),
         word: newImage['word'].S,
         groupId: newImage['id'].S,
-        lastTime: oldImage['lastTime'].S,
+        lastTime: oldImage['lastTime'] ? oldImage['lastTime'].S : undefined,
         times: Number(newImage['times'].N),
       })
     );
