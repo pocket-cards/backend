@@ -125,9 +125,9 @@ const getMP3 = async (word: string): Promise<string> => {
   const request: Polly.SynthesizeSpeechInput = {
     Text: word,
     TextType: 'text',
-    VoiceId: 'Amy',
+    VoiceId: 'Joanna',
     OutputFormat: 'mp3',
-    LanguageCode: 'en-GB',
+    LanguageCode: 'en-US',
   };
 
   const response = await client.synthesizeSpeech(request).promise();
