@@ -1,18 +1,40 @@
 import { CognitoUserPoolTriggerEvent } from 'aws-lambda';
-import { updateAsync } from '@utils/dbutils';
+import { updateAsync, putAsync } from '@utils/dbutils';
 import { getNow } from '@utils/utils';
-import { updateItem_users } from './db';
+import { updateItem_users, putItem_users } from './db';
 
 // 環境変数
 const USERS_TABLE = process.env.USERS_TABLE as string;
 
 export default async (event: CognitoUserPoolTriggerEvent): Promise<void> => {
-  if (event.triggerSource !== 'PostAuthentication_Authentication' || !event.userName) {
-    return;
+  switch (event.triggerSource) {
+    case 'PostAuthentication_Authentication':
+      await postAuthentication(event);
+      break;
+    case 'PostConfirmation_ConfirmSignUp':
+      await postPostConfirmation(event);
+      break;
   }
+};
 
-  // ユーザ情報更新
+const postAuthentication = async (event: CognitoUserPoolTriggerEvent) => {
+  console.log('postAuthentication');
+
+  if (!event.userName) return;
+
   await updateAsync(updateItem_users(USERS_TABLE, event.userName, getNow()));
+};
 
-  console.log(event);
+const postPostConfirmation = async (event: CognitoUserPoolTriggerEvent) => {
+  if (!event.userName) return;
+
+  console.log('postPostConfirmation');
+  await putAsync(
+    putItem_users(USERS_TABLE, {
+      id: event.userName,
+      email: event.request.userAttributes['email'] as string,
+      login: getNow(),
+      lastLogin: getNow(),
+    })
+  );
 };

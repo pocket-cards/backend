@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "test001": "sam local invoke S002 -t template.yml -e test001.json"
+    "test001": "sam local invoke S002 -t template.yml -e test001.json",
+    "test002": "sam local invoke S002 -t template.yml -e test002.json"
   }
 }

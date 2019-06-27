@@ -25,7 +25,13 @@ export interface WordsItem {
 
 export interface UsersItem {
   // ユーザID
-  userId: string;
+  id: string;
+  // メール
+  email: string;
+  // 前回ログイン
+  lastLogin?: string;
+  // 直近ログイン
+  login?: string;
 }
 
 export interface UserGroupsItem {
