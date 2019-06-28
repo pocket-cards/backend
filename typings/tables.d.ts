@@ -32,6 +32,8 @@ export interface UsersItem {
   lastLogin?: string;
   // 直近ログイン
   login?: string;
+  // 最後の学習日付
+  studyQuery?: string;
 }
 
 export interface UserGroupsItem {
