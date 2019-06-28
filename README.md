@@ -1,25 +1,26 @@
 # pocket-cards-backend
 
-| Status      | Path                           | Http Method | Function ID | Comment                |
-| ----------- | ------------------------------ | ----------- | ----------- | ---------------------- |
-|             | /users/{userId}                | GET         | A001        | ユーザ情報取得         |
-|             | /users/{userId}/history        | GET         | A002        | 学習履歴取得           |
-|             | /groups                        | POST        | B001        | グループ登録           |
-|             | /groups/{groupId}              | GET         | B002        | グループ情報取得       |
-|             | /groups/{groupId}              | PUT         | B003        | グループ情報変更       |
-|             | /groups/{groupId}              | DELETE      | B004        | グループ情報削除       |
-|             | /groups/{groupId}/words        | POST        | C001        | 単語一括登録           |
-| **Deleted** | /groups/{groupId}/words        | GET         | C002        | 単語一覧取得           |
-|             | /groups/{groupId}/words/{word} | GET         | C003        | 単語情報取得           |
-|             | /groups/{groupId}/words/{word} | PUT         | C004        | 単語情報更新           |
-|             | /groups/{groupId}/words/{word} | DELETE      | C005        | 単語情報削除           |
-|             | /groups/{groupId}/new          | GET         | C006        | 新規学習モード単語一覧 |
-|             | /groups/{groupId}/test         | GET         | C007        | テストモード単語一覧   |
-|             | /groups/{groupId}/review       | GET         | C008        | 復習モード単語一覧     |
-|             | /image2text                    | POST        | D001        | 画像から単語に変換する |
-|             | /image2line                    | POST        | D002        | 画像から行に変換する   |
-|             | dynaomdb stream                |             | S001        | 履歴テーブルに保存する |
-|             | Cognito Sync Trigger           |             | S002        |                        |
+| Status      | Path                           | Http Method | Function ID | Comment                  |
+| ----------- | ------------------------------ | ----------- | ----------- | ------------------------ |
+|             | /users/{userId}                | GET         | A001        | ユーザ情報取得           |
+|             | /users/{userId}/history        | GET         | A002        | 学習履歴取得             |
+|             | /groups                        | POST        | B001        | グループ登録             |
+|             | /groups/{groupId}              | GET         | B002        | グループ情報取得         |
+|             | /groups/{groupId}              | PUT         | B003        | グループ情報変更         |
+|             | /groups/{groupId}              | DELETE      | B004        | グループ情報削除         |
+|             | /groups/{groupId}/words        | POST        | C001        | 単語一括登録             |
+| **Deleted** | /groups/{groupId}/words        | GET         | C002        | 単語一覧取得             |
+|             | /groups/{groupId}/words/{word} | GET         | C003        | 単語情報取得             |
+|             | /groups/{groupId}/words/{word} | PUT         | C004        | 単語情報更新             |
+|             | /groups/{groupId}/words/{word} | DELETE      | C005        | 単語情報削除             |
+|             | /groups/{groupId}/new          | GET         | C006        | 新規学習モード単語一覧   |
+|             | /groups/{groupId}/test         | GET         | C007        | テストモード単語一覧     |
+|             | /groups/{groupId}/review       | GET         | C008        | 復習モード単語一覧       |
+|             | /image2text                    | POST        | D001        | 画像から単語に変換する   |
+|             | /image2line                    | POST        | D002        | 画像から行に変換する     |
+|             | dynaomdb stream                |             | S001        | 履歴テーブルに保存する   |
+|             | Cognito Sync Trigger           |             | S002        |                          |
+|             |                                |             | S003        | 最後の学習時間を計算する |
 
 ## UserInfo
 
