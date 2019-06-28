@@ -1,6 +1,6 @@
 import * as XRay from 'aws-xray-sdk';
 import * as AWSSDK from 'aws-sdk';
-import { DynamoDB, Polly, S3, Translate, SSM } from 'aws-sdk';
+import { DynamoDB, Polly, S3, Translate, SSM, Lambda } from 'aws-sdk';
 
 const AWS = XRay.captureAWS(AWSSDK);
 
@@ -9,6 +9,7 @@ let pollyClient: Polly;
 let s3Client: S3;
 let translateClient: Translate;
 let ssmClient: SSM;
+let lambdaClient: Lambda;
 
 /** Dynamodb Client初期化 */
 export const dynamoDB = (options?: DynamoDB.DocumentClient.DocumentClientOptions & DynamoDB.Types.ClientConfiguration): DynamoDB.DocumentClient => {
@@ -75,6 +76,19 @@ export const ssm = (options?: SSM.ClientConfiguration): SSM => {
 
   // 初期化設定なし
   return new AWS.SSM({
+    region: process.env.DEFAULT_REGION,
+  });
+};
+
+export const lambda = (options?: Lambda.ClientConfiguration): Lambda => {
+  // 初期化済み
+  if (lambdaClient) return lambdaClient;
+
+  // 初期化設定あり
+  if (options) return new AWS.Lambda(options);
+
+  // 初期化設定なし
+  return new AWS.Lambda({
     region: process.env.DEFAULT_REGION,
   });
 };

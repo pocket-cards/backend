@@ -45,6 +45,11 @@ export const queryAsync = async (input: DynamoDB.DocumentClient.QueryInput) => {
   // 検索結果出力
   console.log(result);
 
+  // 上限ある場合、そのまま終了
+  if (input.Limit && input.Limit === result.Count) {
+    return result;
+  }
+
   if (result.LastEvaluatedKey) {
     const lastResult = await queryAsync({ ...input, ExclusiveStartKey: result.LastEvaluatedKey });
 
@@ -57,6 +62,11 @@ export const queryAsync = async (input: DynamoDB.DocumentClient.QueryInput) => {
     if (result.ScannedCount && lastResult.ScannedCount) {
       result.ScannedCount = result.ScannedCount + lastResult.ScannedCount;
     }
+  }
+
+  // 上限ある場合、そのまま終了
+  if (input.Limit && input.Limit === result.Count) {
+    return result;
   }
 
   return result;
