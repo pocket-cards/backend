@@ -1,0 +1,10 @@
+{
+  "name": "s002",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "test001": "sam local invoke S003 -t template.yml -e test001.json",
+    "test002": "sam local invoke S003 -t template.yml -e test002.json"
+  }
+}
