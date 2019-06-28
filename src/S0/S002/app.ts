@@ -1,10 +1,13 @@
 import { CognitoUserPoolTriggerEvent } from 'aws-lambda';
 import { updateAsync, putAsync } from '@utils/dbutils';
 import { getNow } from '@utils/utils';
+import { lambda } from '@utils/clientUtils';
 import { updateItem_users, putItem_users } from './db';
 
 // 環境変数
-const USERS_TABLE = process.env.USERS_TABLE as string;
+const TABLE_USERS = process.env.TABLE_USERS as string;
+const FUNCTION_NAME = process.env.FUNCTION_NAME as string;
+const FUNCTION_QUALIFIER = process.env.FUNCTION_QUALIFIER as string;
 
 export default async (event: CognitoUserPoolTriggerEvent): Promise<void> => {
   switch (event.triggerSource) {
@@ -22,7 +25,14 @@ const postAuthentication = async (event: CognitoUserPoolTriggerEvent) => {
 
   if (!event.userName) return;
 
-  await updateAsync(updateItem_users(USERS_TABLE, event.userName, getNow()));
+  await updateAsync(updateItem_users(TABLE_USERS, event.userName, getNow()));
+
+  await lambda().invoke({
+    FunctionName: FUNCTION_NAME,
+    InvocationType: 'Event',
+    Payload: event,
+    Qualifier: FUNCTION_QUALIFIER,
+  });
 };
 
 const postPostConfirmation = async (event: CognitoUserPoolTriggerEvent) => {
@@ -30,7 +40,7 @@ const postPostConfirmation = async (event: CognitoUserPoolTriggerEvent) => {
 
   console.log('postPostConfirmation');
   await putAsync(
-    putItem_users(USERS_TABLE, {
+    putItem_users(TABLE_USERS, {
       id: event.userName,
       email: event.request.userAttributes['email'] as string,
       login: getNow(),
