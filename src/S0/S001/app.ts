@@ -6,7 +6,7 @@ import { putItem_history, queryItem_userGroups } from './db';
 
 // 環境変数
 const TABLE_HISTORY = process.env.TABLE_HISTORY as string;
-const TABLE_GROUP_WORDS = process.env.TABLE_GROUP_WORDS as string;
+const TABLE_USER_GROUPS = process.env.TABLE_USER_GROUPS as string;
 
 const EVENT_NAME = 'MODIFY';
 const GROUP_IDS: { [key: string]: string } = {};
@@ -29,7 +29,7 @@ export default async (event: DynamoDBStreamEvent): Promise<void> => {
     // 存在しない場合、検索し、保存する
     if (!Object.keys(GROUP_IDS).includes(groupId)) {
       // ユーザIDを検索する
-      const ugResult = await queryAsync(queryItem_userGroups(TABLE_GROUP_WORDS, groupId));
+      const ugResult = await queryAsync(queryItem_userGroups(TABLE_USER_GROUPS, groupId));
 
       if (!ugResult.Items) continue;
 
