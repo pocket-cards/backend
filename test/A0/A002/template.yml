@@ -10,6 +10,6 @@ Resources:
       Runtime: nodejs10.x
       Environment:
         Variables:
-          HISTORY_TABLE: PocketCards_History
+          TABLE_HISTORY: PocketCards_History
           TZ: Asia/Tokyo
 

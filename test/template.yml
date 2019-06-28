@@ -63,8 +63,8 @@ Resources:
             Method: POST
       Environment:
         Variables:
-          WORDS_TABLE: PocketCards_Words,
-          GROUPS_TABLE: PocketCards_Groups,
+          TABLE_WORDS: PocketCards_Words,
+          TABLE_GROUP_WORDS: PocketCards_GroupWords,
           IPA_URL: https://m1rb1oo72l.execute-api.ap-northeast-1.amazonaws.com/v1,
           IPA_API_KEY: /pocket-cards/ipa_api_key,
           MP3_BUCKET: pocket-cards-mp3,
@@ -88,8 +88,8 @@ Resources:
   #           Method: GET
   #     Environment:
   #       Variables:
-  #         WORDS_TABLE: dummy
-  #         GROUPS_TABLE: dummy
+  #         TABLE_WORDS: dummy
+  #         TABLE_GROUP_WORDS: dummy
   # ---------------------------------------
   # Path: /groups/{groupId}/words/{word}
   # Method: PUT
@@ -106,7 +106,7 @@ Resources:
             Method: PUT
       Environment:
         Variables:
-          GROUPS_TABLE: dummy
+          TABLE_GROUP_WORDS: dummy
   # ---------------------------------------
   # Path: /groups/{groupId}/new
   # Method: GET
@@ -124,8 +124,8 @@ Resources:
       Environment:
         Variables:
           WORDS_LIMIT: 20
-          WORDS_TABLE: dummy
-          GROUPS_TABLE: dummy
+          TABLE_WORDS: dummy
+          TABLE_GROUP_WORDS: dummy
   # ---------------------------------------
   # Path: /groups/{groupId}/test
   # Method: GET
@@ -142,8 +142,8 @@ Resources:
             Method: GET
       Environment:
         Variables:
-          WORDS_TABLE: dummy
-          GROUPS_TABLE: dummy
+          TABLE_WORDS: dummy
+          TABLE_GROUP_WORDS: dummy
           WORDS_LIMIT: 20
   # ---------------------------------------
   # Path: /groups/{groupId}/review
@@ -161,6 +161,6 @@ Resources:
             Method: GET
       Environment:
         Variables:
-          WORDS_TABLE: dummy
-          GROUPS_TABLE: dummy
+          TABLE_WORDS: dummy
+          TABLE_GROUP_WORDS: dummy
           WORDS_LIMIT: 20

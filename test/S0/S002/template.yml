@@ -10,5 +10,5 @@ Resources:
       Runtime: nodejs10.x
       Environment:
         Variables:
-          USERS_TABLE: PocketCards_Users
+          TABLE_USERS: PocketCards_Users
           TZ: Asia/Tokyo

@@ -9,8 +9,8 @@ import { C001Request } from '@typings/api';
 import * as DBUtils from '@utils/dbutils';
 
 // 環境変数
-const WORDS_TABLE = process.env.WORDS_TABLE as string;
-const GROUPS_TABLE = process.env.GROUPS_TABLE as string;
+const TABLE_WORDS = process.env.TABLE_WORDS as string;
+const TABLE_GROUP_WORDS = process.env.TABLE_GROUP_WORDS as string;
 const IPA_URL = process.env.IPA_URL as string;
 const IPA_API_KEY = process.env.IPA_API_KEY as string;
 const MP3_BUCKET = process.env.MP3_BUCKET as string;
@@ -32,7 +32,7 @@ export default async (event: APIGatewayEvent): Promise<void> => {
   // グループ単語登録用タスクを作成する
   let putTasks = input.words.map(item =>
     DBUtils.put(
-      putItem_groups(GROUPS_TABLE, {
+      putItem_groups(TABLE_GROUP_WORDS, {
         id: groupId,
         word: item,
         nextTime: getNow(),
@@ -54,7 +54,7 @@ export default async (event: APIGatewayEvent): Promise<void> => {
   console.log('単語登録完了しました.');
 
   // 単語存在確認
-  const getTasks = input.words.map(item => DBUtils.get(getItem_words(WORDS_TABLE, item)).promise());
+  const getTasks = input.words.map(item => DBUtils.get(getItem_words(TABLE_WORDS, item)).promise());
   const getResults = await Promise.all(getTasks);
 
   console.log('検索結果', getResults);
@@ -90,7 +90,7 @@ export default async (event: APIGatewayEvent): Promise<void> => {
     const vocJpn = item[3];
 
     return DBUtils.put(
-      putItem_words(WORDS_TABLE, {
+      putItem_words(TABLE_WORDS, {
         word: pronounce['word'],
         pronounce: pronounce['pronounce'],
         mp3,

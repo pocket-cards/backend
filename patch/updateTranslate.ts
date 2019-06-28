@@ -12,7 +12,7 @@ const start = async () => {
 
   const results = await client
     .scan({
-      TableName: 'PocketCards_Groups',
+      TableName: 'PocketCards_GroupWords',
     })
     .promise();
 
@@ -35,7 +35,7 @@ const start = async () => {
     if (!ret.Item) {
       await client
         .delete({
-          TableName: 'PocketCards_Groups',
+          TableName: 'PocketCards_GroupWords',
           Key: {
             id: item.id,
             word: item.word,

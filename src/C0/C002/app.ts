@@ -4,7 +4,7 @@ import { ResponseBody } from './index';
 import { GroupWordsItem } from '@typings/tables';
 import * as DBUtils from '@utils/dbutils';
 
-const GROUPS_TABLE = process.env.GROUPS_TABLE as string;
+const TABLE_GROUP_WORDS = process.env.TABLE_GROUP_WORDS as string;
 
 export const app = async (event: APIGatewayEvent): Promise<ResponseBody[]> => {
   if (!event.pathParameters) {
@@ -32,7 +32,7 @@ export const app = async (event: APIGatewayEvent): Promise<ResponseBody[]> => {
 /** 一覧を取得する */
 const queryItem_groups = (groupId: string) =>
   ({
-    TableName: GROUPS_TABLE,
+    TableName: TABLE_GROUP_WORDS,
     KeyConditionExpression: '#id = :id',
     ExpressionAttributeNames: {
       '#id': 'id',

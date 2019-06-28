@@ -5,14 +5,14 @@ const start = async () => {
     region: 'ap-northeast-1',
   });
 
-  const queryResult = await client.query(queryItem_groups('PocketCards_Groups', 'x001')).promise();
+  const queryResult = await client.query(queryItem_groups('PocketCards_GroupWords', 'x001')).promise();
 
   if (!queryResult.Items) return;
 
   for (const idx in queryResult.Items) {
     const item = queryResult.Items[idx];
 
-    await client.update(updateItem_groups('PocketCards_Groups', 'x001', item.word)).promise();
+    await client.update(updateItem_groups('PocketCards_GroupWords', 'x001', item.word)).promise();
 
     console.log(111);
   }

@@ -8,7 +8,7 @@ let s3Client: S3;
 let translateClient: Translate;
 
 const PATH_PATTERN = 'audio';
-const WORDS_TABLE = 'PocketCards_Words';
+const TABLE_WORDS = 'PocketCards_Words';
 const IPA_URL = 'https://m1rb1oo72l.execute-api.ap-northeast-1.amazonaws.com/v1';
 const IPA_API_KEY = process.env.TF_VAR_ipa_api_key;
 const MP3_BUCKET = 'pocket-cards-mp3';
@@ -37,8 +37,8 @@ const patch = async () => {
     region: 'ap-northeast-1',
   });
 
-  const queryResult = await client.query(queryItem_groups('PocketCards_Groups', 'x001')).promise();
-  const scanResult = await client.scan(scanItem_words(WORDS_TABLE)).promise();
+  const queryResult = await client.query(queryItem_groups('PocketCards_GroupWords', 'x001')).promise();
+  const scanResult = await client.scan(scanItem_words(TABLE_WORDS)).promise();
 
   const groupItems = queryResult.Items;
   const wordItems = scanResult.Items;
@@ -69,7 +69,7 @@ const patch = async () => {
 
       return client
         .put(
-          putItem_words(WORDS_TABLE, {
+          putItem_words(TABLE_WORDS, {
             word: pronounce['word'],
             pronounce: pronounce['pronounce'],
             mp3,

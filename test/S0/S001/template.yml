@@ -10,7 +10,7 @@ Resources:
       Runtime: nodejs10.x
       Environment:
         Variables:
-          HISTORY_TABLE: PocketCards_History
-          USER_GROUPS_TABLE: PocketCards_UserGroups
+          TABLE_HISTORY: PocketCards_History
+          TABLE_GROUP_WORDS: PocketCards_UserGroups
           TZ: Asia/Tokyo
 

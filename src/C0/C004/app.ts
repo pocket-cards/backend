@@ -5,7 +5,7 @@ import { getNow, getNextTime } from '@utils/utils';
 import * as DBUtils from '@utils/dbutils';
 
 // 環境変数
-const GROUPS_TABLE = process.env.GROUPS_TABLE as string;
+const TABLE_GROUP_WORDS = process.env.TABLE_GROUP_WORDS as string;
 
 export default async (event: APIGatewayEvent): Promise<void> => {
   if (!event.pathParameters || !event.body) {
@@ -23,7 +23,7 @@ export default async (event: APIGatewayEvent): Promise<void> => {
   const nextTime = input.correct ? getNextTime(input.times) : getNextTime(0);
 
   await DBUtils.updateAsync(
-    updateItem_groups(GROUPS_TABLE, {
+    updateItem_groups(TABLE_GROUP_WORDS, {
       id: groupId,
       word,
       lastTime,

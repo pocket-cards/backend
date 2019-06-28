@@ -5,8 +5,8 @@ import moment = require('moment');
 import { putItem_history, queryItem_userGroups } from './db';
 
 // 環境変数
-const HISTORY_TABLE = process.env.HISTORY_TABLE as string;
-const USER_GROUPS_TABLE = process.env.USER_GROUPS_TABLE as string;
+const TABLE_HISTORY = process.env.TABLE_HISTORY as string;
+const TABLE_GROUP_WORDS = process.env.TABLE_GROUP_WORDS as string;
 
 const EVENT_NAME = 'MODIFY';
 const GROUP_IDS: { [key: string]: string } = {};
@@ -29,7 +29,7 @@ export default async (event: DynamoDBStreamEvent): Promise<void> => {
     // 存在しない場合、検索し、保存する
     if (!Object.keys(GROUP_IDS).includes(groupId)) {
       // ユーザIDを検索する
-      const ugResult = await queryAsync(queryItem_userGroups(USER_GROUPS_TABLE, groupId));
+      const ugResult = await queryAsync(queryItem_userGroups(TABLE_GROUP_WORDS, groupId));
 
       if (!ugResult.Items) continue;
 
@@ -38,7 +38,7 @@ export default async (event: DynamoDBStreamEvent): Promise<void> => {
     }
 
     await putAsync(
-      putItem_history(HISTORY_TABLE, {
+      putItem_history(TABLE_HISTORY, {
         userId: GROUP_IDS[groupId],
         timestamp: moment().format('YYYYMMDDHHmmssSSS'),
         word: newImage['word'].S,
