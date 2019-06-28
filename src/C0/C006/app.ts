@@ -7,8 +7,8 @@ import * as moment from 'moment';
 import * as DBUtils from '@utils/dbutils';
 
 // 環境変数
-const WORDS_TABLE = process.env.WORDS_TABLE as string;
-const GROUPS_TABLE = process.env.GROUPS_TABLE as string;
+const TABLE_WORDS = process.env.TABLE_WORDS as string;
+const TABLE_GROUP_WORDS = process.env.TABLE_GROUP_WORDS as string;
 // 最大単語数、default 10件
 const WORDS_LIMIT = process.env.WORDS_LIMIT ? Number(process.env.WORDS_LIMIT) : 10;
 
@@ -19,7 +19,7 @@ export default async (event: APIGatewayEvent): Promise<C006Response> => {
 
   const groupId = event.pathParameters['groupId'];
 
-  const queryResult = await DBUtils.queryAsync(queryItem_groups(GROUPS_TABLE, groupId));
+  const queryResult = await DBUtils.queryAsync(queryItem_groups(TABLE_GROUP_WORDS, groupId));
 
   // 検索結果０件の場合
   if (queryResult.Count === 0 || !queryResult.Items) {
@@ -41,7 +41,7 @@ export default async (event: APIGatewayEvent): Promise<C006Response> => {
   const targets = items.length > WORDS_LIMIT ? items.slice(0, WORDS_LIMIT) : items;
 
   // 単語明細情報を取得する
-  const tasks = targets.map(item => DBUtils.get(queryItem_words(WORDS_TABLE, (item as GroupWordsItem).word as string)).promise());
+  const tasks = targets.map(item => DBUtils.get(queryItem_words(TABLE_WORDS, (item as GroupWordsItem).word as string)).promise());
   const wordsInfo = await Promise.all(tasks);
 
   console.log('検索結果', wordsInfo);
