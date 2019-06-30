@@ -9,7 +9,7 @@ Resources:
       Handler: index.handler
       Runtime: nodejs10.x
       MemorySize: 1024
-      Timeout: 15
+      Timeout: 30
       Environment:
         Variables:
           TABLE_USERS: PocketCards_Users

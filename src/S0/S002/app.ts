@@ -30,7 +30,7 @@ const postAuthentication = async (event: CognitoUserPoolTriggerEvent) => {
   await lambda().invoke({
     FunctionName: FUNCTION_NAME,
     InvocationType: 'Event',
-    Payload: event,
+    Payload: JSON.stringify(event),
     Qualifier: FUNCTION_QUALIFIER,
   });
 };

@@ -23,7 +23,9 @@
     "TABLE_GROUP_WORDS": "Groups"
   },
   "C004": {
-    "TABLE_GROUP_WORDS": "PocketCards_GroupWords"
+    "TABLE_GROUP_WORDS": "PocketCards_GroupWords",
+    "TABLE_USER_GROUPS": "PocketCards_UserGroups",
+    "TABLE_HISTORY": "PocketCards_History"
   },
   "C006": {
     "WORDS_LIMIT": 10,
