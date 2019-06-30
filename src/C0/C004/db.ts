@@ -1,5 +1,5 @@
 import { DynamoDB } from 'aws-sdk';
-import { GroupWordsItem } from '@typings/tables';
+import { GroupWordsItem, HistoryItem } from '@typings/tables';
 
 /**
  * 新規学習単語対象一覧を取得する
@@ -33,22 +33,44 @@ export const getItem_groups = (table: string, groupId: string, word: string) =>
   } as DynamoDB.DocumentClient.GetItemInput);
 
 /** 単語情報を更新する */
-export const updateItem_groups = (table: string, item: GroupWordsItem) =>
+export const updateItem_groups = (table: string, item: GroupWordsItem): DynamoDB.DocumentClient.Update => ({
+  TableName: table,
+  Key: {
+    id: item.id,
+    word: item.word,
+  },
+  UpdateExpression: 'set #times = :times, #lastTime = :lastTime, #nextTime = :nextTime',
+  ExpressionAttributeNames: {
+    '#times': 'times',
+    '#lastTime': 'lastTime',
+    '#nextTime': 'nextTime',
+  },
+  ExpressionAttributeValues: {
+    ':times': item.times,
+    ':lastTime': item.lastTime,
+    ':nextTime': item.nextTime,
+  },
+});
+
+/** 履歴情報を登録する */
+export const putItem_history = (table: string, item: HistoryItem): DynamoDB.DocumentClient.Put => ({
+  TableName: table,
+  Item: item,
+});
+
+/**
+ * グループIDより、ユーザIDを検索する
+ */
+export const queryItem_userGroups = (table: string, groupId: string) =>
   ({
     TableName: table,
-    Key: {
-      id: item.id,
-      word: item.word,
-    },
-    UpdateExpression: 'set #times = :times, #lastTime = :lastTime, #nextTime = :nextTime',
+    ProjectionExpression: 'userId',
+    KeyConditionExpression: '#groupId = :groupId',
     ExpressionAttributeNames: {
-      '#times': 'times',
-      '#lastTime': 'lastTime',
-      '#nextTime': 'nextTime',
+      '#groupId': 'groupId',
     },
     ExpressionAttributeValues: {
-      ':times': item.times,
-      ':lastTime': item.lastTime,
-      ':nextTime': item.nextTime,
+      ':groupId': groupId,
     },
-  } as DynamoDB.DocumentClient.UpdateItemInput);
+    IndexName: 'gsiIdx1',
+  } as DynamoDB.DocumentClient.QueryInput);
