@@ -1,5 +1,6 @@
 import * as XRay from 'aws-xray-sdk';
 import * as AWSSDK from 'aws-sdk';
+// import * as AWS from 'aws-sdk';
 import { DynamoDB, Polly, S3, Translate, SSM, Lambda } from 'aws-sdk';
 
 const AWS = XRay.captureAWS(AWSSDK);

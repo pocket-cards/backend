@@ -117,3 +117,39 @@ export const updateAsync = async (input: DynamoDB.DocumentClient.UpdateItemInput
 
   return result;
 };
+
+/** Delete */
+export const deleteItem = (input: DynamoDB.DocumentClient.DeleteItemInput) => {
+  console.log(input);
+
+  return dynamoDB().delete(input);
+};
+
+export const deleteItemAsync = async (input: DynamoDB.DocumentClient.DeleteItemInput) => {
+  const result = await deleteItem(input).promise();
+
+  console.log(result);
+
+  return result;
+};
+
+/** TransactWrite */
+export const transactWrite = (
+  input: DynamoDB.DocumentClient.TransactWriteItemsInput,
+  options?: DynamoDB.DocumentClient.DocumentClientOptions & DynamoDB.Types.ClientConfiguration
+) => {
+  console.log(input);
+
+  return dynamoDB(options).transactWrite(input);
+};
+
+export const transactWriteAsync = async (
+  input: DynamoDB.DocumentClient.TransactWriteItemsInput,
+  options?: DynamoDB.DocumentClient.DocumentClientOptions & DynamoDB.Types.ClientConfiguration
+) => {
+  const result = await transactWrite(input, options).promise();
+
+  console.log(result);
+
+  return result;
+};
