@@ -1,4 +1,5 @@
-import { DynamoDB } from 'aws-sdk';
+import { DynamoDB, AWSError } from 'aws-sdk';
+import { PromiseResult } from 'aws-sdk/lib/request';
 
 const client = new DynamoDB.DocumentClient({
   region: 'ap-northeast-1',
@@ -12,14 +13,26 @@ const start = async () => {
 
   if (!result.Items) return;
 
+  const items: Promise<PromiseResult<DynamoDB.DocumentClient.PutItemOutput, AWSError>>[] = [];
+
   for (let idx in result.Items) {
     const item = result.Items[idx];
 
-    await putAsync({
-      TableName: TABLE_TO,
-      Item: item,
-    });
+    items.push(
+      putAsync({
+        TableName: TABLE_TO,
+        Item: item,
+      })
+    );
+
+    if (items.length === 50) {
+      await Promise.all(items);
+
+      items.length = 0;
+    }
   }
+
+  await Promise.all(items);
 };
 
 export const scan = (input: DynamoDB.DocumentClient.QueryInput) => {
