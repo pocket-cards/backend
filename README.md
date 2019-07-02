@@ -18,7 +18,7 @@
 |             | /groups/{groupId}/review       | GET         | C008        | 復習モード単語一覧       |
 |             | /image2text                    | POST        | D001        | 画像から単語に変換する   |
 |             | /image2line                    | POST        | D002        | 画像から行に変換する     |
-|             | dynaomdb stream                |             | S001        | 履歴テーブルに保存する   |
+| **Deleted** | dynaomdb stream                |             | S001        | 履歴テーブルに保存する   |
 |             | Cognito Sync Trigger           |             | S002        |                          |
 |             |                                |             | S003        | 最後の学習時間を計算する |
 
