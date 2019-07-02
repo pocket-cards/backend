@@ -57,13 +57,7 @@ export default async (event: CognitoUserPoolTriggerEvent): Promise<void> => {
   }
 
   // 差異日数を計算する
-  const diff =
-    moment(
-      moment()
-        .add(1, 'days')
-        .format('YYYYMMDD'),
-      'YYYYMMDD'
-    ).diff(moment(maxDate, 'YYYYMMDD'), 'days') - 1;
+  const diff = moment(getNow(), 'YYYYMMDD').diff(moment(maxDate, 'YYYYMMDD'), 'days') - 1;
 
   console.log(`差異日数: ${diff}`);
 
