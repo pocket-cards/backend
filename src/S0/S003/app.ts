@@ -2,9 +2,8 @@ import { CognitoUserPoolTriggerEvent } from 'aws-lambda';
 import { getItem_users, queryItem_userGroups, queryItem_groups, updateItem_users, queryItem_groupsOnly, updateItem_groupWords } from './db';
 import { getAsync, queryAsync, updateAsync } from '@utils/dbutils';
 import { UsersItem, UserGroupsItem, GroupWordsItem } from '@typings/tables';
-import { getNow } from '@utils/utils';
+import { getNow, sleep } from '@utils/utils';
 import moment = require('moment');
-import { dynamoDB } from '@utils/clientUtils';
 import { DynamoDB } from 'aws-sdk';
 
 // 環境変数
@@ -70,7 +69,7 @@ export default async (event: CognitoUserPoolTriggerEvent): Promise<void> => {
   await updateAsync(updateItem_users(TABLE_USERS, userName, getNow()));
 
   try {
-    // await updateTable(100);
+    await updateTable(100);
 
     for (let idx in userGroupsInfo.Items) {
       const { groupId } = userGroupsInfo.Items[idx] as UserGroupsItem;
@@ -106,20 +105,65 @@ export default async (event: CognitoUserPoolTriggerEvent): Promise<void> => {
       }
     }
   } finally {
-    // await updateTable(1);
+    await updateTable(1);
   }
 };
 
-// const updateTable = async (wcu: number) => {
-//   const client = new DynamoDB();
+const updateTable = async (newWCU: number) => {
+  const client = new DynamoDB();
 
-//   await client.updateTable({
-//     TableName: TABLE_GROUP_WORDS,
-//     ProvisionedThroughput: {
-//       ReadCapacityUnits: 3,
-//       WriteCapacityUnits: wcu,
-//     },
-//   });
+  let oldWCU = await getWriteCapacityUnits(client, TABLE_GROUP_WORDS);
 
-//   console.log(11113333);
-// };
+  // WCU変更なしの場合、処理終了
+  if (!oldWCU || oldWCU === -1 || oldWCU === newWCU) {
+    return;
+  }
+
+  // WCUを変更する
+  await client
+    .updateTable({
+      TableName: TABLE_GROUP_WORDS,
+      ProvisionedThroughput: {
+        ReadCapacityUnits: 3,
+        WriteCapacityUnits: newWCU,
+      },
+    })
+    .promise();
+
+  for (;;) {
+    // 2秒待ち
+    await sleep(2000);
+
+    oldWCU = await getWriteCapacityUnits(client, TABLE_GROUP_WORDS);
+
+    // WCUが存在しない
+    if (!oldWCU || oldWCU === -1) {
+      break;
+    }
+
+    // 変更成功
+    if (oldWCU === newWCU) {
+      break;
+    }
+  }
+};
+
+const getWriteCapacityUnits = async (client: DynamoDB, tableName: string) => {
+  const result = await client
+    .describeTable({
+      TableName: tableName,
+    })
+    .promise();
+
+  // Table存在しない
+  if (!result.Table) {
+    throw new Error(`Table not found. ${tableName}`);
+  }
+
+  // Throughput存在しない
+  if (!result.Table.ProvisionedThroughput) {
+    return -1;
+  }
+
+  return result.Table.ProvisionedThroughput.WriteCapacityUnits;
+};

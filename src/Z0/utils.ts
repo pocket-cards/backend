@@ -16,3 +16,6 @@ export const getNextTime = (times: number) => {
 
   return `${nextTime}`;
 };
+
+// Sleep
+export const sleep = (timeout: number) => new Promise(resolve => setTimeout(() => resolve(), timeout));
