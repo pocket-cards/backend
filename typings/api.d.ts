@@ -30,6 +30,10 @@ export interface WordItem {
 export interface A002Request {}
 
 export interface A002Response {
+  remaining: {
+    test: number;
+    review: number;
+  };
   daily: {
     total: number;
     new: number;

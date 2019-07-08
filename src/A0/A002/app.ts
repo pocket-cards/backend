@@ -1,13 +1,17 @@
 import { APIGatewayEvent } from 'aws-lambda';
-import { HistoryItem } from '@typings/tables';
+import { HistoryItem, UserGroupsItem } from '@typings/tables';
 import { queryAsync } from '@utils/dbutils';
 import moment = require('moment');
-import { queryItem_history } from './db';
+import { queryItem_history, queryItem_userGroups, queryItem_groups_test, queryItem_groups_review } from './db';
 import { A002Response } from '@typings/api';
 import * as _ from 'lodash';
+import { getNow } from '@utils/utils';
 
 // 環境変数
 const TABLE_HISTORY = process.env.TABLE_HISTORY as string;
+const TABLE_USER_GROUPS = process.env.TABLE_USER_GROUPS as string;
+const TABLE_GROUP_WORDS = process.env.TABLE_GROUP_WORDS as string;
+
 const TIMESTAMP_ENDFIX = '000000000';
 
 export default async (event: APIGatewayEvent): Promise<A002Response> => {
@@ -41,7 +45,10 @@ export default async (event: APIGatewayEvent): Promise<A002Response> => {
   const weekly = items.filter(item => item.timestamp >= day2).length;
   const monthly = items.filter(item => item.timestamp >= day3).length;
 
+  const remaining = await queryRemaining(userId);
+
   return {
+    remaining,
     daily: {
       total: daily.length,
       new: dailyNew.length,
@@ -52,7 +59,53 @@ export default async (event: APIGatewayEvent): Promise<A002Response> => {
   };
 };
 
+/** 残単語数を計算する */
+const queryRemaining = async (userId: string) => {
+  let test = 0;
+  let review = 0;
+
+  // ユーザのグループ一覧を取得する
+  const userInfo = await queryAsync(queryItem_userGroups(TABLE_USER_GROUPS, userId));
+
+  // 検索失敗
+  if (!userInfo.Items) {
+    return { test, review };
+  }
+
+  // グループごと検索する
+  for (let idx = 0; idx < userInfo.Items.length; idx = idx + 1) {
+    const groupId = (userInfo.Items[idx] as UserGroupsItem).groupId;
+
+    // 件数検索
+    let result = await queryAsync(queryItem_groups_test(TABLE_GROUP_WORDS, groupId, getNow()));
+
+    // 検索成功の場合
+    if (result.Count) {
+      // 件数を統計する
+      test = test + result.Count;
+    }
+
+    // 件数検索
+    result = await queryAsync(queryItem_groups_review(TABLE_GROUP_WORDS, groupId, getNow()));
+
+    // 検索成功の場合
+    if (result.Count) {
+      // 件数を統計する
+      review = review + result.Count;
+    }
+  }
+
+  return {
+    test,
+    review,
+  };
+};
+
 const EmptyResponse = (): A002Response => ({
+  remaining: {
+    review: 0,
+    test: 0,
+  },
   daily: {
     new: 0,
     review: 0,

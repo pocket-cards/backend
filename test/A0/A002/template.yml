@@ -11,5 +11,7 @@ Resources:
       Environment:
         Variables:
           TABLE_HISTORY: PocketCards_History
+          TABLE_USER_GROUPS: PocketCards_UserGroups
+          TABLE_GROUP_WORDS: PocketCards_GroupWords
           TZ: Asia/Tokyo
 
