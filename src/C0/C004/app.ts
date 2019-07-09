@@ -1,10 +1,10 @@
 import { APIGatewayEvent } from 'aws-lambda';
-import { updateItem_groups, queryItem_userGroups, putItem_history } from './db';
+import { updateItem_groups, queryItem_userGroups, putItem_history, getItem_groups } from './db';
 import { getNow, getNextTime } from '@utils/utils';
-import { transactWriteAsync, queryAsync } from '@utils/dbutils';
+import { transactWriteAsync, queryAsync, getAsync } from '@utils/dbutils';
 import moment = require('moment');
 import { C004Request } from '@typings/api';
-import { UserGroupsItem } from '@typings/tables';
+import { UserGroupsItem, HistoryItem } from '@typings/tables';
 
 // 環境変数
 const TABLE_USER_GROUPS = process.env.TABLE_USER_GROUPS as string;
@@ -21,8 +21,6 @@ export default async (event: APIGatewayEvent): Promise<void> => {
   const groupId = event.pathParameters['groupId'];
   const word = event.pathParameters['word'];
   const input = JSON.parse(event.body) as C004Request;
-
-  const lastTime = getNow();
 
   // 正解の場合
   const times = input.correct ? input.times + 1 : 0;
@@ -41,18 +39,20 @@ export default async (event: APIGatewayEvent): Promise<void> => {
     GROUP_IDS[groupId] = ((ugResult.Items[0] as unknown) as UserGroupsItem).userId;
   }
 
-  const historyItem = {
+  // 旧イメージ
+  const oldImage = await getAsync(getItem_groups(TABLE_GROUP_WORDS, groupId, word));
+
+  const historyItem: HistoryItem = {
     userId: GROUP_IDS[groupId],
     timestamp: moment().format('YYYYMMDDHHmmssSSS'),
     word,
     groupId,
-    lastTime,
     times,
   };
 
-  // 最初の場合、LastTimeを削除する
-  if (input.times === 0) {
-    delete historyItem.lastTime;
+  // 最終日付が存在する場合、セットする
+  if (oldImage.Item && oldImage.Item['lastTime']) {
+    historyItem.lastTime = oldImage.Item['lastTime'];
   }
 
   // 両方更新する
@@ -62,7 +62,7 @@ export default async (event: APIGatewayEvent): Promise<void> => {
         Update: updateItem_groups(TABLE_GROUP_WORDS, {
           id: groupId,
           word,
-          lastTime,
+          lastTime: getNow(),
           nextTime,
           times,
         }),

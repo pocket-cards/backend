@@ -27,7 +27,7 @@ export const getItem_groups = (table: string, groupId: string, word: string) =>
   ({
     TableName: table,
     Key: {
-      groupId: groupId,
+      id: groupId,
       word: word,
     },
   } as DynamoDB.DocumentClient.GetItemInput);
