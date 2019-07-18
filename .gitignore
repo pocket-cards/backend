@@ -2,3 +2,4 @@
 /build
 /dist
 /**/yarn.lock
+/.nyc_output

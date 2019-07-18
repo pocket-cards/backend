@@ -4,6 +4,7 @@
 | ----------- | ------------------------------ | ----------- | ----------- | ------------------------ |
 |             | /users/{userId}                | GET         | A001        | ユーザ情報取得           |
 |             | /users/{userId}/history        | GET         | A002        | 学習履歴取得             |
+|             |                                |             | A003        | 最後の学習時間を計算する |
 |             | /groups                        | POST        | B001        | グループ登録             |
 |             | /groups/{groupId}              | GET         | B002        | グループ情報取得         |
 |             | /groups/{groupId}              | PUT         | B003        | グループ情報変更         |
@@ -20,7 +21,6 @@
 |             | /image2line                    | POST        | D002        | 画像から行に変換する     |
 | **Deleted** | dynaomdb stream                |             | S001        | 履歴テーブルに保存する   |
 |             | Cognito Sync Trigger           |             | S002        |                          |
-|             |                                |             | S003        | 最後の学習時間を計算する |
 
 ## UserInfo
 
