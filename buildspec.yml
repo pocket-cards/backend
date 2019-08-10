@@ -1,0 +1,17 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - cd $CODEBUILD_SRC_DIR_source
+      - npm install
+  build:
+    commands:
+      - npm run build:prod
+  # post_build:
+  #   commands:
+  #     - cd $CODEBUILD_SRC_DIR
+artifacts:
+  files:
+    - 'build/**/*'
+  base-directory: $CODEBUILD_SRC_DIR_source
