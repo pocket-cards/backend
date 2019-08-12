@@ -11,10 +11,11 @@ phases:
     commands:
       - yarn install
       - npm run build:prod
-      # - cp publish/* build/
-      # - cd build
-      # - yarn install
-      # - npm run start
+      - cp publish/* $CODEBUILD_SRC_DIR_build_artf/
+      - cd $CODEBUILD_SRC_DIR_build_artf
+      - ls
+      - yarn install
+      - npm run start
 artifacts:
   files:
     - 'build/**/*'
