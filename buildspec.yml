@@ -1,17 +1,20 @@
 version: 0.2
 
 phases:
+  install:
+    runtime-versions:
+      nodejs: 10  
   pre_build:
     commands:
-      - cd $CODEBUILD_SRC_DIR_source
-      - npm install
+      - npm i -g yarn
   build:
     commands:
+      - yarn install
       - npm run build:prod
-  # post_build:
-  #   commands:
-  #     - cd $CODEBUILD_SRC_DIR
+      - cp publish/* build/
+      - cd build
+      - yarn install
+      - npm run start
 artifacts:
   files:
     - 'build/**/*'
-  base-directory: $CODEBUILD_SRC_DIR_source
