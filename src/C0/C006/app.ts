@@ -1,9 +1,8 @@
 import { APIGatewayEvent } from 'aws-lambda';
-import { dynamoDB } from '@utils/clientUtils';
 import { GroupWordsItem } from '@typings/tables';
 import { queryItem_words, queryItem_groups } from './db';
 import { C006Response, WordItem } from '@typings/api';
-import * as moment from 'moment';
+import moment from 'moment';
 import * as DBUtils from '@utils/dbutils';
 
 // 環境変数
