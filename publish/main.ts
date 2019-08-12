@@ -3,7 +3,7 @@ import * as jsyaml from 'js-yaml';
 import * as fs from 'fs';
 
 // プロジェクト名
-const PROJECT_NAME = process.env.PROJECT_NAME as string;
+const PROJECT_NAME = process.env.PROJECT_NAME_UC as string;
 // 環境名
 const FUNCTION_ALIAS = process.env.FUNCTION_ALIAS as string;
 // CodeDeploy App名
