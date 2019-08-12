@@ -9,8 +9,6 @@ phases:
       - npm i -g yarn
   build:
     commands:
-      - yarn install
-      - npm run build:prod
       - cp publish/* $CODEBUILD_SRC_DIR_build_artf/
       - cd $CODEBUILD_SRC_DIR_build_artf
       - ls
