@@ -16,4 +16,4 @@ artifacts:
     - 'build/**/*'
 cache:
   paths:
-    - yarn.lock
+    - 'yarn.lock'
