@@ -8,3 +8,9 @@ declare module 'aws-xray-sdk' {
 
   export function captureAWS<T>(sdk: T): T;
 }
+
+export interface GroupInfo {
+  id: string;
+  name: string;
+  description?: string;
+}

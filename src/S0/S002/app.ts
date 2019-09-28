@@ -27,12 +27,14 @@ const postAuthentication = async (event: CognitoUserPoolTriggerEvent) => {
 
   await updateAsync(updateItem_users(TABLE_USERS, event.userName, getNow()));
 
-  await lambda().invoke({
-    FunctionName: FUNCTION_NAME,
-    InvocationType: 'Event',
-    Payload: JSON.stringify(event),
-    Qualifier: FUNCTION_QUALIFIER,
-  });
+  // await lambda()
+  //   .invoke({
+  //     FunctionName: FUNCTION_NAME,
+  //     InvocationType: 'Event',
+  //     Payload: JSON.stringify(event),
+  //     Qualifier: FUNCTION_QUALIFIER,
+  //   })
+  //   .promise();
 };
 
 const postPostConfirmation = async (event: CognitoUserPoolTriggerEvent) => {
