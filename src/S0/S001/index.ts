@@ -1,27 +1,20 @@
-import { DynamoDBStreamEvent } from 'aws-lambda';
-import app from './app';
-import validate from './validator';
-
 // イベント入口
-export const handler = async (event: DynamoDBStreamEvent): Promise<void> => {
+export const handler = async (event: any) => {
   // イベントログ
   console.log(event);
 
-  try {
-    // 認証
-    await validate(event);
+  // try {
+  //   // 本処理
+  //   const result = await app(event);
 
-    // 本処理
-    const result = await app(event);
+  //   // 本処理結果
+  //   console.log(result);
 
-    // 本処理結果
-    console.log(result);
+  //   return;
+  // } catch (error) {
+  //   // エラーログ
+  //   console.log(error);
 
-    return;
-  } catch (error) {
-    // エラーログ
-    console.log(error);
-
-    throw error;
-  }
+  //   throw error;
+  // }
 };
