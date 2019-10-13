@@ -5,9 +5,7 @@
     "**/.git": true,
     "**/.hg": true,
     "**/.svn": true,
-    "**/B0": true,
     "**/CVS": true,
-    "**/X0": true,
     "node_modules": true
   },
   "workbench.colorCustomizations": {
