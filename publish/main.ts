@@ -38,6 +38,8 @@ const start = async () => {
   // 対象外のFunctionを除外する
   const functions = listFunctions.Functions.filter(item => item.FunctionName && item.FunctionName.startsWith(PROJECT_NAME));
 
+  console.log(`Target Function Nums: ${functions.length}`);
+
   const targets = functions.filter(item => {
     const { FunctionName: fullName } = item;
 
@@ -47,9 +49,12 @@ const start = async () => {
     // Zipファイル名
     const fileName = `${getFunctionName(fullName)}.zip`;
 
+    console.log(`File check: ${`${SRC_PATH}/${fileName}`}`);
     // ファイル存在チェック
     return fs.existsSync(`${SRC_PATH}/${fileName}`);
   });
+
+  console.log(`Target Exist Nums: ${targets.length}`);
 
   // 対象が存在しない
   if (targets.length === 0) return;
@@ -182,6 +187,6 @@ const createPublish = async (funcName: string) => {
   return func;
 };
 
-const getFunctionName = (fullName: string) => fullName.replace(PROJECT_NAME, '').replace('-', '');
+const getFunctionName = (fullName: string) => fullName.replace(PROJECT_NAME, '').replace('_', '');
 
 start();
