@@ -1,11 +1,11 @@
 import { APIGatewayEvent } from 'aws-lambda';
+import moment from 'moment';
 import { HistoryItem, UserGroupsItem } from '@typings/tables';
-import { queryAsync } from '@utils/dbutils';
-import moment = require('moment');
-import { queryItem_history, queryItem_userGroups, queryItem_groups_test, queryItem_groups_review } from './db';
 import { A002Response } from '@typings/api';
+import { queryAsync } from '@utils/dbutils';
+import { getNow, getUserId } from '@utils/utils';
+import { queryItem_history, queryItem_userGroups, queryItem_groups_test, queryItem_groups_review } from './db';
 import * as _ from 'lodash';
-import { getNow } from '@utils/utils';
 
 // 環境変数
 const TABLE_HISTORY = process.env.TABLE_HISTORY as string;
@@ -19,7 +19,7 @@ export default async (event: APIGatewayEvent): Promise<A002Response> => {
     return EmptyResponse();
   }
 
-  const userId = event.pathParameters['userId'];
+  const userId = getUserId(event);
   // 日次
   const day1 = `${moment().format('YYYYMMDD')}${TIMESTAMP_ENDFIX}`;
   // 週次
