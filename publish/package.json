@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "clean": "rimraf dist && mkdir dist",
-    "makezip": "ts-node makezip",
+    "makezip": "ts-node makezip && ls dist",
     "main": "ts-node main",
     "start": "npm run clean && npm run makezip && npm run main",
     "test": "cross-env APPLICATION_NAME=pocket-cards-codedeploy-backend PROJECT_NAME=pocket-cards FUNCTION_ALIAS=dev AWS_DEFAULT_REGION=ap-northeast-1 ts-node main"
