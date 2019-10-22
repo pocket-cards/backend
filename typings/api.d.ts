@@ -49,9 +49,7 @@ export interface A002Response {
 // ------------------------------
 export interface B002Request {}
 
-export interface B002Response {
-  groups: GroupInfo[];
-}
+export type B002Response = GroupInfo[];
 
 // ------------------------------
 // C001

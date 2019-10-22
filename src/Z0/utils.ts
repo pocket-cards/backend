@@ -56,3 +56,13 @@ export const getUserId = (event: APIGatewayEvent, authKey: string = 'Authorizati
     return null;
   }
 };
+
+export const getResponse = (statusCode: number, body?: string) => ({
+  statusCode,
+  isBase64Encoded: false,
+  headers: {
+    'content-type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+  },
+  body,
+});

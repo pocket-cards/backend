@@ -36,9 +36,12 @@ export interface UsersItem {
   studyQuery?: string;
 }
 
-export interface UserGroupsItem {
+export interface UserGroupsKey {
   // ユーザID
   userId: string;
+}
+
+export interface UserGroupsItem extends UserGroupsKey {
   // グループID
   groupId: string;
 }
