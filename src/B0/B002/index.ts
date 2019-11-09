@@ -8,7 +8,7 @@ import { getResponse } from '@utils/utils';
 export const handler = async (event: APIGatewayEvent): Promise<BaseResponse> => {
   // イベントログ
   console.log(event);
-
+  console.log(process.env);
   try {
     // 認証
     await validate(event);
@@ -24,6 +24,6 @@ export const handler = async (event: APIGatewayEvent): Promise<BaseResponse> => 
     // エラーログ
     console.log(error);
 
-    return getResponse(502, JSON.stringify(error.message));
+    return getResponse(500, JSON.stringify(error.message));
   }
 };

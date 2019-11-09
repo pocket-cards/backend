@@ -1,8 +1,8 @@
 import { DynamoDBStreamEvent } from 'aws-lambda';
-import { UserGroupsItem } from '@typings/tables';
-import { putAsync, queryAsync } from '@utils/dbutils';
-import moment = require('moment');
+import moment from 'moment';
 import { putItem_history, queryItem_userGroups } from './db';
+import { UserGroups } from '@typings/tables';
+import { dbHelper } from '@utils/utils';
 
 // 環境変数
 const TABLE_HISTORY = process.env.TABLE_HISTORY as string;
@@ -29,15 +29,15 @@ export default async (event: DynamoDBStreamEvent): Promise<void> => {
     // 存在しない場合、検索し、保存する
     if (!Object.keys(GROUP_IDS).includes(groupId)) {
       // ユーザIDを検索する
-      const ugResult = await queryAsync(queryItem_userGroups(TABLE_USER_GROUPS, groupId));
+      const ugResult = await dbHelper().query(queryItem_userGroups(TABLE_USER_GROUPS, groupId));
 
       if (!ugResult.Items) continue;
 
       // 保存する
-      GROUP_IDS[groupId] = ((ugResult.Items[0] as unknown) as UserGroupsItem).userId;
+      GROUP_IDS[groupId] = ((ugResult.Items[0] as unknown) as UserGroups).userId;
     }
 
-    await putAsync(
+    await dbHelper().put(
       putItem_history(TABLE_HISTORY, {
         userId: GROUP_IDS[groupId],
         timestamp: moment().format('YYYYMMDDHHmmssSSS'),

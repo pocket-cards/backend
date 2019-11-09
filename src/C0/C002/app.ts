@@ -1,8 +1,8 @@
 import { DynamoDB } from 'aws-sdk';
 import { APIGatewayEvent } from 'aws-lambda';
 import { ResponseBody } from './index';
-import { GroupWordsItem } from '@typings/tables';
-import * as DBUtils from '@utils/dbutils';
+import { GroupWords } from '@typings/tables';
+import { dbHelper } from '@utils/utils';
 
 const TABLE_GROUP_WORDS = process.env.TABLE_GROUP_WORDS as string;
 
@@ -13,7 +13,7 @@ export const app = async (event: APIGatewayEvent): Promise<ResponseBody[]> => {
 
   const groupId = event.pathParameters['groupId'];
 
-  const queryResult = await DBUtils.queryAsync(queryItem_groups(groupId));
+  const queryResult = await dbHelper().query(queryItem_groups(groupId));
 
   // 検索結果０件の場合
   if (queryResult.Count === 0 || !queryResult.Items) {
@@ -24,7 +24,7 @@ export const app = async (event: APIGatewayEvent): Promise<ResponseBody[]> => {
   return queryResult.Items.map(
     item =>
       ({
-        word: (item as GroupWordsItem).word,
+        word: (item as GroupWords).word,
       } as ResponseBody)
   );
 };

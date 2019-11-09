@@ -1,5 +1,5 @@
 import { DynamoDB } from 'aws-sdk';
-import { UsersItem } from '@typings/tables';
+import { Users } from '@typings/tables';
 
 export const updateItem_users = (table: string, id: string, login: string) =>
   ({
@@ -17,7 +17,7 @@ export const updateItem_users = (table: string, id: string, login: string) =>
     },
   } as DynamoDB.DocumentClient.UpdateItemInput);
 
-export const putItem_users = (tableName: string, item: UsersItem) =>
+export const putItem_users = (tableName: string, item: Users) =>
   ({
     TableName: tableName,
     Item: item,

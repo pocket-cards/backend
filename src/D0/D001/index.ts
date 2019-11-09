@@ -27,7 +27,7 @@ export const handler = (event: APIGatewayEvent, _: any, callback: Callback<BaseR
       // エラーログ
       console.error('Error', err);
       callback(err, {
-        statusCode: 502,
+        statusCode: 500,
         isBase64Encoded: false,
         headers: {
           'content-type': 'application/json',

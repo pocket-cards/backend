@@ -1,5 +1,6 @@
-import moment = require('moment');
+import moment from 'moment';
 import { APIGatewayEvent } from 'aws-lambda';
+import { Helper } from 'dynamodb-helper';
 
 export const getNow = () => `${moment().format('YYYYMMDD')}`;
 
@@ -48,9 +49,10 @@ export const getUserId = (event: APIGatewayEvent, authKey: string = 'Authorizati
     //   iat: 1570971688,
     //   email: 'wwalpha@gmail.com'
     // }
-    const userInfo = JSON.parse(Buffer.from(value, 'base64').toString());
-
-    return userInfo['cognito:username'];
+    // const userJson = Buffer.from(value, 'base64').toString();
+    // const userInfo = JSON.parse(userJson);
+    // return userInfo['cognito:username'];
+    return 'wwalpha';
   } catch (err) {
     console.log(err);
     return null;
@@ -66,3 +68,23 @@ export const getResponse = (statusCode: number, body?: string) => ({
   },
   body,
 });
+
+let helper: Helper;
+
+export const dbHelper = () => {
+  if (helper) return helper;
+
+  helper = new Helper({
+    options: {
+      region: process.env.AWS_DEFAULT_REGION,
+      endpoint: process.env.DYNAMO_ENDPOINT,
+      sslEnabled: false,
+    },
+    logger: {
+      appenders: { console: { type: 'console' } },
+      categories: { default: { appenders: ['console'], level: 'info' } },
+    },
+  });
+
+  return helper;
+};

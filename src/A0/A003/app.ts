@@ -1,8 +1,7 @@
 import { CognitoUserPoolTriggerEvent } from 'aws-lambda';
 import { getItem_users, queryItem_userGroups, queryItem_groups, updateItem_users, queryItem_groupsOnly, updateItem_groupWords } from './db';
-import { getAsync, queryAsync, updateAsync } from '@utils/dbutils';
-import { UsersItem, UserGroupsItem, GroupWordsItem } from '@typings/tables';
-import { getNow, sleep } from '@utils/utils';
+import { Users, UserGroups, GroupWords } from '@typings/tables';
+import { getNow, sleep, dbHelper } from '@utils/utils';
 import moment = require('moment');
 import { DynamoDB } from 'aws-sdk';
 
@@ -17,19 +16,19 @@ export default async (event: CognitoUserPoolTriggerEvent): Promise<void> => {
   if (!userName) throw new Error('UserNameが存在しません。');
 
   // ユーザ情報検索
-  const userInfo = await getAsync(getItem_users(TABLE_USERS, userName));
+  const userInfo = await dbHelper().get(getItem_users(TABLE_USERS, userName));
 
   // ユーザ情報が存在しない
   if (!userInfo.Item) return;
 
-  const { studyQuery, id } = userInfo.Item as UsersItem;
+  const { studyQuery, id } = userInfo.Item as Users;
 
   // すでに当日の場合、そのまま終了する
   if (studyQuery === getNow()) {
     return;
   }
 
-  const userGroupsInfo = await queryAsync(queryItem_userGroups(TABLE_USER_GROUPS, id));
+  const userGroupsInfo = await dbHelper().query(queryItem_userGroups(TABLE_USER_GROUPS, id));
 
   // ユーザグループ情報が存在しない
   if (!userGroupsInfo.Items || userGroupsInfo.Count === 0) return;
@@ -37,17 +36,17 @@ export default async (event: CognitoUserPoolTriggerEvent): Promise<void> => {
   let maxDate = '00000000';
 
   for (let idx in userGroupsInfo.Items) {
-    const { groupId } = userGroupsInfo.Items[idx] as UserGroupsItem;
+    const { groupId } = userGroupsInfo.Items[idx] as UserGroups;
 
     // 最後の学習日を取得する
-    const groupInfo = await queryAsync(queryItem_groupsOnly(TABLE_GROUP_WORDS, groupId));
+    const groupInfo = await dbHelper().query(queryItem_groupsOnly(TABLE_GROUP_WORDS, groupId));
 
     // データが存在しない
     if (!groupInfo.Items || groupInfo.Count === 0) {
       continue;
     }
 
-    const { lastTime } = groupInfo.Items[0] as GroupWordsItem;
+    const { lastTime } = groupInfo.Items[0] as GroupWords;
 
     // 最大日付を計算する
     if (lastTime) {
@@ -66,16 +65,16 @@ export default async (event: CognitoUserPoolTriggerEvent): Promise<void> => {
   }
 
   // ユーザ情報を更新する
-  await updateAsync(updateItem_users(TABLE_USERS, userName, getNow()));
+  await dbHelper().update(updateItem_users(TABLE_USERS, userName, getNow()));
 
   try {
     await updateTable(100);
 
     for (let idx in userGroupsInfo.Items) {
-      const { groupId } = userGroupsInfo.Items[idx] as UserGroupsItem;
+      const { groupId } = userGroupsInfo.Items[idx] as UserGroups;
 
       // 学習履歴ある単語を全部取得する
-      const groupInfo = await queryAsync(queryItem_groups(TABLE_GROUP_WORDS, groupId));
+      const groupInfo = await dbHelper().query(queryItem_groups(TABLE_GROUP_WORDS, groupId));
       console.log(`対象件数: ${groupInfo.Count}`);
 
       // データが存在しない
@@ -91,14 +90,14 @@ export default async (event: CognitoUserPoolTriggerEvent): Promise<void> => {
         console.log(`対象件数: ${items.length}`);
 
         const tasks = newItems.map(item => {
-          const { word, nextTime } = item as GroupWordsItem;
+          const { word, nextTime } = item as GroupWords;
 
           // 新時間
           const newTime = moment(nextTime)
             .add(diff, 'days')
             .format('YYYYMMDD');
 
-          return updateAsync(updateItem_groupWords(TABLE_GROUP_WORDS, groupId, word, newTime));
+          return dbHelper().update(updateItem_groupWords(TABLE_GROUP_WORDS, groupId, word, newTime));
         });
 
         await Promise.all(tasks);
