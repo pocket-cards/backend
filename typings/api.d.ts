@@ -1,4 +1,5 @@
 import { GroupInfo } from './types';
+import { UserGroups } from './tables';
 
 // ------------------------------
 // Common
@@ -49,7 +50,7 @@ export interface A002Response {
 // ------------------------------
 export interface B002Request {}
 
-export type B002Response = GroupInfo[];
+export type B002Response = UserGroups[];
 
 // ------------------------------
 // C001

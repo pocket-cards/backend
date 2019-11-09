@@ -1,4 +1,4 @@
-export interface GroupWordsItem {
+export interface GroupWords {
   id: string;
   // 単語
   word: string;
@@ -10,7 +10,7 @@ export interface GroupWordsItem {
   times: number;
 }
 
-export interface WordsItem {
+export interface Words {
   // 単語
   word: string;
   // 発音記号
@@ -23,7 +23,7 @@ export interface WordsItem {
   mp3?: string;
 }
 
-export interface UsersItem {
+export interface Users {
   // ユーザID
   id: string;
   // メール
@@ -41,12 +41,16 @@ export interface UserGroupsKey {
   userId: string;
 }
 
-export interface UserGroupsItem extends UserGroupsKey {
+export interface UserGroups extends UserGroupsKey {
   // グループID
   groupId: string;
+  // グループ名
+  groupName: string;
+  // 説明
+  description?: string;
 }
 
-export interface HistoryItem {
+export interface History {
   // ユーザID
   userId: string;
   // Timestamp
