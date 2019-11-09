@@ -1,12 +1,11 @@
-import { DynamoDB, AWSError, Polly, S3, SSM } from 'aws-sdk';
+import { AWSError, Polly, S3 } from 'aws-sdk';
 import { APIGatewayEvent } from 'aws-lambda';
 import * as short from 'short-uuid';
 import axios from 'axios';
-import { dynamoDB, polly, s3, ssm } from '@utils/clientUtils';
+import { polly, s3, ssm } from '@utils/clientUtils';
 import { putItem_groups, getItem_words, putItem_words } from './db';
-import { getNow } from '@utils/utils';
+import { getNow, dbHelper } from '@utils/utils';
 import { C001Request } from '@typings/api';
-import * as DBUtils from '@utils/dbutils';
 
 // 環境変数
 const TABLE_WORDS = process.env.TABLE_WORDS as string;
@@ -31,14 +30,14 @@ export default async (event: APIGatewayEvent): Promise<void> => {
 
   // グループ単語登録用タスクを作成する
   let putTasks = input.words.map(item =>
-    DBUtils.put(
+    dbHelper().put(
       putItem_groups(TABLE_GROUP_WORDS, {
         id: groupId,
         word: item,
         nextTime: getNow(),
         times: 0,
       })
-    ).promise()
+    )
   );
 
   try {
@@ -54,7 +53,7 @@ export default async (event: APIGatewayEvent): Promise<void> => {
   console.log('単語登録完了しました.');
 
   // 単語存在確認
-  const getTasks = input.words.map(item => DBUtils.get(getItem_words(TABLE_WORDS, item)).promise());
+  const getTasks = input.words.map(item => dbHelper().get(getItem_words(TABLE_WORDS, item)));
   const getResults = await Promise.all(getTasks);
 
   console.log('検索結果', getResults);
@@ -89,7 +88,7 @@ export default async (event: APIGatewayEvent): Promise<void> => {
     const vocChn = item[2];
     const vocJpn = item[3];
 
-    return DBUtils.put(
+    return dbHelper().put(
       putItem_words(TABLE_WORDS, {
         word: pronounce['word'],
         pronounce: pronounce['pronounce'],
@@ -97,7 +96,7 @@ export default async (event: APIGatewayEvent): Promise<void> => {
         vocChn,
         vocJpn,
       })
-    ).promise();
+    );
   });
 
   // 辞書登録処理

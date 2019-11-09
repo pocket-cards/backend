@@ -1,13 +1,14 @@
 import { APIGatewayEvent } from 'aws-lambda';
-import app from './app';
 import validate from './validator';
+import app from './app';
 import { BaseResponse } from '@typings/api';
+import { getResponse } from '@utils/utils';
 
 // イベント入口
 export const handler = async (event: APIGatewayEvent): Promise<BaseResponse> => {
   // イベントログ
   console.log(event);
-
+  console.log(process.env);
   try {
     // 認証
     await validate(event);
@@ -18,26 +19,11 @@ export const handler = async (event: APIGatewayEvent): Promise<BaseResponse> => 
     // 本処理結果
     console.log(result);
 
-    return {
-      statusCode: 200,
-      isBase64Encoded: false,
-      headers: {
-        'content-type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-      },
-      body: JSON.stringify(result),
-    };
+    return getResponse(200, JSON.stringify(result));
   } catch (error) {
     // エラーログ
     console.log(error);
 
-    return {
-      statusCode: 500,
-      isBase64Encoded: false,
-      headers: {
-        'content-type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-      },
-    };
+    return getResponse(500, JSON.stringify(error.message));
   }
 };

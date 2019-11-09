@@ -1,9 +1,9 @@
 import { APIGatewayEvent } from 'aws-lambda';
-import { GroupWordsItem } from '@typings/tables';
+import { GroupWords } from '@typings/tables';
 import { queryItem_words, queryItem_groups } from './db';
 import { C006Response, WordItem } from '@typings/api';
 import moment from 'moment';
-import * as DBUtils from '@utils/dbutils';
+import { dbHelper } from '@utils/utils';
 
 // 環境変数
 const TABLE_WORDS = process.env.TABLE_WORDS as string;
@@ -18,7 +18,7 @@ export default async (event: APIGatewayEvent): Promise<C006Response> => {
 
   const groupId = event.pathParameters['groupId'];
 
-  const queryResult = await DBUtils.queryAsync(queryItem_groups(TABLE_GROUP_WORDS, groupId));
+  const queryResult = await dbHelper().query(queryItem_groups(TABLE_GROUP_WORDS, groupId));
 
   // 検索結果０件の場合
   if (queryResult.Count === 0 || !queryResult.Items) {
@@ -27,7 +27,7 @@ export default async (event: APIGatewayEvent): Promise<C006Response> => {
 
   console.log(`Count: ${queryResult.Count}`);
 
-  const items = queryResult.Items as GroupWordsItem[];
+  const items = queryResult.Items as GroupWords[];
 
   items.sort((a, b) => {
     if (!a.lastTime && b.lastTime) return 1;
@@ -40,7 +40,11 @@ export default async (event: APIGatewayEvent): Promise<C006Response> => {
   const targets = items.length > WORDS_LIMIT ? items.slice(0, WORDS_LIMIT) : items;
 
   // 単語明細情報を取得する
-  const tasks = targets.map(item => DBUtils.get(queryItem_words(TABLE_WORDS, (item as GroupWordsItem).word as string)).promise());
+  const tasks = targets.map(item =>
+    dbHelper()
+      .getRequest(queryItem_words(TABLE_WORDS, (item as GroupWords).word as string))
+      .promise()
+  );
   const wordsInfo = await Promise.all(tasks);
 
   console.log('検索結果', wordsInfo);

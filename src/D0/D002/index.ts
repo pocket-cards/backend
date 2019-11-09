@@ -24,7 +24,7 @@ export const handler = async (event: APIGatewayEvent): Promise<BaseResponse> => 
     };
   } catch (error) {
     res = {
-      statusCode: 502,
+      statusCode: 500,
       isBase64Encoded: false,
       headers: {
         'Access-Control-Allow-Origin': '*',

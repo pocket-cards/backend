@@ -1,7 +1,7 @@
 import { APIGatewayEvent, Callback } from 'aws-lambda';
 import app from './app';
 import validate from './validator';
-import { GroupWordsItem } from '@typings/tables';
+import { GroupWords } from '@typings/tables';
 import { BaseResponse, C007Response } from '@typings/api';
 
 // イベント入口
@@ -28,7 +28,7 @@ export const handler = (event: APIGatewayEvent, _: any, callback: Callback<BaseR
       // エラーログ
       console.log(err);
       callback(err, {
-        statusCode: 502,
+        statusCode: 500,
         isBase64Encoded: false,
         headers: {
           'content-type': 'application/json',
@@ -51,4 +51,4 @@ export interface RequestBody {
   words: string[];
 }
 
-export interface ResponseBody extends GroupWordsItem {}
+export interface ResponseBody extends GroupWords {}

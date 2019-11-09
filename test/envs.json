@@ -8,6 +8,9 @@
     "EXCLUDE_MARK": "\\,(,),/,., ,,?,?",
     "IMAGE_BUCKET": "pocket-cards-images"
   },
+  "B002": {
+    "TABLE_USER_GROUPS": "PocketCards_UserGroups"
+  },
   "C001": {
     "TABLE_WORDS": "PocketCards_Words",
     "TABLE_GROUP_WORDS": "PocketCards_GroupWords",

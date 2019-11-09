@@ -1,11 +1,10 @@
 import { APIGatewayEvent } from 'aws-lambda';
 import moment from 'moment';
-import { HistoryItem, UserGroupsItem } from '@typings/tables';
 import { A002Response } from '@typings/api';
-import { queryAsync } from '@utils/dbutils';
-import { getNow, getUserId } from '@utils/utils';
+import { getNow, getUserId, dbHelper } from '@utils/utils';
 import { queryItem_history, queryItem_userGroups, queryItem_groups_test, queryItem_groups_review } from './db';
 import * as _ from 'lodash';
+import { UserGroups, History } from '@typings/tables';
 
 // 環境変数
 const TABLE_HISTORY = process.env.TABLE_HISTORY as string;
@@ -31,9 +30,9 @@ export default async (event: APIGatewayEvent): Promise<A002Response> => {
     .add(-1, 'months')
     .format('YYYYMMDD')}${TIMESTAMP_ENDFIX}`;
 
-  const results = await queryAsync(queryItem_history(TABLE_HISTORY, userId, `${day3}`));
+  const results = await dbHelper().query(queryItem_history(TABLE_HISTORY, userId, `${day3}`));
 
-  const items = (results.Items as unknown) as HistoryItem[];
+  const items = (results.Items as unknown) as History[];
   // 検索結果なし
   if (results.Count === 0 || !items) {
     return EmptyResponse();
@@ -65,7 +64,7 @@ const queryRemaining = async (userId: string) => {
   let review = 0;
 
   // ユーザのグループ一覧を取得する
-  const userInfo = await queryAsync(queryItem_userGroups(TABLE_USER_GROUPS, userId));
+  const userInfo = await dbHelper().query(queryItem_userGroups(TABLE_USER_GROUPS, userId));
 
   // 検索失敗
   if (!userInfo.Items) {
@@ -74,10 +73,10 @@ const queryRemaining = async (userId: string) => {
 
   // グループごと検索する
   for (let idx = 0; idx < userInfo.Items.length; idx = idx + 1) {
-    const groupId = (userInfo.Items[idx] as UserGroupsItem).groupId;
+    const groupId = (userInfo.Items[idx] as UserGroups).groupId;
 
     // 件数検索
-    let result = await queryAsync(queryItem_groups_test(TABLE_GROUP_WORDS, groupId, getNow()));
+    let result = await dbHelper().query(queryItem_groups_test(TABLE_GROUP_WORDS, groupId, getNow()));
 
     // 検索成功の場合
     if (result.Count) {
@@ -86,7 +85,7 @@ const queryRemaining = async (userId: string) => {
     }
 
     // 件数検索
-    result = await queryAsync(queryItem_groups_review(TABLE_GROUP_WORDS, groupId, getNow()));
+    result = await dbHelper().query(queryItem_groups_review(TABLE_GROUP_WORDS, groupId, getNow()));
 
     // 検索成功の場合
     if (result.Count) {

@@ -2,11 +2,7 @@ import { app } from './app';
 import { APIGatewayEvent, Callback } from 'aws-lambda';
 
 // イベント入口
-export const handler = (
-  event: APIGatewayEvent,
-  _: any,
-  callback: Callback<Response>
-) => {
+export const handler = (event: APIGatewayEvent, _: any, callback: Callback<Response>) => {
   // イベントログ
   console.log(event);
 
@@ -18,20 +14,20 @@ export const handler = (
         statusCode: 200,
         isBase64Encoded: false,
         headers: {
-          'content-type': 'application/json'
+          'content-type': 'application/json',
         },
-        body: JSON.stringify(result)
+        body: JSON.stringify(result),
       });
     })
     .catch(err => {
       // エラーログ
       console.log(err);
       callback(err, {
-        statusCode: 502,
+        statusCode: 500,
         isBase64Encoded: false,
         headers: {
-          'content-type': 'application/json'
-        }
+          'content-type': 'application/json',
+        },
       } as Response);
     });
 };

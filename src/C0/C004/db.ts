@@ -1,5 +1,5 @@
 import { DynamoDB } from 'aws-sdk';
-import { GroupWordsItem, HistoryItem } from '@typings/tables';
+import { GroupWords, History } from '@typings/tables';
 
 /**
  * 新規学習単語対象一覧を取得する
@@ -33,7 +33,7 @@ export const getItem_groups = (table: string, groupId: string, word: string) =>
   } as DynamoDB.DocumentClient.GetItemInput);
 
 /** 単語情報を更新する */
-export const updateItem_groups = (table: string, item: GroupWordsItem): DynamoDB.DocumentClient.Update => ({
+export const updateItem_groups = (table: string, item: GroupWords): DynamoDB.DocumentClient.Update => ({
   TableName: table,
   Key: {
     id: item.id,
@@ -53,7 +53,7 @@ export const updateItem_groups = (table: string, item: GroupWordsItem): DynamoDB
 });
 
 /** 履歴情報を登録する */
-export const putItem_history = (table: string, item: HistoryItem): DynamoDB.DocumentClient.Put => ({
+export const putItem_history = (table: string, item: History): DynamoDB.DocumentClient.Put => ({
   TableName: table,
   Item: item,
 });

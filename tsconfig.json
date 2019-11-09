@@ -4,7 +4,10 @@
     "target": "esnext" /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017','ES2018' or 'ESNEXT'. */,
     "module": "commonjs" /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'. */,
     "sourceMap": true,
-    "rootDirs": ["src", "configs"],
+    "rootDirs": [
+      "src",
+      "configs"
+    ],
     "outDir": "build",
     // "strict": true /* Enable all strict type-checking options. */,
     "noImplicitAny": false,
@@ -12,11 +15,25 @@
     "esModuleInterop": true,
     "baseUrl": ".",
     "paths": {
-      "@typings/*": ["./typings/*"],
-      "@utils/*": ["./src/Z0/*"]
+      "@typings/*": [
+        "./typings/*"
+      ],
+      "@utils/*": [
+        "./src/Z0/*"
+      ]
     }
   },
-  "files": ["./typings/types.d.ts", "./typings/api.d.ts"],
-  "include": ["src/**/*", "test/**/*"],
-  "exclude": ["node_modules"]
+  "files": [
+    "./typings/types.d.ts",
+    "./typings/api.d.ts",
+    "./typings/tables.d.ts",
+    "./typings/aws-xray-sdk.d.ts"
+  ],
+  "include": [
+    "src/**/*",
+    "test/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+  ]
 }

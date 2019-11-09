@@ -3,12 +3,6 @@ declare module '*.json' {
   export default value;
 }
 
-declare module 'aws-xray-sdk' {
-  export function captureAWSClient<T>(client: T): T;
-
-  export function captureAWS<T>(sdk: T): T;
-}
-
 export interface GroupInfo {
   id: string;
   name: string;

@@ -1,6 +1,6 @@
 import { DynamoDB } from 'aws-sdk';
 import { getNow } from '@utils/utils';
-import { HistoryItem } from '@typings/tables';
+import { History } from '@typings/tables';
 
 /**
  * グループIDより、ユーザIDを検索する
@@ -20,7 +20,7 @@ export const queryItem_userGroups = (table: string, groupId: string) =>
   } as DynamoDB.DocumentClient.QueryInput);
 
 /** 履歴情報を登録する */
-export const putItem_history = (table: string, item: HistoryItem) =>
+export const putItem_history = (table: string, item: History) =>
   ({
     TableName: table,
     Item: item,
