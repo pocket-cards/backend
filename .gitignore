@@ -3,3 +3,7 @@
 /dist
 /**/yarn.lock
 /.nyc_output
+/docker/local
+/samlocal/build
+/.vscode
+/docker/sam/build

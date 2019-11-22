@@ -2,6 +2,7 @@ require('dotenv').config();
 
 import { Helper } from 'dynamodb-helper';
 import { DynamoDB } from 'aws-sdk';
+import { sync } from 'glob';
 
 const DYNAMO_ENDPOINT = process.env.DYNAMO_ENDPOINT;
 const DEFAULT_REGION = process.env.DEFAULT_REGION;
@@ -19,8 +20,13 @@ const create = async () => {
     region: DEFAULT_REGION,
   });
 
-  // Test
-  await db.createTable(require('./tables/Test.json')).promise();
+  const files = sync('tables/*', {
+    absolute: true,
+  });
+
+  const tasks = files.map(file => db.createTable(require(file)).promise());
+
+  await Promise.all(tasks);
 };
 
 const insert = async () => {
@@ -30,6 +36,5 @@ const insert = async () => {
 
 (async () => {
   await create();
-
-  await insert();
+  // await insert();
 })();

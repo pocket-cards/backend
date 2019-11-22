@@ -1,6 +1,6 @@
 version: '3'
 services:
-  dynamodb-tester:
+  localstack:
     image: localstack/localstack
     ports:
       - '4569:4569'
@@ -9,4 +9,20 @@ services:
       - DATA_DIR=/tmp/localstack/data
     volumes:
       - './local:/tmp/localstack'
+      - '/var/run/docker.sock:/var/run/docker.sock'
+  sam:
+    image: wwalpha/aws-sam-cli
+    ports:
+      - '3000:3000'
+    command:
+      [
+        'local',
+        'start-api',
+        '--docker-volume-basedir',
+        '$PWD',
+        '--host',
+        '0.0.0.0',
+      ]
+    volumes:
+      - './sam:/var/opt'
       - '/var/run/docker.sock:/var/run/docker.sock'
