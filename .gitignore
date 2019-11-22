@@ -6,3 +6,4 @@
 /docker/local
 /samlocal/build
 /.vscode
+/docker/sam/build
