@@ -32,7 +32,7 @@ export const handler = async (event: APIGatewayEvent): Promise<BaseResponse> => 
     console.log(error);
 
     return {
-      statusCode: 502,
+      statusCode: 500,
       isBase64Encoded: false,
       headers: {
         'content-type': 'application/json',

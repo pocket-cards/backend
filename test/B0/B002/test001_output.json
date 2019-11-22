@@ -1,0 +1,12 @@
+{
+  "sub":"cbff371c-ef97-4afc-b6a3-166c2163307e",
+  "aud":"relm874c6hkjouqalvvq0utth",
+  "email_verified": true,
+  "token_use":"id",
+  "auth_time":"1570971688",
+  "iss": "https://cognito-idp.ap-northeast-1.amazonaws.com/ap-northeast-1_Pn4pwBiY0",
+  "cognito:username": "wwalpha",
+  "exp": 1570975288,
+  "iat": 1570971688,
+  "email":"wwalpha@gmail.com"
+}

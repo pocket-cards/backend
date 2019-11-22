@@ -6,8 +6,11 @@ Globals:
   Function:
     Runtime: nodejs8.10
     Handler: index.handler
-    Timeout: 3
+    Timeout: 10
     MemorySize: 1024
+    # Environment:
+    #   Variables:
+    #     DYNAMO_ENDPOINT: http://172.16.80.25:4569
 
 Resources:
   # ---------------------------------------
@@ -31,20 +34,37 @@ Resources:
           EXCLUDE_MARK: dummy
           IMAGE_BUCKET: dummy
   # ---------------------------------------
-  # Path: /speech
-  # Method: GET
-  # Description: word to speech
+  # Path: /groups
+  # Method: POST
   # ---------------------------------------
-  # D002:
-  #   Type: AWS::Serverless::Function
-  #   Properties:
-  #     CodeUri: ../build/D0_D002/
-  #     Events:
-  #       HelloWorld:
-  #         Type: Api
-  #         Properties:
-  #           Path: /speech
-  #           Method: GET
+  B001:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../build/B0_B001/
+      Events:
+        HelloWorld:
+          Type: Api
+          Properties:
+            Path: /groups
+            Method: POST
+
+  # ---------------------------------------
+  # Path: /groups
+  # Method: POST
+  # ---------------------------------------
+  B002:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../build/B0_B002/
+      Events:
+        HelloWorld:
+          Type: Api
+          Properties:
+            Path: /groups
+            Method: GET
+      Environment:
+        Variables:
+          TABLE_USER_GROUPS: PocketCards_UserGroups
 
   # ---------------------------------------
   # Path: /groups/{groupId}/words
@@ -63,13 +83,13 @@ Resources:
             Method: POST
       Environment:
         Variables:
-          TABLE_WORDS: PocketCards_Words,
-          TABLE_GROUP_WORDS: PocketCards_GroupWords,
-          IPA_URL: https://m1rb1oo72l.execute-api.ap-northeast-1.amazonaws.com/v1,
-          IPA_API_KEY: /pocket-cards/ipa_api_key,
-          MP3_BUCKET: pocket-cards-mp3,
-          TRANSLATION_URL: https://translation.googleapis.com/language/translate/v2,
-          TRANSLATION_API_KEY: /pocket-cards/translation_api_key,
+          TABLE_WORDS: PocketCards_Words
+          TABLE_GROUP_WORDS: PocketCards_GroupWords
+          IPA_URL: https://m1rb1oo72l.execute-api.ap-northeast-1.amazonaws.com/v1
+          IPA_API_KEY: /pocket-cards/ipa_api_key
+          MP3_BUCKET: pocket-cards-mp3
+          TRANSLATION_URL: https://translation.googleapis.com/language/translate/v2
+          TRANSLATION_API_KEY: /pocket-cards/translation_api_key
           PATH_PATTERN: audio
   # ---------------------------------------
   # Path: /groups/{groupId}/words
