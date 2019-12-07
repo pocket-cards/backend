@@ -10,7 +10,8 @@ phases:
   build:
     commands:
       - yarn install
-      - npm run build:prod
+      - tsc --noemit
+      - npm run build
 artifacts:
   files:
     - 'build/**/*'
