@@ -1,0 +1,20 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 10
+      docker: 18
+  pre_build:
+    commands:
+      - npm i -g yarn
+  build:
+    commands:
+      - yarn install
+      - npm run build:prod
+artifacts:
+  files:
+    - "build/**/*"
+cache:
+  paths:
+    - "yarn.lock"
