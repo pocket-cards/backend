@@ -169,13 +169,6 @@ locals {
 data "aws_region" "this" {}
 
 # -----------------------------------------------
-# SSM Parameter Store - Github token
-# -----------------------------------------------
-data "aws_ssm_parameter" "github_token" {
-  name = local.remote_init.ssm_param_github_token
-}
-
-# -----------------------------------------------
 # AWS Account
 # -----------------------------------------------
 data "aws_caller_identity" "this" {}
