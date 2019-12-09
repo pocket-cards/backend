@@ -10,6 +10,11 @@ phases:
       - mv terraform /bin
   build:
     commands:
+      - cp -r $CODEBUILD_SRC_DIR_build_artf build
+      - ls
+      - cd build
+      - ls
+      - cd $CODEBUILD_SRC_DIR
       - cd infra
       - terraform init -no-color
       - terraform workspace select $ENVIRONMENT -no-color
