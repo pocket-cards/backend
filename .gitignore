@@ -7,3 +7,4 @@
 /samlocal/build
 /.vscode
 /docker/sam/build
+/infra/.terraform
