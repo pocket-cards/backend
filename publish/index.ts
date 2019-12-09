@@ -8,8 +8,6 @@ const PROJECT_NAME = process.env.PROJECT_NAME_UC as string;
 const FUNCTION_ALIAS = process.env.FUNCTION_ALIAS as string;
 // CodeDeploy App名
 const APPLICATION_NAME = process.env.APPLICATION_NAME as string;
-// CodeDeploy DeploymentGroup
-const DEPLOYMENT_GROUPNAME = process.env.DEPLOYMENT_GROUPNAME as string;
 
 // Lambda Client
 const client = new Lambda({
@@ -101,7 +99,7 @@ const start = async () => {
     return cdClient
       .createDeployment({
         applicationName: APPLICATION_NAME,
-        deploymentGroupName: DEPLOYMENT_GROUPNAME,
+        deploymentGroupName: getFunctionName(fullName),
         revision: {
           revisionType: 'AppSpecContent',
           appSpecContent: {
@@ -112,8 +110,11 @@ const start = async () => {
       .promise();
   });
 
-  // バージョン切替処理を実行する
-  await Promise.all(deploys);
+  // 並列処理をやめて、単独実行にする
+  for (let item of deploys) {
+    // バージョン切替処理を実行する
+    await item;
+  }
 };
 
 const getFunctionName = (fullName: string) => fullName.replace(PROJECT_NAME, '').replace('_', '');
