@@ -11,6 +11,9 @@ phases:
   build:
     commands:
       - cp -r $CODEBUILD_SRC_DIR_build_artf .
+      - ls
+      - cd build
+      - ls
       - cd infra
       - terraform init -no-color
       - terraform workspace select $ENVIRONMENT -no-color
