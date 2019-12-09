@@ -8,6 +8,8 @@ const PROJECT_NAME = process.env.PROJECT_NAME_UC as string;
 const FUNCTION_ALIAS = process.env.FUNCTION_ALIAS as string;
 // CodeDeploy App名
 const APPLICATION_NAME = process.env.APPLICATION_NAME as string;
+// CodeDeploy DeploymentGroup
+const DEPLOYMENT_GROUPNAME = process.env.DEPLOYMENT_GROUPNAME as string;
 
 // Lambda Client
 const client = new Lambda({
@@ -99,7 +101,7 @@ const start = async () => {
     return cdClient
       .createDeployment({
         applicationName: APPLICATION_NAME,
-        deploymentGroupName: getFunctionName(fullName),
+        deploymentGroupName: DEPLOYMENT_GROUPNAME,
         revision: {
           revisionType: 'AppSpecContent',
           appSpecContent: {
