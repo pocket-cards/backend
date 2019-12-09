@@ -169,13 +169,6 @@ locals {
 data "aws_region" "this" {}
 
 # -----------------------------------------------
-# AWS Route53
-# -----------------------------------------------
-data "aws_route53_zone" "this" {
-  name = local.remote_init.domain_name
-}
-
-# -----------------------------------------------
 # SSM Parameter Store - Github token
 # -----------------------------------------------
 data "aws_ssm_parameter" "github_token" {
