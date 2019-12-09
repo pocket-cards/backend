@@ -9,6 +9,7 @@
     "sam:api": "sam local start-api -t test/template.yml -n test/envs.json",
     "test": "mocha -r dotenv/config -r ts-node/register test/**/index.ts --exit --timeout 10000",
     "cover": "nyc npm run test",
+    "build:publish": "webpack --config ./configs/webpack.publish.ts",
     "valid": "tsc --noEmit"
   },
   "nyc": {
