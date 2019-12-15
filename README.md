@@ -120,3 +120,11 @@
 | Get Daily   | UserId = xxx, Timestamp begin_with YYYYMMDD  |
 | Get Weekly  | UserId = xxx, Timestamp >= YYYYMMDD000000000 |
 | Get Monthly | UserId = xxx, Timestamp >= YYYYMMDD000000000 |
+
+## Maintenance Functions
+
+| Function | Description                                            |
+| -------- | ------------------------------------------------------ |
+| M001     | Send notification to slack when build Success / Failed |
+| M002     | CodeBuild state change to failed                       |
+| M003     | CodePipeline state change to success                   |

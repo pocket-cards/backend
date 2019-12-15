@@ -14,8 +14,8 @@ module "a002" {
   log_retention_in_days = var.lambda_log_retention_in_days
   source_dir            = local.lambda.a002.source_dir
   source_output_path    = local.lambda.a002.source_output_path
-  trigger_principal     = local.trigger_principal
-  trigger_source_arn    = "${local.trigger_source_arn}/*/GET/history"
+  trigger_principal     = local.api_trigger_principal
+  trigger_source_arn    = "${local.api_trigger_source_arn}/*/GET/history"
 
   variables = {
     TABLE_HISTORY     = local.dynamodb_name_history

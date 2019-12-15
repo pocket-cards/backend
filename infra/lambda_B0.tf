@@ -39,8 +39,8 @@ module "b002" {
   log_retention_in_days = var.lambda_log_retention_in_days
   source_dir            = local.lambda.b002.source_dir
   source_output_path    = local.lambda.b002.source_output_path
-  trigger_principal     = local.trigger_principal
-  trigger_source_arn    = "${local.trigger_source_arn}/*/GET/groups"
+  trigger_principal     = local.api_trigger_principal
+  trigger_source_arn    = "${local.api_trigger_source_arn}/*/GET/groups"
 
   role_policy_json      = [file("iam/lambda_policy_dynamodb.json")]
 }

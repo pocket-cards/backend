@@ -13,8 +13,8 @@ module "c001" {
   log_retention_in_days = var.lambda_log_retention_in_days
   source_dir            = local.lambda.c001.source_dir
   source_output_path    = local.lambda.c001.source_output_path
-  trigger_principal     = local.trigger_principal
-  trigger_source_arn    = "${local.trigger_source_arn}/*/POST/groups/*/words"
+  trigger_principal     = local.api_trigger_principal
+  trigger_source_arn    = "${local.api_trigger_source_arn}/*/POST/groups/*/words"
 
   variables = {
     TABLE_WORDS         = local.dynamodb_name_words
@@ -52,8 +52,8 @@ module "c002" {
   log_retention_in_days = var.lambda_log_retention_in_days
   source_dir            = local.lambda.c002.source_dir
   source_output_path    = local.lambda.c002.source_output_path
-  trigger_principal     = local.trigger_principal
-  trigger_source_arn    = "${local.trigger_source_arn}/*/GET/groups/*/words"
+  trigger_principal     = local.api_trigger_principal
+  trigger_source_arn    = "${local.api_trigger_source_arn}/*/GET/groups/*/words"
 
   variables = {
     TZ = local.timezone
@@ -107,8 +107,8 @@ module "c004" {
   log_retention_in_days = var.lambda_log_retention_in_days
   source_dir            = local.lambda.c004.source_dir
   source_output_path    = local.lambda.c004.source_output_path
-  trigger_principal     = local.trigger_principal
-  trigger_source_arn    = "${local.trigger_source_arn}/*/PUT/groups/*/words/*"
+  trigger_principal     = local.api_trigger_principal
+  trigger_source_arn    = "${local.api_trigger_source_arn}/*/PUT/groups/*/words/*"
 
   variables = {
     TABLE_GROUP_WORDS = local.dynamodb_name_group_words
@@ -140,8 +140,8 @@ module "c006" {
   log_retention_in_days = var.lambda_log_retention_in_days
   source_dir            = local.lambda.c006.source_dir
   source_output_path    = local.lambda.c006.source_output_path
-  trigger_principal     = local.trigger_principal
-  trigger_source_arn    = "${local.trigger_source_arn}/*/GET/groups/*/new"
+  trigger_principal     = local.api_trigger_principal
+  trigger_source_arn    = "${local.api_trigger_source_arn}/*/GET/groups/*/new"
 
   variables = {
     WORDS_LIMIT       = 10
@@ -172,8 +172,8 @@ module "c007" {
   log_retention_in_days = var.lambda_log_retention_in_days
   source_dir            = local.lambda.c007.source_dir
   source_output_path    = local.lambda.c007.source_output_path
-  trigger_principal     = local.trigger_principal
-  trigger_source_arn    = "${local.trigger_source_arn}/*/GET/groups/*/test"
+  trigger_principal     = local.api_trigger_principal
+  trigger_source_arn    = "${local.api_trigger_source_arn}/*/GET/groups/*/test"
 
   variables = {
     WORDS_LIMIT       = 10
@@ -205,8 +205,8 @@ module "c008" {
   layers                = [local.xray]
   source_dir            = local.lambda.c008.source_dir
   source_output_path    = local.lambda.c008.source_output_path
-  trigger_principal     = local.trigger_principal
-  trigger_source_arn    = "${local.trigger_source_arn}/*/GET/groups/*/review"
+  trigger_principal     = local.api_trigger_principal
+  trigger_source_arn    = "${local.api_trigger_source_arn}/*/GET/groups/*/review"
 
   variables = {
     WORDS_LIMIT       = 10
