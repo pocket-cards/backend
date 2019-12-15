@@ -18,6 +18,7 @@ locals {
   translation_api_key = local.remote_init.ssm_param_translation_api_key
   ipa_url             = local.remote_init.ipa_url
   ipa_api_key         = local.remote_init.ssm_param_ipa_api_key
+  slack_url           = local.remote_init.ssm_param_slack_url
   parallelism         = "--parallelism=30"
 
   # ----------------------------------------------------------------------------------------------
@@ -46,7 +47,7 @@ locals {
   # ----------------------------------------------------------------------------------------------
   # CloudWatch Rules
   # ----------------------------------------------------------------------------------------------
-  rule_target_arn            = local.remote_bked.rule_target_arn
+  rule_target_arn = local.remote_bked.rule_target_arn
 
   # ----------------------------------------------------------------------------------------------
   # Lambda Layers
@@ -59,17 +60,17 @@ locals {
   # ----------------------------------------------------------------------------------------------
   # Lambda Trigger
   # ----------------------------------------------------------------------------------------------
-  api_trigger_principal  = "apigateway.amazonaws.com"
-  api_trigger_source_arn = local.api_execution_arn
-  rule_trigger_principal = "events.amazonaws.com"
+  api_trigger_principal   = "apigateway.amazonaws.com"
+  api_trigger_source_arn  = local.api_execution_arn
+  rule_trigger_principal  = "events.amazonaws.com"
   rule_trigger_source_arn = local.api_execution_arn
 
   # ----------------------------------------------------------------------------------------------
   # Lambda
   # ----------------------------------------------------------------------------------------------
-  lambda_handler     = "index.handler"
-  lambda_runtime     = "nodejs10.x"
-  lambda_alias_name  = "v1"
+  lambda_handler    = "index.handler"
+  lambda_runtime    = "nodejs10.x"
+  lambda_alias_name = "v1"
 
   audio_path_pattern = "audio"
   lambda_role        = "${local.project_name_uc}_Lambda"
