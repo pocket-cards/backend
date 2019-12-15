@@ -23,6 +23,7 @@ locals {
   # -----------------------------------------------
   # API Gateway
   # -----------------------------------------------
+  api_id            = local.remote_bked.api_id
   api_execution_arn = local.remote_bked.api_execution_arn
 
   # -----------------------------------------------
@@ -53,9 +54,11 @@ locals {
   # -----------------------------------------------
   # Lambda
   # -----------------------------------------------
-  lambda_handler    = "index.handler"
-  lambda_runtime    = "nodejs10.x"
-  lambda_alias_name = "v1"
+  trigger_principal  = "apigateway.amazonaws.com"
+  trigger_source_arn = local.api_execution_arn
+  lambda_handler     = "index.handler"
+  lambda_runtime     = "nodejs10.x"
+  lambda_alias_name  = "v1"
 
   audio_path_pattern        = "audio"
   lambda_role_prefix        = "${local.project_name_uc}_Lambda"
