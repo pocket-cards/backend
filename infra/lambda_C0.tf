@@ -2,7 +2,7 @@
 # 単語一括登録: /groups/{groupId}/words
 # -----------------------------------------------
 module "c001" {
-  source                = "github.com/wwalpha/terraform-module-lambda"
+  source = "github.com/wwalpha/terraform-module-lambda"
 
   function_name         = local.lambda.c001.function_name
   alias_name            = local.lambda_alias_name
@@ -13,6 +13,8 @@ module "c001" {
   log_retention_in_days = var.lambda_log_retention_in_days
   source_dir            = local.lambda.c001.source_dir
   source_output_path    = local.lambda.c001.source_output_path
+  trigger_principal     = local.trigger_principal
+  trigger_source_arn    = "${local.trigger_source_arn}/*/POST/groups/*/words"
 
   variables = {
     TABLE_WORDS         = local.dynamodb_name_words
@@ -40,7 +42,7 @@ module "c001" {
 # 単語一覧取得: /groups/{groupId}/words
 # -----------------------------------------------
 module "c002" {
-  source                = "github.com/wwalpha/terraform-module-lambda"
+  source = "github.com/wwalpha/terraform-module-lambda"
 
   function_name         = local.lambda.c002.function_name
   alias_name            = local.lambda_alias_name
@@ -50,6 +52,8 @@ module "c002" {
   log_retention_in_days = var.lambda_log_retention_in_days
   source_dir            = local.lambda.c002.source_dir
   source_output_path    = local.lambda.c002.source_output_path
+  trigger_principal     = local.trigger_principal
+  trigger_source_arn    = "${local.trigger_source_arn}/*/GET/groups/*/words"
 
   variables = {
     TZ = local.timezone
@@ -93,7 +97,7 @@ module "c002" {
 # 単語情報更新: /groups/{groupId}/words/{word} 
 # -----------------------------------------------
 module "c004" {
-  source                = "github.com/wwalpha/terraform-module-lambda"
+  source = "github.com/wwalpha/terraform-module-lambda"
 
   function_name         = local.lambda.c004.function_name
   alias_name            = local.lambda_alias_name
@@ -103,6 +107,8 @@ module "c004" {
   log_retention_in_days = var.lambda_log_retention_in_days
   source_dir            = local.lambda.c004.source_dir
   source_output_path    = local.lambda.c004.source_output_path
+  trigger_principal     = local.trigger_principal
+  trigger_source_arn    = "${local.trigger_source_arn}/*/PUT/groups/*/words/*"
 
   variables = {
     TABLE_GROUP_WORDS = local.dynamodb_name_group_words
@@ -123,7 +129,7 @@ module "c004" {
 # 新規学習モード単語一覧: /groups/{groupId}/new
 # -----------------------------------------------
 module "c006" {
-  source                = "github.com/wwalpha/terraform-module-lambda"
+  source = "github.com/wwalpha/terraform-module-lambda"
 
   function_name         = local.lambda.c006.function_name
   alias_name            = local.lambda_alias_name
@@ -134,6 +140,8 @@ module "c006" {
   log_retention_in_days = var.lambda_log_retention_in_days
   source_dir            = local.lambda.c006.source_dir
   source_output_path    = local.lambda.c006.source_output_path
+  trigger_principal     = local.trigger_principal
+  trigger_source_arn    = "${local.trigger_source_arn}/*/GET/groups/*/new"
 
   variables = {
     WORDS_LIMIT       = 10
@@ -154,7 +162,7 @@ module "c006" {
 # 新規学習モード単語一覧: /groups/{groupId}/test
 # -----------------------------------------------
 module "c007" {
-  source                = "github.com/wwalpha/terraform-module-lambda"
+  source = "github.com/wwalpha/terraform-module-lambda"
 
   function_name         = local.lambda.c007.function_name
   alias_name            = local.lambda_alias_name
@@ -164,6 +172,8 @@ module "c007" {
   log_retention_in_days = var.lambda_log_retention_in_days
   source_dir            = local.lambda.c007.source_dir
   source_output_path    = local.lambda.c007.source_output_path
+  trigger_principal     = local.trigger_principal
+  trigger_source_arn    = "${local.trigger_source_arn}/*/GET/groups/*/test"
 
   variables = {
     WORDS_LIMIT       = 10
@@ -184,7 +194,7 @@ module "c007" {
 # 新規学習モード単語一覧: /groups/{groupId}/review
 # -----------------------------------------------
 module "c008" {
-  source                = "github.com/wwalpha/terraform-module-lambda"
+  source = "github.com/wwalpha/terraform-module-lambda"
 
   function_name         = local.lambda.c008.function_name
   alias_name            = local.lambda_alias_name
@@ -195,6 +205,8 @@ module "c008" {
   layers                = [local.xray]
   source_dir            = local.lambda.c008.source_dir
   source_output_path    = local.lambda.c008.source_output_path
+  trigger_principal     = local.trigger_principal
+  trigger_source_arn    = "${local.trigger_source_arn}/*/GET/groups/*/review"
 
   variables = {
     WORDS_LIMIT       = 10

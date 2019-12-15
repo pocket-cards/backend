@@ -14,6 +14,8 @@ module "d001" {
   layers                = [local.xray, local.moment]
   source_dir            = local.lambda.d001.source_dir
   source_output_path    = local.lambda.d001.source_output_path
+  trigger_principal     = local.trigger_principal
+  trigger_source_arn    = "${local.trigger_source_arn}/*/POST/image2text"
 
   role_policy_json = [
     file("iam/lambda_policy_s3.json"),
