@@ -50,6 +50,11 @@ locals {
   rule_target_arn = local.remote_bked.rule_target_arn
 
   # ----------------------------------------------------------------------------------------------
+  # CodeDeploy
+  # ----------------------------------------------------------------------------------------------
+  codedeploy_backend_name = local.remote_bked.codedeploy_app_backend_name
+
+  # ----------------------------------------------------------------------------------------------
   # Lambda Layers
   # ----------------------------------------------------------------------------------------------
   xray     = local.remote_init.layers.xray
@@ -195,6 +200,28 @@ locals {
       source_output_path = abspath("${local.lambda_output_path}/S0_S001.zip")
     }
   }
+
+  deployment_group_names = [
+    local.lambda.a001.function_name,
+    local.lambda.a002.function_name,
+    local.lambda.a003.function_name,
+    local.lambda.b001.function_name,
+    local.lambda.b002.function_name,
+    local.lambda.b003.function_name,
+    local.lambda.b004.function_name,
+    local.lambda.c001.function_name,
+    local.lambda.c002.function_name,
+    local.lambda.c003.function_name,
+    local.lambda.c004.function_name,
+    local.lambda.c006.function_name,
+    local.lambda.c007.function_name,
+    local.lambda.c008.function_name,
+    local.lambda.d001.function_name,
+    local.lambda.m001.function_name,
+    local.lambda.m002.function_name,
+    local.lambda.m003.function_name,
+    local.lambda.s001.function_name,
+  ]
 }
 
 # ----------------------------------------------------------------------------------------------
