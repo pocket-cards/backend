@@ -1,6 +1,5 @@
 import moment from 'moment';
 import { APIGatewayEvent } from 'aws-lambda';
-import { Helper } from 'dynamodb-helper';
 
 export const getNow = () => `${moment().format('YYYYMMDD')}`;
 
@@ -64,27 +63,7 @@ export const getResponse = (statusCode: number, body?: string) => ({
   isBase64Encoded: false,
   headers: {
     'content-type': 'application/json',
-    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Origin': '*'
   },
-  body,
+  body
 });
-
-let helper: Helper;
-
-export const dbHelper = () => {
-  if (helper) return helper;
-
-  helper = new Helper({
-    options: {
-      region: process.env.AWS_DEFAULT_REGION,
-      endpoint: process.env.DYNAMO_ENDPOINT,
-      sslEnabled: false,
-    },
-    logger: {
-      appenders: { console: { type: 'console' } },
-      categories: { default: { appenders: ['console'], level: 'info' } },
-    },
-  });
-
-  return helper;
-};

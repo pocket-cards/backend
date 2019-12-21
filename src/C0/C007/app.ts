@@ -2,7 +2,7 @@ import { APIGatewayEvent } from 'aws-lambda';
 import { GroupWords } from '@typings/tables';
 import { queryItem_words, queryItem_groups } from './db';
 import { C007Response, WordItem } from '@typings/api';
-import { dbHelper } from '@utils/utils';
+import { dbHelper } from '@utils/dbHelper';
 
 // 環境変数
 const TABLE_WORDS = process.env.TABLE_WORDS as string;
@@ -50,17 +50,17 @@ export default async (event: APIGatewayEvent): Promise<C007Response> => {
       pronounce: word.pronounce,
       vocChn: word.vocChn,
       vocJpn: word.vocJpn,
-      times: item.times,
+      times: item.times
     } as WordItem);
   });
 
   return {
     count: items.length,
-    words: items,
+    words: items
   };
 };
 
 const EmptyResponse = (): C007Response => ({
   count: 0,
-  words: [],
+  words: []
 });

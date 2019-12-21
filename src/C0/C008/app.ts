@@ -3,7 +3,7 @@ import { APIGatewayEvent } from 'aws-lambda';
 import { GroupWords } from '@typings/tables';
 import { queryItem_words, queryItem_groups } from './db';
 import { C008Response, WordItem } from '@typings/api';
-import { dbHelper } from '@utils/utils';
+import { dbHelper } from '@utils/dbHelper';
 
 // 環境変数
 const TABLE_WORDS = process.env.TABLE_WORDS as string;
@@ -54,19 +54,19 @@ export default async (event: APIGatewayEvent): Promise<C008Response> => {
       pronounce: word.pronounce,
       vocChn: word.vocChn,
       vocJpn: word.vocJpn,
-      times: item.times,
+      times: item.times
     } as WordItem);
   });
 
   return {
     count: items.length,
-    words: items,
+    words: items
   };
 };
 
 const EmptyResponse = (): C008Response => ({
   count: 0,
-  words: [],
+  words: []
 });
 
 const getRandom = (items: DynamoDB.DocumentClient.AttributeMap[], maxItems: number) => {

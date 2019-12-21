@@ -3,7 +3,7 @@ import { GroupWords } from '@typings/tables';
 import { queryItem_words, queryItem_groups } from './db';
 import { C006Response, WordItem } from '@typings/api';
 import moment from 'moment';
-import { dbHelper } from '@utils/utils';
+import { dbHelper } from '@utils/dbHelper';
 
 // 環境変数
 const TABLE_WORDS = process.env.TABLE_WORDS as string;
@@ -64,17 +64,17 @@ export default async (event: APIGatewayEvent): Promise<C006Response> => {
       pronounce: word.pronounce,
       vocChn: word.vocChn,
       vocJpn: word.vocJpn,
-      times: item.times,
+      times: item.times
     } as WordItem);
   });
 
   return {
     count: results.length,
-    words: results,
+    words: results
   };
 };
 
 const EmptyResponse = (): C006Response => ({
   count: 0,
-  words: [],
+  words: []
 });

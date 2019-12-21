@@ -4,8 +4,9 @@ import * as short from 'short-uuid';
 import axios from 'axios';
 import { polly, s3, ssm } from '@utils/clientUtils';
 import { putItem_groups, getItem_words, putItem_words } from './db';
-import { getNow, dbHelper } from '@utils/utils';
+import { getNow } from '@utils/utils';
 import { C001Request } from '@typings/api';
+import { dbHelper } from '@utils/dbHelper';
 
 // 環境変数
 const TABLE_WORDS = process.env.TABLE_WORDS as string;
@@ -35,7 +36,7 @@ export default async (event: APIGatewayEvent): Promise<void> => {
         id: groupId,
         word: item,
         nextTime: getNow(),
-        times: 0,
+        times: 0
       })
     )
   );
@@ -75,7 +76,9 @@ export default async (event: APIGatewayEvent): Promise<void> => {
   }
 
   // 単語登録用の情報を収集する
-  const taskArray = targets.map(item => Promise.all([getPronounce(item), getMP3(item), getTranslate(item, 'zh'), getTranslate(item, 'ja')]));
+  const taskArray = targets.map(item =>
+    Promise.all([getPronounce(item), getMP3(item), getTranslate(item, 'zh'), getTranslate(item, 'ja')])
+  );
 
   const result = await Promise.all(taskArray);
 
@@ -94,7 +97,7 @@ export default async (event: APIGatewayEvent): Promise<void> => {
         pronounce: pronounce['pronounce'],
         mp3,
         vocChn,
-        vocJpn,
+        vocJpn
       })
     );
   });
@@ -110,8 +113,8 @@ const getPronounce = async (word: string) => {
 
   const res = await axios.get(`${IPA_URL}?word=${word}`, {
     headers: {
-      'x-api-key': apiKey,
-    },
+      'x-api-key': apiKey
+    }
   });
 
   return res.data;
@@ -126,7 +129,7 @@ const getMP3 = async (word: string): Promise<string> => {
     TextType: 'text',
     VoiceId: 'Joanna',
     OutputFormat: 'mp3',
-    LanguageCode: 'en-US',
+    LanguageCode: 'en-US'
   };
 
   const response = await client.synthesizeSpeech(request).promise();
@@ -139,7 +142,7 @@ const getMP3 = async (word: string): Promise<string> => {
   const putRequest: S3.Types.PutObjectRequest = {
     Bucket: MP3_BUCKET,
     Key: key,
-    Body: response.AudioStream,
+    Body: response.AudioStream
   };
 
   const sClient = s3();
@@ -154,13 +157,13 @@ const getTranslate = async (word: string, targetLanguageCode: string) => {
 
   const {
     data: {
-      data: { translations },
-    },
+      data: { translations }
+    }
   } = await axios.post(`${TRANSLATION_URL}?key=${apiKey}`, {
     q: word,
     from: 'en',
     target: targetLanguageCode,
-    format: 'text',
+    format: 'text'
   });
 
   // 結果ない場合、エラーとする
@@ -177,7 +180,7 @@ const getSSMValue = async (key: string) => {
 
   const result = await client
     .getParameter({
-      Name: key,
+      Name: key
     })
     .promise();
 

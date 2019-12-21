@@ -2,7 +2,7 @@ import { DynamoDB } from 'aws-sdk';
 import { APIGatewayEvent } from 'aws-lambda';
 import { ResponseBody } from './index';
 import { GroupWords } from '@typings/tables';
-import { dbHelper } from '@utils/utils';
+import { dbHelper } from '@utils/dbHelper';
 
 const TABLE_GROUP_WORDS = process.env.TABLE_GROUP_WORDS as string;
 
@@ -24,7 +24,7 @@ export const app = async (event: APIGatewayEvent): Promise<ResponseBody[]> => {
   return queryResult.Items.map(
     item =>
       ({
-        word: (item as GroupWords).word,
+        word: (item as GroupWords).word
       } as ResponseBody)
   );
 };
@@ -35,11 +35,11 @@ const queryItem_groups = (groupId: string) =>
     TableName: TABLE_GROUP_WORDS,
     KeyConditionExpression: '#id = :id',
     ExpressionAttributeNames: {
-      '#id': 'id',
+      '#id': 'id'
     },
     ExpressionAttributeValues: {
-      ':id': groupId,
+      ':id': groupId
     },
     Limit: 10,
-    ScanIndexForward: false,
+    ScanIndexForward: false
   } as DynamoDB.DocumentClient.QueryInput);

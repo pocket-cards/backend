@@ -45,7 +45,7 @@ module "m002" {
     CALL_SLACK_FUNCTION = local.lambda.m001.function_name
   }
 
-  layers = [local.xray, local.axios]
+  layers = [local.xray, local.axios, local.moment]
 }
 
 # --------------------------------------------------------------------------------

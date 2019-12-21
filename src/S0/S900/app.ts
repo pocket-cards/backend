@@ -2,7 +2,7 @@ import { DynamoDBStreamEvent } from 'aws-lambda';
 import moment from 'moment';
 import { putItem_history, queryItem_userGroups } from './db';
 import { UserGroups } from '@typings/tables';
-import { dbHelper } from '@utils/utils';
+import { dbHelper } from '@utils/dbHelper';
 
 // 環境変数
 const TABLE_HISTORY = process.env.TABLE_HISTORY as string;
@@ -44,7 +44,7 @@ export default async (event: DynamoDBStreamEvent): Promise<void> => {
         word: newImage['word'].S,
         groupId: newImage['id'].S,
         lastTime: oldImage['lastTime'] ? oldImage['lastTime'].S : undefined,
-        times: Number(newImage['times'].N),
+        times: Number(newImage['times'].N)
       })
     );
   }

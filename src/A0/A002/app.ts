@@ -1,10 +1,11 @@
 import { APIGatewayEvent } from 'aws-lambda';
 import moment from 'moment';
 import { A002Response } from '@typings/api';
-import { getNow, getUserId, dbHelper } from '@utils/utils';
+import { getNow, getUserId } from '@utils/utils';
 import { queryItem_history, queryItem_userGroups, queryItem_groups_test, queryItem_groups_review } from './db';
 import * as _ from 'lodash';
 import { UserGroups, History } from '@typings/tables';
+import { dbHelper } from '@utils/dbHelper';
 
 // 環境変数
 const TABLE_HISTORY = process.env.TABLE_HISTORY as string;
@@ -51,10 +52,10 @@ export default async (event: APIGatewayEvent): Promise<A002Response> => {
     daily: {
       total: daily.length,
       new: dailyNew.length,
-      review: dailyReview.length,
+      review: dailyReview.length
     },
     weekly,
-    monthly,
+    monthly
   };
 };
 
@@ -96,20 +97,20 @@ const queryRemaining = async (userId: string) => {
 
   return {
     test,
-    review,
+    review
   };
 };
 
 const EmptyResponse = (): A002Response => ({
   remaining: {
     review: 0,
-    test: 0,
+    test: 0
   },
   daily: {
     new: 0,
     review: 0,
-    total: 0,
+    total: 0
   },
   monthly: 0,
-  weekly: 0,
+  weekly: 0
 });

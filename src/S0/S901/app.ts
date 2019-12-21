@@ -1,6 +1,7 @@
 import { CognitoUserPoolTriggerEvent } from 'aws-lambda';
-import { getNow, dbHelper } from '@utils/utils';
+import { getNow } from '@utils/utils';
 import { updateItem_users, putItem_users } from './db';
+import { dbHelper } from '@utils/dbHelper';
 
 // 環境変数
 const TABLE_USERS = process.env.TABLE_USERS as string;
@@ -44,7 +45,7 @@ const postPostConfirmation = async (event: CognitoUserPoolTriggerEvent) => {
       id: event.userName,
       email: event.request.userAttributes['email'] as string,
       login: getNow(),
-      lastLogin: getNow(),
+      lastLogin: getNow()
     })
   );
 };

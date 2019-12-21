@@ -1,7 +1,8 @@
 import { APIGatewayEvent } from 'aws-lambda';
-import { getUserId, dbHelper } from '@utils/utils';
+import { getUserId } from '@utils/utils';
 import { queryInput } from './db';
 import { B002Response } from '@typings/api';
+import { dbHelper } from '@utils/dbHelper';
 
 export default async (event: APIGatewayEvent): Promise<B002Response> => {
   const userId = getUserId(event);

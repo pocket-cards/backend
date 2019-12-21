@@ -1,9 +1,17 @@
 import { CognitoUserPoolTriggerEvent } from 'aws-lambda';
-import { getItem_users, queryItem_userGroups, queryItem_groups, updateItem_users, queryItem_groupsOnly, updateItem_groupWords } from './db';
+import {
+  getItem_users,
+  queryItem_userGroups,
+  queryItem_groups,
+  updateItem_users,
+  queryItem_groupsOnly,
+  updateItem_groupWords
+} from './db';
 import { Users, UserGroups, GroupWords } from '@typings/tables';
-import { getNow, sleep, dbHelper } from '@utils/utils';
+import { getNow, sleep } from '@utils/utils';
 import moment = require('moment');
 import { DynamoDB } from 'aws-sdk';
+import { dbHelper } from '@utils/dbHelper';
 
 // 環境変数
 const TABLE_USERS = process.env.TABLE_USERS as string;
@@ -124,8 +132,8 @@ const updateTable = async (newWCU: number) => {
       TableName: TABLE_GROUP_WORDS,
       ProvisionedThroughput: {
         ReadCapacityUnits: 3,
-        WriteCapacityUnits: newWCU,
-      },
+        WriteCapacityUnits: newWCU
+      }
     })
     .promise();
 
@@ -150,7 +158,7 @@ const updateTable = async (newWCU: number) => {
 const getWriteCapacityUnits = async (client: DynamoDB, tableName: string) => {
   const result = await client
     .describeTable({
-      TableName: tableName,
+      TableName: tableName
     })
     .promise();
 

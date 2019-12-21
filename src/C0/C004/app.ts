@@ -1,9 +1,10 @@
 import { APIGatewayEvent } from 'aws-lambda';
 import { updateItem_groups, queryItem_userGroups, putItem_history, getItem_groups } from './db';
-import { getNow, getNextTime, dbHelper } from '@utils/utils';
+import { getNow, getNextTime } from '@utils/utils';
 import moment = require('moment');
 import { C004Request } from '@typings/api';
 import { UserGroups, History } from '@typings/tables';
+import { dbHelper } from '@utils/dbHelper';
 
 // 環境変数
 const TABLE_USER_GROUPS = process.env.TABLE_USER_GROUPS as string;
@@ -46,7 +47,7 @@ export default async (event: APIGatewayEvent): Promise<void> => {
     timestamp: moment().format('YYYYMMDDHHmmssSSS'),
     word,
     groupId,
-    times,
+    times
   };
 
   // 最終日付が存在する場合、セットする
@@ -63,12 +64,12 @@ export default async (event: APIGatewayEvent): Promise<void> => {
           word,
           lastTime: getNow(),
           nextTime,
-          times,
-        }),
+          times
+        })
       },
       {
-        Put: putItem_history(TABLE_HISTORY, historyItem),
-      },
-    ],
+        Put: putItem_history(TABLE_HISTORY, historyItem)
+      }
+    ]
   });
 };
