@@ -24,6 +24,6 @@ module "a002" {
     TZ                = local.timezone
   }
 
-  layers = [local.xray, local.moment, local.lodash]
+  layers = [local.xray, local.moment, local.lodash, local.dbhelper]
 }
 

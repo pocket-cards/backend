@@ -52,10 +52,11 @@ locals {
   # ----------------------------------------------------------------------------------------------
   # Lambda Layers
   # ----------------------------------------------------------------------------------------------
-  xray   = local.remote_init.layers.xray
-  moment = local.remote_init.layers.moment
-  lodash = local.remote_init.layers.lodash
-  axios  = local.remote_init.layers.axios
+  xray     = local.remote_init.layers.xray
+  moment   = local.remote_init.layers.moment
+  lodash   = local.remote_init.layers.lodash
+  axios    = local.remote_init.layers.axios
+  dbhelper = local.remote_init.layers.dbhelper
 
   # ----------------------------------------------------------------------------------------------
   # Lambda Trigger

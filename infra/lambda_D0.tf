@@ -2,7 +2,7 @@
 # 画像から単語に変換する: /image2text
 # -----------------------------------------------
 module "d001" {
-  source                = "github.com/wwalpha/terraform-module-lambda"
+  source = "github.com/wwalpha/terraform-module-lambda"
 
   function_name         = local.lambda.d001.function_name
   alias_name            = local.lambda_alias_name
@@ -21,6 +21,7 @@ module "d001" {
     file("iam/lambda_policy_s3.json"),
     file("iam/lambda_policy_rekognition.json")
   ]
+
   variables = {
     EXCLUDE_WORD = "",
     IMAGE_BUCKET = local.bucket_name_images

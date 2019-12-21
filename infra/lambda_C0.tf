@@ -58,9 +58,11 @@ module "c002" {
   variables = {
     TZ = local.timezone
   }
+
   role_policy_json = [
     file("iam/lambda_policy_dynamodb.json"),
   ]
+
   layers = [
     local.xray
   ]
@@ -120,6 +122,7 @@ module "c004" {
   role_policy_json = [
     file("iam/lambda_policy_dynamodb.json"),
   ]
+
   layers = [
     local.xray, local.moment
   ]
@@ -153,8 +156,9 @@ module "c006" {
   role_policy_json = [
     file("iam/lambda_policy_dynamodb.json"),
   ]
+
   layers = [
-    local.xray, local.moment
+    local.xray, local.moment, local.dbhelper
   ]
 }
 
@@ -185,8 +189,9 @@ module "c007" {
   role_policy_json = [
     file("iam/lambda_policy_dynamodb.json"),
   ]
+
   layers = [
-    local.xray, local.moment
+    local.xray, local.moment, local.dbhelper
   ]
 }
 
@@ -202,7 +207,6 @@ module "c008" {
   runtime               = local.lambda_runtime
   role_name             = local.lambda.c008.role_name
   log_retention_in_days = var.lambda_log_retention_in_days
-  layers                = [local.xray]
   source_dir            = local.lambda.c008.source_dir
   source_output_path    = local.lambda.c008.source_output_path
   trigger_principal     = local.api_trigger_principal
@@ -217,5 +221,9 @@ module "c008" {
 
   role_policy_json = [
     file("iam/lambda_policy_dynamodb.json"),
+  ]
+
+  layers = [
+    local.xray, local.moment, local.dbhelper
   ]
 }
