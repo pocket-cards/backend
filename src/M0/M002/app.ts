@@ -3,8 +3,8 @@ import { lambda } from '@utils/clientUtils';
 const CALL_SLACK_FUNCTION = process.env.CALL_SLACK_FUNCTION as string;
 
 export default async (event: any): Promise<void> => {
-  const logLink = event.detail['additional-information'].logs['deep-link'];
-  const project = event.detail['project-name'];
+  const project = event.detail.pipeline;
+  const state = event.detail.state;
 
   const client = lambda();
 
@@ -14,7 +14,7 @@ export default async (event: any): Promise<void> => {
       FunctionName: CALL_SLACK_FUNCTION,
       InvocationType: 'Event',
       Payload: JSON.stringify({
-        message: `CodeBuild Error...\nProject: ${project}\nLog Link: <${logLink}|CloudWatch Logs>`
+        message: `CodePipeline Build ${state}...\nProject: ${project}`
       })
     })
     .promise();
