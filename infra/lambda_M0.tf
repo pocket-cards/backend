@@ -19,7 +19,7 @@ module "m001" {
     SLACK_URL_KEY = "${local.slack_url}"
   }
 
-  layers = [local.xray, local.axios]
+  layers = [local.xray, local.axios, local.moment]
 }
 
 # --------------------------------------------------------------------------------
