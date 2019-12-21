@@ -11,6 +11,7 @@ module "m001" {
   memory_size           = 128
   role_name             = local.lambda.m001.role_name
   role_policy_json      = [file("iam/lambda_policy_ssm.json")]
+  xray_enabled          = true
   log_retention_in_days = var.lambda_log_retention_in_days
   source_dir            = local.lambda.m001.source_dir
   source_output_path    = local.lambda.m001.source_output_path
@@ -35,6 +36,7 @@ module "m002" {
   memory_size           = 128
   role_name             = local.lambda.m002.role_name
   role_policy_json      = [file("iam/lambda_policy_lambda.json")]
+  xray_enabled          = true
   log_retention_in_days = var.lambda_log_retention_in_days
   source_dir            = local.lambda.m002.source_dir
   source_output_path    = local.lambda.m002.source_output_path
@@ -61,6 +63,7 @@ module "m003" {
   memory_size           = 128
   role_name             = local.lambda.m003.role_name
   role_policy_json      = [file("iam/lambda_policy_lambda.json")]
+  xray_enabled          = true
   log_retention_in_days = var.lambda_log_retention_in_days
   source_dir            = local.lambda.m003.source_dir
   source_output_path    = local.lambda.m003.source_output_path
