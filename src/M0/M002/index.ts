@@ -1,9 +1,10 @@
-import { BaseResponse } from '@typings/api';
 import app from './app';
 import { getResponse } from '@utils/utils';
+import { BaseResponse } from '@typings/api';
+import { SNSRecords } from '@typings/aws';
 
 // イベント入口
-export const handler = async (event: any): Promise<BaseResponse> => {
+export const handler = async (event: SNSRecords): Promise<BaseResponse> => {
   // イベントログ
   console.log(JSON.stringify(event));
 

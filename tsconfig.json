@@ -27,7 +27,8 @@
     "./typings/types.d.ts",
     "./typings/api.d.ts",
     "./typings/tables.d.ts",
-    "./typings/aws-xray-sdk.d.ts"
+    "./typings/aws-xray-sdk.d.ts",
+    "./typings/aws.d.ts"
   ],
   "include": [
     "src/**/*",
