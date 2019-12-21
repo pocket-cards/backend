@@ -38,8 +38,8 @@ module "m002" {
   log_retention_in_days = var.lambda_log_retention_in_days
   source_dir            = local.lambda.m002.source_dir
   source_output_path    = local.lambda.m002.source_output_path
-  trigger_principal     = local.rule_trigger_principal
-  trigger_source_arn    = local.rule_target_arn.m002
+  trigger_principal     = local.sns_trigger_principal
+  trigger_source_arn    = local.notify_trigger_source_arn
 
   variables = {
     CALL_SLACK_FUNCTION = local.lambda.m001.function_name
@@ -64,8 +64,6 @@ module "m003" {
   log_retention_in_days = var.lambda_log_retention_in_days
   source_dir            = local.lambda.m003.source_dir
   source_output_path    = local.lambda.m003.source_output_path
-  trigger_principal     = local.rule_trigger_principal
-  trigger_source_arn    = local.rule_target_arn.m003
 
   variables = {
     CALL_SLACK_FUNCTION = local.lambda.m001.function_name

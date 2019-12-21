@@ -47,7 +47,7 @@ locals {
   # ----------------------------------------------------------------------------------------------
   # CloudWatch Rules
   # ----------------------------------------------------------------------------------------------
-  rule_target_arn = local.remote_bked.rule_target_arn
+  # rule_target_arn = local.remote_bked.rule_target_arn
 
   # ----------------------------------------------------------------------------------------------
   # CodeDeploy
@@ -66,10 +66,12 @@ locals {
   # ----------------------------------------------------------------------------------------------
   # Lambda Trigger
   # ----------------------------------------------------------------------------------------------
-  api_trigger_principal   = "apigateway.amazonaws.com"
-  api_trigger_source_arn  = local.api_execution_arn
-  rule_trigger_principal  = "events.amazonaws.com"
-  rule_trigger_source_arn = local.api_execution_arn
+  api_trigger_principal     = "apigateway.amazonaws.com"
+  api_trigger_source_arn    = local.api_execution_arn
+  rule_trigger_principal    = "events.amazonaws.com"
+  rule_trigger_source_arn   = local.api_execution_arn
+  sns_trigger_principal     = "sns.amazonaws.com"
+  notify_trigger_source_arn = local.remote_bked.sns_topic_notify_arn
 
   # ----------------------------------------------------------------------------------------------
   # Lambda
