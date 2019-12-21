@@ -5,7 +5,7 @@ import { getResponse } from '@utils/utils';
 // イベント入口
 export const handler = async (event: any): Promise<BaseResponse> => {
   // イベントログ
-  console.log(event);
+  console.log(JSON.stringify(event));
 
   try {
     // 本処理
