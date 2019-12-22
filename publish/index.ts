@@ -34,7 +34,9 @@ const start = async () => {
 
   console.log(`Functions: ${listFunctions.Functions.length}`);
   // 対象外のFunctionを除外する
-  const functions = listFunctions.Functions.filter(item => item.FunctionName && item.FunctionName.startsWith(PROJECT_NAME));
+  const functions = listFunctions.Functions.filter(
+    item => item.FunctionName && item.FunctionName.startsWith(PROJECT_NAME)
+  );
 
   // 対象が存在しない
   if (functions.length === 0) return;
@@ -69,16 +71,20 @@ const start = async () => {
       return;
     }
 
+    const versions = qualifies.Versions.map(item => (item.Version === '$LATEST' ? 0 : Number(item.Version)));
+
     // latest version
-    const latest = _.orderBy(qualifies.Versions, 'Version', 'desc')[0];
+    const latest = _.sortBy(versions)
+      .reverse()
+      .shift();
 
     // not changed
-    if (alias.FunctionVersion === latest.Version) {
+    if (Number(alias.FunctionVersion) === latest) {
       console.log(`Function name: ${fullName}, Not changed.`);
       return;
     }
 
-    console.log(`Function name: ${fullName}, Version Update: ${alias.FunctionVersion} -> ${latest.Version}`);
+    console.log(`Function name: ${fullName}, Version Update: ${alias.FunctionVersion} -> ${latest}`);
 
     const appspec = {} as any;
     appspec['version'] = '0.0';
@@ -90,7 +96,7 @@ const start = async () => {
             Name: fullName,
             Alias: FUNCTION_ALIAS,
             CurrentVersion: Number(alias.FunctionVersion),
-            TargetVersion: Number(latest.Version)
+            TargetVersion: Number(latest)
           }
         }
       }
