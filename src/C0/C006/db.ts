@@ -1,5 +1,5 @@
 import { DynamoDB } from 'aws-sdk';
-import { getNow } from '@utils/utils';
+import { getNow } from '@utils/dateUtils';
 
 /**
  * 新規学習単語対象一覧を取得する
@@ -14,15 +14,15 @@ export const queryItem_groups = (table: string, groupId: string) =>
     ExpressionAttributeNames: {
       '#id': 'id',
       '#times': 'times',
-      '#nextTime': 'nextTime',
+      '#nextTime': 'nextTime'
     },
     ExpressionAttributeValues: {
       ':id': groupId,
       ':times': 0,
-      ':nextTime': getNow(),
+      ':nextTime': getNow()
     },
     IndexName: 'lsiIdx1',
-    ScanIndexForward: false,
+    ScanIndexForward: false
   } as DynamoDB.DocumentClient.QueryInput);
 
 /** 単語情報を取得する */
@@ -30,6 +30,6 @@ export const queryItem_words = (table: string, word: string) =>
   ({
     TableName: table,
     Key: {
-      word: word,
-    },
+      word: word
+    }
   } as DynamoDB.DocumentClient.GetItemInput);

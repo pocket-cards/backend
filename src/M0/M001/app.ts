@@ -1,6 +1,7 @@
 import { M001Event } from '.';
 import { ssm } from '@utils/clientUtils';
 import axios from 'axios';
+import { Logger } from '@utils/utils';
 
 const SLACK_URL_KEY = process.env.SLACK_URL_KEY as string;
 
@@ -10,7 +11,8 @@ export default async (event: M001Event): Promise<void> => {
 
   const result = await client
     .getParameter({
-      Name: SLACK_URL_KEY
+      Name: SLACK_URL_KEY,
+      WithDecryption: true
     })
     .promise();
 
@@ -20,6 +22,7 @@ export default async (event: M001Event): Promise<void> => {
 
   const slackUrl = result.Parameter.Value;
 
+  Logger.info(slackUrl);
   // Slackにメッセージに送信する
   await axios.post(slackUrl, {
     text: event.message

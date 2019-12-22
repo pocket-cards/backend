@@ -2,7 +2,7 @@ import { Rekognition, S3 } from 'aws-sdk';
 import { APIGatewayEvent } from 'aws-lambda';
 import * as short from 'short-uuid';
 import { D001Response, D001Request } from '@typings/api';
-import { getNow } from '@utils/utils';
+import { Logger } from '@utils/utils';
 
 // Rekognition
 let rekognitionClient: Rekognition;
@@ -42,22 +42,22 @@ export const app = async (event: APIGatewayEvent): Promise<D001Response> => {
       S3Object: {
         Bucket: bucket,
         // Name: params.Key,
-        Name: '20190623/6NoHNRa3aXDzHmiCwGvD1g',
-      },
-    },
+        Name: '20190623/6NoHNRa3aXDzHmiCwGvD1g'
+      }
+    }
   };
   // S3 Client初期化
   if (!rekognitionClient) {
     rekognitionClient = new Rekognition({
-      region: process.env.AWS_REGION,
+      region: process.env.AWS_REGION
     });
   }
 
-  console.log(request);
+  Logger.info(request);
 
   const result = await rekognitionClient.detectText(request).promise();
 
-  // console.log(result);
+  // Logger.info(result);
   // 認識結果なし
   if (!result.TextDetections) {
     return EmptyResponse();
@@ -79,7 +79,7 @@ export const app = async (event: APIGatewayEvent): Promise<D001Response> => {
 
   return {
     count: words.length,
-    words,
+    words
   };
 };
 
@@ -96,7 +96,7 @@ const filter = (item: Rekognition.TextDetection): boolean => {
 
   // // 行の場合、対象外単語を含めた場合
   if (item.Type === 'LINE') {
-    console.log(item.DetectedText, item.Confidence);
+    Logger.info(item.DetectedText, item.Confidence);
     //   // if (excludeWord.find(word => text.includes(word))) {
     //   //   if (item.Id !== undefined) {
     //   //     excludeId.push(item.Id);
@@ -120,5 +120,5 @@ const filter = (item: Rekognition.TextDetection): boolean => {
 
 const EmptyResponse = (): D001Response => ({
   count: 0,
-  words: [],
+  words: []
 });

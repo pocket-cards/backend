@@ -4,6 +4,7 @@ import { GroupWords } from '@typings/tables';
 import { queryItem_words, queryItem_groups } from './db';
 import { C008Response, WordItem } from '@typings/api';
 import { dbHelper } from '@utils/dbHelper';
+import { Logger } from '@utils/utils';
 
 // 環境変数
 const TABLE_WORDS = process.env.TABLE_WORDS as string;
@@ -28,7 +29,7 @@ export default async (event: APIGatewayEvent): Promise<C008Response> => {
   // 時間順で上位N件を対象とします
   const targets = getRandom(queryResult.Items, WORDS_LIMIT);
 
-  console.log('対象単語', targets);
+  Logger.info('対象単語', targets);
   // 単語明細情報を取得する
   const tasks = targets.map(item =>
     dbHelper()
@@ -37,7 +38,7 @@ export default async (event: APIGatewayEvent): Promise<C008Response> => {
   );
   const wordsInfo = await Promise.all(tasks);
 
-  console.log('検索結果', wordsInfo);
+  Logger.info('検索結果', wordsInfo);
 
   // 返却結果
   const items: WordItem[] = [];

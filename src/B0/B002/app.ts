@@ -1,5 +1,5 @@
 import { APIGatewayEvent } from 'aws-lambda';
-import { getUserId } from '@utils/utils';
+import { getUserId, Logger } from '@utils/utils';
 import { queryInput } from './db';
 import { B002Response } from '@typings/api';
 import { dbHelper } from '@utils/dbHelper';
@@ -10,7 +10,7 @@ export default async (event: APIGatewayEvent): Promise<B002Response> => {
   // 検索
   const results = await dbHelper().query(queryInput(userId));
 
-  console.log(results);
+  Logger.info(results);
   // ０件
   if (results.Count === 0 || !results.Items) return [];
 

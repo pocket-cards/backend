@@ -1,5 +1,4 @@
 import { DynamoDB } from 'aws-sdk';
-import { getNow } from '@utils/utils';
 import { History } from '@typings/tables';
 
 /**
@@ -11,17 +10,17 @@ export const queryItem_userGroups = (table: string, groupId: string) =>
     ProjectionExpression: 'userId',
     KeyConditionExpression: '#groupId = :groupId',
     ExpressionAttributeNames: {
-      '#groupId': 'groupId',
+      '#groupId': 'groupId'
     },
     ExpressionAttributeValues: {
-      ':groupId': groupId,
+      ':groupId': groupId
     },
-    IndexName: 'gsiIdx1',
+    IndexName: 'gsiIdx1'
   } as DynamoDB.DocumentClient.QueryInput);
 
 /** 履歴情報を登録する */
 export const putItem_history = (table: string, item: History) =>
   ({
     TableName: table,
-    Item: item,
+    Item: item
   } as DynamoDB.DocumentClient.PutItemInput);

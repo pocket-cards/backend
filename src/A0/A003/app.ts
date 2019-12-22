@@ -8,10 +8,11 @@ import {
   updateItem_groupWords
 } from './db';
 import { Users, UserGroups, GroupWords } from '@typings/tables';
-import { getNow, sleep } from '@utils/utils';
 import moment = require('moment');
 import { DynamoDB } from 'aws-sdk';
 import { dbHelper } from '@utils/dbHelper';
+import { sleep, Logger } from '@utils/utils';
+import { getNow } from '@utils/dateUtils';
 
 // 環境変数
 const TABLE_USERS = process.env.TABLE_USERS as string;
@@ -65,7 +66,7 @@ export default async (event: CognitoUserPoolTriggerEvent): Promise<void> => {
   // 差異日数を計算する
   const diff = moment(getNow(), 'YYYYMMDD').diff(moment(maxDate, 'YYYYMMDD'), 'days') - 1;
 
-  console.log(`差異日数: ${diff}`);
+  Logger.info(`差異日数: ${diff}`);
 
   // スキップの日数がない
   if (diff === 0) {
@@ -83,7 +84,7 @@ export default async (event: CognitoUserPoolTriggerEvent): Promise<void> => {
 
       // 学習履歴ある単語を全部取得する
       const groupInfo = await dbHelper().query(queryItem_groups(TABLE_GROUP_WORDS, groupId));
-      console.log(`対象件数: ${groupInfo.Count}`);
+      Logger.info(`対象件数: ${groupInfo.Count}`);
 
       // データが存在しない
       if (groupInfo.Count === 0 || !groupInfo.Items) {
@@ -94,8 +95,8 @@ export default async (event: CognitoUserPoolTriggerEvent): Promise<void> => {
 
       for (let count = 0; items.length > count; ) {
         const newItems = items.splice(0, 50);
-        console.log(`実行件数: ${newItems.length}`);
-        console.log(`対象件数: ${items.length}`);
+        Logger.info(`実行件数: ${newItems.length}`);
+        Logger.info(`対象件数: ${items.length}`);
 
         const tasks = newItems.map(item => {
           const { word, nextTime } = item as GroupWords;

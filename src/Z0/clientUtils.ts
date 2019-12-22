@@ -1,9 +1,8 @@
 import * as XRay from 'aws-xray-sdk';
 import * as AWSSDK from 'aws-sdk';
-// import * as AWS from 'aws-sdk';
 import { DynamoDB, Polly, S3, Translate, SSM, Lambda } from 'aws-sdk';
 
-const AWS = XRay.captureAWS(AWSSDK);
+export const AWS = process.env.LOCAL_TEST ? AWSSDK : XRay.captureAWS(AWSSDK);
 
 let dynamoDBClient: DynamoDB.DocumentClient;
 let pollyClient: Polly;
@@ -13,7 +12,9 @@ let ssmClient: SSM;
 let lambdaClient: Lambda;
 
 /** Dynamodb Client初期化 */
-export const dynamoDB = (options?: DynamoDB.DocumentClient.DocumentClientOptions & DynamoDB.Types.ClientConfiguration): DynamoDB.DocumentClient => {
+export const dynamoDB = (
+  options?: DynamoDB.DocumentClient.DocumentClientOptions & DynamoDB.Types.ClientConfiguration
+): DynamoDB.DocumentClient => {
   // 初期化済
   if (dynamoDBClient) return dynamoDBClient;
 
@@ -22,7 +23,7 @@ export const dynamoDB = (options?: DynamoDB.DocumentClient.DocumentClientOptions
 
   // 初期化する
   return new AWS.DynamoDB.DocumentClient({
-    region: process.env.DEFAULT_REGION,
+    region: process.env.DEFAULT_REGION
   });
 };
 
@@ -35,7 +36,7 @@ export const polly = (options?: Polly.ClientConfiguration): Polly => {
   if (options) return new AWS.Polly(options);
 
   return new AWS.Polly({
-    region: process.env.DEFAULT_REGION,
+    region: process.env.DEFAULT_REGION
   });
 };
 
@@ -49,7 +50,7 @@ export const s3 = (options?: S3.ClientConfiguration): S3 => {
 
   // 初期化設定なし
   return new AWS.S3({
-    region: process.env.DEFAULT_REGION,
+    region: process.env.DEFAULT_REGION
   });
 };
 
@@ -63,7 +64,7 @@ export const translate = (options?: Translate.ClientConfiguration): Translate =>
 
   // 初期化設定なし
   return new AWS.Translate({
-    region: process.env.DEFAULT_REGION,
+    region: process.env.DEFAULT_REGION
   });
 };
 
@@ -77,7 +78,7 @@ export const ssm = (options?: SSM.ClientConfiguration): SSM => {
 
   // 初期化設定なし
   return new AWS.SSM({
-    region: process.env.DEFAULT_REGION,
+    region: process.env.DEFAULT_REGION
   });
 };
 
@@ -90,6 +91,6 @@ export const lambda = (options?: Lambda.ClientConfiguration): Lambda => {
 
   // 初期化設定なし
   return new AWS.Lambda({
-    region: process.env.DEFAULT_REGION,
+    region: process.env.DEFAULT_REGION
   });
 };

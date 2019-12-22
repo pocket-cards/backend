@@ -1,11 +1,12 @@
 import { DynamoDBStreamEvent } from 'aws-lambda';
 import app from './app';
 import validate from './validator';
+import { Logger } from '@utils/utils';
 
 // イベント入口
 export const handler = async (event: DynamoDBStreamEvent): Promise<void> => {
   // イベントログ
-  console.log(event);
+  Logger.info(event);
 
   try {
     // 認証
@@ -15,12 +16,12 @@ export const handler = async (event: DynamoDBStreamEvent): Promise<void> => {
     const result = await app(event);
 
     // 本処理結果
-    console.log(result);
+    Logger.info(result);
 
     return;
   } catch (error) {
     // エラーログ
-    console.log(error);
+    Logger.error(error);
 
     throw error;
   }

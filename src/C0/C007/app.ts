@@ -3,6 +3,7 @@ import { GroupWords } from '@typings/tables';
 import { queryItem_words, queryItem_groups } from './db';
 import { C007Response, WordItem } from '@typings/api';
 import { dbHelper } from '@utils/dbHelper';
+import { Logger } from '@utils/utils';
 
 // 環境変数
 const TABLE_WORDS = process.env.TABLE_WORDS as string;
@@ -33,7 +34,7 @@ export default async (event: APIGatewayEvent): Promise<C007Response> => {
   const tasks = targets.map(item => dbHelper().get(queryItem_words(TABLE_WORDS, (item as GroupWords).word as string)));
   const wordsInfo = await Promise.all(tasks);
 
-  console.log('検索結果', wordsInfo);
+  Logger.info('検索結果', wordsInfo);
 
   // 返却結果
   const items: WordItem[] = [];

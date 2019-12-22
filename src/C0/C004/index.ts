@@ -2,11 +2,12 @@ import { APIGatewayEvent, Callback } from 'aws-lambda';
 import app from './app';
 import validate from './validator';
 import { BaseResponse } from '@typings/api';
+import { Logger } from '@utils/utils';
 
 // イベント入口
 export const handler = (event: APIGatewayEvent, _: any, callback: Callback<BaseResponse>) => {
   // イベントログ
-  console.log(event);
+  Logger.info(event);
 
   validate(event)
     .then(() => app(event))
@@ -19,13 +20,13 @@ export const handler = (event: APIGatewayEvent, _: any, callback: Callback<BaseR
           'content-type': 'application/json',
           'Access-Control-Allow-Headers': '*',
           'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': '*',
-        },
+          'Access-Control-Allow-Methods': '*'
+        }
       });
     })
     .catch(err => {
       // エラーログ
-      console.log(err);
+      Logger.info(err);
       callback(err, {
         statusCode: 500,
         isBase64Encoded: false,
@@ -33,8 +34,8 @@ export const handler = (event: APIGatewayEvent, _: any, callback: Callback<BaseR
           'content-type': 'application/json',
           'Access-Control-Allow-Headers': '*',
           'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': '*',
-        },
+          'Access-Control-Allow-Methods': '*'
+        }
       });
     });
 };

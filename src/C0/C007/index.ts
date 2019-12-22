@@ -3,37 +3,38 @@ import app from './app';
 import validate from './validator';
 import { GroupWords } from '@typings/tables';
 import { BaseResponse, C007Response } from '@typings/api';
+import { Logger } from '@utils/utils';
 
 // イベント入口
 export const handler = (event: APIGatewayEvent, _: any, callback: Callback<BaseResponse>) => {
   // イベントログ
-  console.log(event);
+  Logger.info(event);
 
   validate(event)
     .then(() => app(event))
     .then((result: C007Response) => {
       // 終了ログ
-      console.log(result);
+      Logger.info(result);
       callback(null, {
         statusCode: 200,
         isBase64Encoded: false,
         headers: {
           'content-type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Origin': '*'
         },
-        body: JSON.stringify(result),
+        body: JSON.stringify(result)
       });
     })
     .catch(err => {
       // エラーログ
-      console.log(err);
+      Logger.info(err);
       callback(err, {
         statusCode: 500,
         isBase64Encoded: false,
         headers: {
           'content-type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-        },
+          'Access-Control-Allow-Origin': '*'
+        }
       });
     });
 };

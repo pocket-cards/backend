@@ -1,10 +1,10 @@
 import { APIGatewayEvent } from 'aws-lambda';
 import { updateItem_groups, queryItem_userGroups, putItem_history, getItem_groups } from './db';
-import { getNow, getNextTime } from '@utils/utils';
 import moment = require('moment');
 import { C004Request } from '@typings/api';
 import { UserGroups, History } from '@typings/tables';
 import { dbHelper } from '@utils/dbHelper';
+import { getNextTime, getNow } from '@utils/dateUtils';
 
 // 環境変数
 const TABLE_USER_GROUPS = process.env.TABLE_USER_GROUPS as string;

@@ -1,33 +1,34 @@
 import { app } from './app';
 import { APIGatewayEvent, Callback } from 'aws-lambda';
+import { Logger } from '@utils/utils';
 
 // イベント入口
 export const handler = (event: APIGatewayEvent, _: any, callback: Callback<Response>) => {
   // イベントログ
-  console.log(event);
+  Logger.info(event);
 
   app(event)
     .then((result: ResponseBody[]) => {
       // 終了ログ
-      console.log(result);
+      Logger.info(result);
       callback(null, {
         statusCode: 200,
         isBase64Encoded: false,
         headers: {
-          'content-type': 'application/json',
+          'content-type': 'application/json'
         },
-        body: JSON.stringify(result),
+        body: JSON.stringify(result)
       });
     })
     .catch(err => {
       // エラーログ
-      console.log(err);
+      Logger.info(err);
       callback(err, {
         statusCode: 500,
         isBase64Encoded: false,
         headers: {
-          'content-type': 'application/json',
-        },
+          'content-type': 'application/json'
+        }
       } as Response);
     });
 };

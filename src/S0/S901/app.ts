@@ -1,7 +1,8 @@
 import { CognitoUserPoolTriggerEvent } from 'aws-lambda';
-import { getNow } from '@utils/utils';
 import { updateItem_users, putItem_users } from './db';
 import { dbHelper } from '@utils/dbHelper';
+import { getNow } from '@utils/dateUtils';
+import { Logger } from '@utils/utils';
 
 // 環境変数
 const TABLE_USERS = process.env.TABLE_USERS as string;
@@ -20,7 +21,7 @@ export default async (event: CognitoUserPoolTriggerEvent): Promise<void> => {
 };
 
 const postAuthentication = async (event: CognitoUserPoolTriggerEvent) => {
-  console.log('postAuthentication');
+  Logger.info('postAuthentication');
 
   if (!event.userName) return;
 
@@ -39,7 +40,7 @@ const postAuthentication = async (event: CognitoUserPoolTriggerEvent) => {
 const postPostConfirmation = async (event: CognitoUserPoolTriggerEvent) => {
   if (!event.userName) return;
 
-  console.log('postPostConfirmation');
+  Logger.info('postPostConfirmation');
   await dbHelper().put(
     putItem_users(TABLE_USERS, {
       id: event.userName,

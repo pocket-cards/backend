@@ -4,9 +4,10 @@ import * as short from 'short-uuid';
 import axios from 'axios';
 import { polly, s3, ssm } from '@utils/clientUtils';
 import { putItem_groups, getItem_words, putItem_words } from './db';
-import { getNow } from '@utils/utils';
 import { C001Request } from '@typings/api';
 import { dbHelper } from '@utils/dbHelper';
+import { getNow } from '@utils/dateUtils';
+import { Logger } from '@utils/utils';
 
 // 環境変数
 const TABLE_WORDS = process.env.TABLE_WORDS as string;
@@ -51,13 +52,13 @@ export default async (event: APIGatewayEvent): Promise<void> => {
     }
   }
 
-  console.log('単語登録完了しました.');
+  Logger.info('単語登録完了しました.');
 
   // 単語存在確認
   const getTasks = input.words.map(item => dbHelper().get(getItem_words(TABLE_WORDS, item)));
   const getResults = await Promise.all(getTasks);
 
-  console.log('検索結果', getResults);
+  Logger.info('検索結果', getResults);
 
   const targets: string[] = [];
   input.words.forEach((item, idx) => {
@@ -67,9 +68,9 @@ export default async (event: APIGatewayEvent): Promise<void> => {
     }
   });
 
-  console.log('単語の存在チェックは完了しました.');
+  Logger.info('単語の存在チェックは完了しました.');
 
-  console.log('対象数:', targets.length);
+  Logger.info('対象数:', targets.length);
   // すでに辞書に存在しました
   if (targets.length === 0) {
     return;
@@ -82,7 +83,7 @@ export default async (event: APIGatewayEvent): Promise<void> => {
 
   const result = await Promise.all(taskArray);
 
-  console.log('単語情報を収集しました.');
+  Logger.info('単語情報を収集しました.');
 
   // 単語辞書登録
   putTasks = result.map(item => {
@@ -105,7 +106,7 @@ export default async (event: APIGatewayEvent): Promise<void> => {
   // 辞書登録処理
   await Promise.all(putTasks);
 
-  console.log('単語辞書の登録は完了しました.');
+  Logger.info('単語辞書の登録は完了しました.');
 };
 
 const getPronounce = async (word: string) => {

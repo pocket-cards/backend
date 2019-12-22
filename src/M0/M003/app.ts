@@ -13,7 +13,7 @@ export default async (event: any): Promise<void> => {
       FunctionName: CALL_SLACK_FUNCTION,
       InvocationType: 'Event',
       Payload: JSON.stringify({
-        message: `Code Pipeline Build Success...\nProject: ${project}`
+        message: `CodePipeline Build Success...\nProject: ${project}`
       })
     })
     .promise();

@@ -8,7 +8,7 @@ export default async (event: SNSRecords): Promise<void> => {
 
   const message = JSON.parse(record.Sns.Message) as EventSource;
   const pipeline = message.detail.pipeline;
-  const state = message.detail.state;
+  const state = message.detail.state === 'SUCCEEDED' ? 'Success' : 'Failure';
 
   const client = lambda();
 

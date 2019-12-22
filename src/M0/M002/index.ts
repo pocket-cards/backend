@@ -1,12 +1,12 @@
 import app from './app';
-import { getResponse } from '@utils/utils';
+import { getResponse, Logger } from '@utils/utils';
 import { BaseResponse } from '@typings/api';
 import { SNSRecords } from '@typings/aws';
 
 // イベント入口
 export const handler = async (event: SNSRecords): Promise<BaseResponse> => {
   // イベントログ
-  console.log(JSON.stringify(event));
+  Logger.info(JSON.stringify(event));
 
   try {
     // 本処理
@@ -15,7 +15,7 @@ export const handler = async (event: SNSRecords): Promise<BaseResponse> => {
     return getResponse(200);
   } catch (error) {
     // エラーログ
-    console.log(error);
+    Logger.info(error);
 
     return getResponse(500);
   }

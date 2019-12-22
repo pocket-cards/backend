@@ -4,6 +4,7 @@ import { queryItem_words, queryItem_groups } from './db';
 import { C006Response, WordItem } from '@typings/api';
 import moment from 'moment';
 import { dbHelper } from '@utils/dbHelper';
+import { Logger } from '@utils/utils';
 
 // 環境変数
 const TABLE_WORDS = process.env.TABLE_WORDS as string;
@@ -25,7 +26,7 @@ export default async (event: APIGatewayEvent): Promise<C006Response> => {
     return EmptyResponse();
   }
 
-  console.log(`Count: ${queryResult.Count}`);
+  Logger.info(`Count: ${queryResult.Count}`);
 
   const items = queryResult.Items as GroupWords[];
 
@@ -47,7 +48,7 @@ export default async (event: APIGatewayEvent): Promise<C006Response> => {
   );
   const wordsInfo = await Promise.all(tasks);
 
-  console.log('検索結果', wordsInfo);
+  Logger.info('検索結果', wordsInfo);
 
   // 返却結果
   const results: WordItem[] = [];

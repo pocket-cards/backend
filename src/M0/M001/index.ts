@@ -1,11 +1,11 @@
 import { BaseResponse } from '@typings/api';
 import app from './app';
-import { getResponse } from '@utils/utils';
+import { getResponse, Logger } from '@utils/utils';
 
 // イベント入口
 export const handler = async (event: M001Event): Promise<BaseResponse> => {
   // イベントログ
-  console.log(event);
+  Logger.info(event);
 
   try {
     // 本処理
@@ -14,7 +14,7 @@ export const handler = async (event: M001Event): Promise<BaseResponse> => {
     return getResponse(200);
   } catch (error) {
     // エラーログ
-    console.log(error);
+    Logger.error('handler.error', error);
 
     return getResponse(500);
   }

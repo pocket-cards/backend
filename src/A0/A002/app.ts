@@ -1,11 +1,11 @@
 import { APIGatewayEvent } from 'aws-lambda';
 import moment from 'moment';
 import { A002Response } from '@typings/api';
-import { getNow, getUserId } from '@utils/utils';
 import { queryItem_history, queryItem_userGroups, queryItem_groups_test, queryItem_groups_review } from './db';
-import * as _ from 'lodash';
 import { UserGroups, History } from '@typings/tables';
 import { dbHelper } from '@utils/dbHelper';
+import { getUserId } from '@utils/utils';
+import { getNow } from '@utils/dateUtils';
 
 // 環境変数
 const TABLE_HISTORY = process.env.TABLE_HISTORY as string;

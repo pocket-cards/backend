@@ -1,19 +1,21 @@
+import { Logger } from '@utils/utils';
+
 // イベント入口
 export const handler = async (event: any) => {
   // イベントログ
-  console.log(event);
+  Logger.info(event);
 
   // try {
   //   // 本処理
   //   const result = await app(event);
 
   //   // 本処理結果
-  //   console.log(result);
+  //   Logger.info(result);
 
   //   return;
   // } catch (error) {
   //   // エラーログ
-  //   console.log(error);
+  //   Logger.info(error);
 
   //   throw error;
   // }

@@ -1,22 +1,7 @@
-import moment from 'moment';
 import { APIGatewayEvent } from 'aws-lambda';
+import Log4js from 'log4js';
 
-export const getNow = () => `${moment().format('YYYYMMDD')}`;
-
-const days = [1, 2, 4, 7, 15, 30, 60, 90];
-
-/** 次回学習時間を計算する */
-export const getNextTime = (times: number) => {
-  if (times === 0) return getNow();
-
-  const addValue = days[times - 1];
-
-  const nextTime = moment()
-    .add(addValue, 'days')
-    .format('YYYYMMDD');
-
-  return `${nextTime}`;
-};
+export const Logger = Log4js.getLogger();
 
 // Sleep
 export const sleep = (timeout: number) => new Promise(resolve => setTimeout(() => resolve(), timeout));
@@ -53,7 +38,7 @@ export const getUserId = (event: APIGatewayEvent, authKey: string = 'Authorizati
     // return userInfo['cognito:username'];
     return 'wwalpha';
   } catch (err) {
-    console.log(err);
+    Logger.info(err);
     return null;
   }
 };

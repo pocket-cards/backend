@@ -2,7 +2,7 @@ import { Rekognition, S3 } from 'aws-sdk';
 import { APIGatewayEvent } from 'aws-lambda';
 import * as short from 'short-uuid';
 import { D001Response, D001Request } from '@typings/api';
-import { getNow } from '@utils/utils';
+import { getNow } from '@utils/dateUtils';
 
 // Rekognition
 let rekognitionClient: Rekognition;
@@ -28,13 +28,13 @@ export const app = async (event: APIGatewayEvent): Promise<D001Response> => {
     Bucket: bucket,
     Key: `${getNow()}/${short.generate()}`,
     ContentType: input.type,
-    Body: new Buffer(input.image, 'base64'),
+    Body: new Buffer(input.image, 'base64')
   };
 
   // S3 Client初期化
   if (!s3Client) {
     s3Client = new S3({
-      region: process.env.AWS_REGION,
+      region: process.env.AWS_REGION
     });
   }
 
@@ -45,15 +45,15 @@ export const app = async (event: APIGatewayEvent): Promise<D001Response> => {
     Image: {
       S3Object: {
         Bucket: bucket,
-        Name: params.Key,
-      },
-    },
+        Name: params.Key
+      }
+    }
   };
 
   // S3 Client初期化
   if (!rekognitionClient) {
     rekognitionClient = new Rekognition({
-      region: process.env.AWS_REGION,
+      region: process.env.AWS_REGION
     });
   }
 
@@ -80,7 +80,7 @@ export const app = async (event: APIGatewayEvent): Promise<D001Response> => {
 
   return {
     count: words.length,
-    words,
+    words
   };
 };
 
@@ -121,5 +121,5 @@ const filter = (item: Rekognition.TextDetection): boolean => {
 
 const EmptyResponse = (): D001Response => ({
   count: 0,
-  words: [],
+  words: []
 });
