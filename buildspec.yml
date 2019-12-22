@@ -12,6 +12,7 @@ phases:
       - yarn install
       - yarn valid
       - yarn build
+      - yarn coverage
 artifacts:
   files:
     - 'build/**/*'
