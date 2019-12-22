@@ -8,7 +8,7 @@
     "build": "webpack --config ./configs/webpack.prod.ts",
     "sam:api": "sam local start-api -t test/template.yml -n test/envs.json",
     "test": "ts-mocha -r tsconfig-paths/register -r dotenv/config UT/**/index.ts --exit --timeout 10000 dotenv_config_path=./configs/env/.env.test",
-    "cover": "nyc --reporter=html --reporter=text npm run test",
+    "coverage": "nyc --reporter=html --reporter=text npm run test",
     "build:publish": "webpack --config ./configs/webpack.publish.ts",
     "valid": "tsc --noEmit"
   },

@@ -1,7 +1,7 @@
+import { NoEmitOnErrorsPlugin, LoaderOptionsPlugin, ProgressPlugin, Plugin, Configuration } from 'webpack';
+import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import { sync } from 'glob';
 import * as path from 'path';
-import { Configuration, NoEmitOnErrorsPlugin, LoaderOptionsPlugin } from 'webpack';
-import CleanWebpackPlugin from 'clean-webpack-plugin';
 
 const SRC_PATH = './src';
 const ENTRY_NAME = 'index.ts';
@@ -29,14 +29,14 @@ const configs: Configuration = {
     filename: '[name].js',
     path: path.resolve(__dirname, '../build'),
     publicPath: '/',
-    libraryTarget: 'commonjs2',
+    libraryTarget: 'commonjs2'
   },
   resolve: {
     extensions: ['.ts', '.js'],
     alias: {
       '@utils': path.resolve(__dirname, '../src/Z0'),
-      '@typings': path.resolve(__dirname, '../typings'),
-    },
+      '@typings': path.resolve(__dirname, '../typings')
+    }
   },
   module: {
     rules: [
@@ -45,20 +45,21 @@ const configs: Configuration = {
         exclude: /node_modules/,
         use: [
           {
-            loader: 'ts-loader',
-          },
-        ],
-      },
-    ],
+            loader: 'ts-loader'
+          }
+        ]
+      }
+    ]
   },
   plugins: [
+    new ProgressPlugin(),
+    new CleanWebpackPlugin(),
     new NoEmitOnErrorsPlugin(),
     new LoaderOptionsPlugin({
-      debug: false,
-    }),
-    new CleanWebpackPlugin(),
+      debug: false
+    })
   ],
-  bail: true,
+  bail: true
 };
 
 export default configs;
