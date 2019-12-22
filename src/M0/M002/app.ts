@@ -1,12 +1,15 @@
 import { lambda } from '@utils/clientUtils';
 import { SNSRecords, EventSource } from '@typings/aws';
+import { Logger } from '@utils/utils';
 
 const CALL_SLACK_FUNCTION = process.env.CALL_SLACK_FUNCTION as string;
 
 export default async (event: SNSRecords): Promise<void> => {
   const record = event.Records[0];
-
   const message = JSON.parse(record.Sns.Message) as EventSource;
+
+  Logger.info(message);
+
   const pipeline = message.detail.pipeline;
   const state = message.detail.state === 'SUCCEEDED' ? 'Success' : 'Failure';
 
