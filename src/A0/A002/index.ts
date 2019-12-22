@@ -2,7 +2,7 @@ import { APIGatewayEvent } from 'aws-lambda';
 import app from './app';
 import validate from './validator';
 import { BaseResponse } from '@typings/api';
-import { Logger } from '@utils/utils';
+import { Logger, getResponse } from '@utils/utils';
 
 // イベント入口
 export const handler = async (event: APIGatewayEvent): Promise<BaseResponse> => {
@@ -32,13 +32,6 @@ export const handler = async (event: APIGatewayEvent): Promise<BaseResponse> => 
     // エラーログ
     Logger.error(error);
 
-    return {
-      statusCode: 500,
-      isBase64Encoded: false,
-      headers: {
-        'content-type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
-      }
-    };
+    return getResponse(500, JSON.stringify(error.message));
   }
 };

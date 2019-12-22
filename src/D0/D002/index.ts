@@ -2,11 +2,12 @@ import { APIGatewayEvent } from 'aws-lambda';
 import { BaseResponse } from '@typings/api';
 import { app } from './app';
 import validate from './validator';
+import { getResponse, Logger } from '@utils/utils';
 
 export const handler = async (event: APIGatewayEvent): Promise<BaseResponse> => {
   let res: BaseResponse = {
     statusCode: 500,
-    isBase64Encoded: false,
+    isBase64Encoded: false
   };
 
   try {
@@ -18,20 +19,14 @@ export const handler = async (event: APIGatewayEvent): Promise<BaseResponse> => 
       statusCode: 200,
       isBase64Encoded: false,
       headers: {
-        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Origin': '*'
       },
-      body: JSON.stringify(result),
+      body: JSON.stringify(result)
     };
   } catch (error) {
-    res = {
-      statusCode: 500,
-      isBase64Encoded: false,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-      },
-    };
+    Logger.error(error);
 
-    throw error;
+    return getResponse(500, JSON.stringify(error.message));
   } finally {
     return res;
   }

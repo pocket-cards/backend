@@ -25,7 +25,8 @@ export const handler = (event: APIGatewayEvent, _: any, callback: Callback<BaseR
     })
     .catch(err => {
       // エラーログ
-      Logger.info('Error:', err);
+      Logger.error(err);
+
       callback(err, {
         statusCode: 500,
         isBase64Encoded: false,

@@ -15,7 +15,7 @@ export const handler = async (event: SNSRecords): Promise<BaseResponse> => {
     return getResponse(200);
   } catch (error) {
     // エラーログ
-    Logger.info(error);
+    Logger.error(error);
 
     return getResponse(500);
   }

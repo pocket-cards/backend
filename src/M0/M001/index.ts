@@ -14,7 +14,7 @@ export const handler = async (event: M001Event): Promise<BaseResponse> => {
     return getResponse(200);
   } catch (error) {
     // エラーログ
-    Logger.error('handler.error', error);
+    Logger.error(error);
 
     return getResponse(500);
   }
