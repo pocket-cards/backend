@@ -1,4 +1,4 @@
-import { NoEmitOnErrorsPlugin, LoaderOptionsPlugin, ProgressPlugin, Plugin, Configuration } from 'webpack';
+import { NoEmitOnErrorsPlugin, LoaderOptionsPlugin, Configuration } from 'webpack';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import { sync } from 'glob';
 import * as path from 'path';
@@ -52,7 +52,6 @@ const configs: Configuration = {
     ]
   },
   plugins: [
-    new ProgressPlugin(),
     new CleanWebpackPlugin(),
     new NoEmitOnErrorsPlugin(),
     new LoaderOptionsPlugin({
