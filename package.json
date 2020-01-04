@@ -1,13 +1,16 @@
 {
   "name": "pocket-cards-backend",
   "version": "1.0.0",
+  "repository": {
+    "url": "https://github.com/pocket-cards/backend.git"
+  },
   "main": "index.js",
   "license": "MIT",
   "scripts": {
     "buildw": "webpack -w --config ./configs/webpack.dev.ts",
     "build": "webpack --config ./configs/webpack.prod.ts",
     "sam:api": "sam local start-api -t test/template.yml -n test/envs.json",
-    "test": "ts-mocha -r tsconfig-paths/register -r dotenv/config UT/**/index.ts --exit --timeout 10000 dotenv_config_path=./configs/env/.env.test",
+    "test": "ts-mocha -r tsconfig-paths/register -r dotenv/config UT/**/pre.ts --exit --timeout 10000 dotenv_config_path=./configs/env/.env.test",
     "coverage": "nyc npm run test",
     "build:publish": "webpack --config ./configs/webpack.publish.ts",
     "valid": "tsc --noEmit"
@@ -15,8 +18,9 @@
   "nyc": {
     "extends": "@istanbuljs/nyc-config-typescript",
     "check-coverage": false,
-    "reporter":[
-      "html","text"
+    "reporter": [
+      "html",
+      "text"
     ],
     "include": [
       "src/**/*.ts"
@@ -36,7 +40,6 @@
     "@types/archiver": "^3.0.0",
     "@types/aws-lambda": "^8.10.39",
     "@types/chai": "^4.2.7",
-    "@types/chai-http": "^4.2.0",
     "@types/jszip": "^3.1.6",
     "@types/lodash": "^4.14.149",
     "@types/mkdirp": "^0.5.2",
