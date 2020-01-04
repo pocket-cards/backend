@@ -34,7 +34,7 @@ module "c001" {
     file("iam/lambda_policy_ssm.json")
   ]
   layers = [
-    local.xray, local.axios, local.moment
+    local.xray, local.axios, local.moment, local.dbhelper
   ]
 }
 
@@ -64,7 +64,7 @@ module "c002" {
   ]
 
   layers = [
-    local.xray
+    local.xray, local.dbhelper
   ]
 }
 
@@ -124,7 +124,7 @@ module "c004" {
   ]
 
   layers = [
-    local.xray, local.moment
+    local.xray, local.moment, local.dbhelper
   ]
 }
 

@@ -19,15 +19,7 @@ export const handler = async (event: APIGatewayEvent): Promise<BaseResponse> => 
     // 本処理結果
     Logger.info(result);
 
-    return {
-      statusCode: 200,
-      isBase64Encoded: false,
-      headers: {
-        'content-type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
-      },
-      body: JSON.stringify(result)
-    };
+    return getResponse(200, JSON.stringify(result));
   } catch (error) {
     // エラーログ
     Logger.error(error);
