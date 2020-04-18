@@ -1,5 +1,5 @@
 import { GroupInfo } from './types';
-import { UserGroups } from './tables';
+import { TUserGroups } from './tables';
 
 // ------------------------------
 // Common
@@ -50,7 +50,7 @@ export interface A002Response {
 // ------------------------------
 export interface B002Request {}
 
-export type B002Response = UserGroups[];
+export type B002Response = TUserGroups[];
 
 // ------------------------------
 // C001
@@ -60,6 +60,13 @@ export interface C001Request {
 }
 
 export interface C001Response {}
+
+// ------------------------------
+// C002
+// ------------------------------
+export interface C002Response {
+  word: string;
+}
 
 // ------------------------------
 // C004
