@@ -1,19 +1,18 @@
 import { DynamoDB } from 'aws-sdk';
-import { TWords } from '@typings/tables';
 import { Environment } from '@src/consts';
+import { TWords } from '@typings/tables';
 
-/** Words Tableデータ検索 */
-export const getItem = (word: string) =>
+/** データ取得 */
+export const get = (word: string) =>
   ({
     TableName: Environment.TABLE_GROUP_WORDS,
     Key: {
-      word: word,
+      word,
     },
-    // ProjectionExpression: 'KEYS_ONLY',
   } as DynamoDB.DocumentClient.GetItemInput);
 
-/** Words Tableデータ登録 */
-export const putItem = (word: TWords) =>
+/** データ登録 */
+export const put = (word: TWords) =>
   ({
     TableName: Environment.TABLE_GROUP_WORDS,
     Item: word,
