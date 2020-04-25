@@ -3,7 +3,7 @@
   "author": "wwalpha <wwalpha@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "build": "docker build --no-cache --rm -t dynamodb-automation-testing .",
+    "build": "docker build --no-cache --rm -t aws-automation-testing .",
     "imports": "ts-node src/import.ts",
     "composeup": "docker-compose up -d --build",
     "composedown": "docker-compose down"
@@ -13,11 +13,10 @@
     "dynamodb-helper": "https://github.com/wwalpha/dynamodb-helper.git"
   },
   "devDependencies": {
-    "@types/node": "^12.11.7",
+    "@types/node": "^13.13.2",
     "dotenv": "^8.2.0",
     "glob": "^7.1.6",
     "ts-node": "^8.4.1",
-    "tslint": "^5.20.0",
     "typescript": "^3.6.4"
   }
 }

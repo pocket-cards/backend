@@ -2,7 +2,7 @@
 FROM localstack/localstack
 
 # Output Port
-EXPOSE 4569
+EXPOSE 4566
 
 # 既存データ
 COPY localstack/data /usr/local/data
