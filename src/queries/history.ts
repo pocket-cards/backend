@@ -1,12 +1,13 @@
 import { DynamoDB } from 'aws-sdk';
 import { THistory } from '@typings/tables';
+import { Environment } from '@src/consts';
 
 /**
  * グループIDより、ユーザIDを検索する
  */
 export const queryByUserId = (userId: string, timestamp: string) =>
   ({
-    TableName: TABLE_HISTORY,
+    TableName: Environment.TABLE_HISTORY,
     ProjectionExpression: 'userId, #timestamp, times, lastTime',
     KeyConditionExpression: '#userId = :userId and #timestamp >= :timestamp',
     ExpressionAttributeNames: {
@@ -21,6 +22,6 @@ export const queryByUserId = (userId: string, timestamp: string) =>
 
 /** 履歴情報を登録する */
 export const putItem = (item: THistory): DynamoDB.DocumentClient.Put => ({
-  TableName: TABLE_HISTORY,
+  TableName: Environment.TABLE_HISTORY,
   Item: item,
 });

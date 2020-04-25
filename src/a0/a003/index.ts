@@ -4,6 +4,7 @@ import { Request } from 'express';
 import { TUsers, TUserGroups, TGroupWords } from '@typings/tables';
 import { DateUtils, DBHelper, Commons, Logger } from '@utils';
 import { Users, UserGroups, GroupWords } from '@queries';
+import { Environment } from '@src/consts';
 
 export default async (req: Request): Promise<void> => {
   //const { userName } = req;
@@ -24,7 +25,7 @@ export default async (req: Request): Promise<void> => {
     return;
   }
 
-  const userGroupsInfo = await DBHelper().query(UserGroups.queryByUserId02(id));
+  const userGroupsInfo = await DBHelper().query(UserGroups.query.byUserId(id));
 
   // ユーザグループ情報が存在しない
   if (!userGroupsInfo.Items || userGroupsInfo.Count === 0) return;
@@ -106,7 +107,7 @@ export default async (req: Request): Promise<void> => {
 const updateTable = async (newWCU: number) => {
   const client = new DynamoDB();
 
-  let oldWCU = await getWriteCapacityUnits(client, TABLE_GROUP_WORDS);
+  let oldWCU = await getWriteCapacityUnits(client, Environment.TABLE_GROUP_WORDS);
 
   // WCU変更なしの場合、処理終了
   if (!oldWCU || oldWCU === -1 || oldWCU === newWCU) {
@@ -116,7 +117,7 @@ const updateTable = async (newWCU: number) => {
   // WCUを変更する
   await client
     .updateTable({
-      TableName: TABLE_GROUP_WORDS,
+      TableName: Environment.TABLE_GROUP_WORDS,
       ProvisionedThroughput: {
         ReadCapacityUnits: 3,
         WriteCapacityUnits: newWCU,
@@ -128,7 +129,7 @@ const updateTable = async (newWCU: number) => {
     // 2秒待ち
     await Commons.sleep(2000);
 
-    oldWCU = await getWriteCapacityUnits(client, TABLE_GROUP_WORDS);
+    oldWCU = await getWriteCapacityUnits(client, Environment.TABLE_GROUP_WORDS);
 
     // WCUが存在しない
     if (!oldWCU || oldWCU === -1) {

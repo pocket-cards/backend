@@ -45,12 +45,52 @@ export interface A002Response {
   weekly: number;
   monthly: number;
 }
+
+// ------------------------------
+// B001
+// ------------------------------
+export interface B001Request {}
+
+export type B001Response = TUserGroups[];
+
 // ------------------------------
 // B002
 // ------------------------------
 export interface B002Request {}
 
 export type B002Response = TUserGroups[];
+
+// ------------------------------
+// B003
+// ------------------------------
+export interface B003Params {
+  groupId: string;
+}
+
+export interface B003Request {}
+
+export type B003Response = TUserGroups;
+
+// ------------------------------
+// B004
+// ------------------------------
+export interface B004Params {
+  groupId: string;
+}
+
+export interface B004Request {
+  groupName: string;
+  description?: string;
+}
+
+export type B004Response = TUserGroups;
+
+// ------------------------------
+// B005
+// ------------------------------
+export interface B005Request {}
+
+export type B005Response = TUserGroups[];
 
 // ------------------------------
 // C001

@@ -1,10 +1,11 @@
 import { DynamoDB } from 'aws-sdk';
 import { TWords } from '@typings/tables';
+import { Environment } from '@src/consts';
 
 /** Words Tableデータ検索 */
 export const getItem = (word: string) =>
   ({
-    TableName: TABLE_GROUP_WORDS,
+    TableName: Environment.TABLE_GROUP_WORDS,
     Key: {
       word: word,
     },
@@ -14,6 +15,6 @@ export const getItem = (word: string) =>
 /** Words Tableデータ登録 */
 export const putItem = (word: TWords) =>
   ({
-    TableName: TABLE_GROUP_WORDS,
+    TableName: Environment.TABLE_GROUP_WORDS,
     Item: word,
   } as DynamoDB.DocumentClient.PutItemInput);

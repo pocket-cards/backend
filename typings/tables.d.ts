@@ -42,6 +42,8 @@ export interface UserGroupsKey {
 }
 
 export interface TUserGroups extends UserGroupsKey {
+  // ユーザ名
+  userId: string;
   // グループID
   groupId: string;
   // グループ名

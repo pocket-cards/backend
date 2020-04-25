@@ -1,9 +1,10 @@
 import { DynamoDB } from 'aws-sdk';
 import { TGroupWords } from '@typings/tables';
+import { Environment } from '@src/consts';
 
 /** 次の学習時間を調整する */
 export const updateItem01 = (id: string, word: string, nextTime: string): DynamoDB.DocumentClient.UpdateItemInput => ({
-  TableName: TABLE_GROUP_WORDS,
+  TableName: Environment.TABLE_GROUP_WORDS,
   Key: {
     id,
     word,
@@ -19,7 +20,7 @@ export const updateItem01 = (id: string, word: string, nextTime: string): Dynamo
 
 /** 単語情報を更新する */
 export const updateItem02 = (item: TGroupWords): DynamoDB.DocumentClient.Update => ({
-  TableName: TABLE_GROUP_WORDS,
+  TableName: Environment.TABLE_GROUP_WORDS,
   Key: {
     id: item.id,
     word: item.word,

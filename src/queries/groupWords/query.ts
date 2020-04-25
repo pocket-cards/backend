@@ -1,10 +1,11 @@
 import { DynamoDB } from 'aws-sdk';
+import { Environment } from '@src/consts';
 
 /**
  * 日付ごとの単語量を計算する
  */
 export const queryByGroupId01 = (groupId: string, nextTime: string): DynamoDB.DocumentClient.QueryInput => ({
-  TableName: TABLE_GROUP_WORDS,
+  TableName: Environment.TABLE_GROUP_WORDS,
   ProjectionExpression: 'word',
   KeyConditionExpression: '#id = :id and #nextTime = :nextTime',
   FilterExpression: '#times <> :times',
@@ -22,7 +23,7 @@ export const queryByGroupId01 = (groupId: string, nextTime: string): DynamoDB.Do
 });
 
 export const queryByGroupId02 = (groupId: string, nextTime: string): DynamoDB.DocumentClient.QueryInput => ({
-  TableName: TABLE_GROUP_WORDS,
+  TableName: Environment.TABLE_GROUP_WORDS,
   ProjectionExpression: 'word',
   KeyConditionExpression: '#id = :id and #nextTime = :nextTime',
   FilterExpression: '#times > :times',
@@ -41,7 +42,7 @@ export const queryByGroupId02 = (groupId: string, nextTime: string): DynamoDB.Do
 
 /** 最後の学習日を取得する */
 export const queryByGroupId03 = (groupId: string): DynamoDB.DocumentClient.QueryInput => ({
-  TableName: TABLE_GROUP_WORDS,
+  TableName: Environment.TABLE_GROUP_WORDS,
   IndexName: 'lsiIdx2',
   ProjectionExpression: 'lastTime',
   KeyConditionExpression: '#id = :id',
@@ -57,7 +58,7 @@ export const queryByGroupId03 = (groupId: string): DynamoDB.DocumentClient.Query
 
 /** 一覧を取得する */
 export const queryByGroupId04 = (groupId: string): DynamoDB.DocumentClient.QueryInput => ({
-  TableName: TABLE_GROUP_WORDS,
+  TableName: Environment.TABLE_GROUP_WORDS,
   KeyConditionExpression: '#id = :id',
   ExpressionAttributeNames: {
     '#id': 'id',
@@ -74,7 +75,7 @@ export const queryByGroupId04 = (groupId: string): DynamoDB.DocumentClient.Query
  * 対象： Times = 1, NextTime = now
  */
 export const queryByGroupId05 = (groupId: string): DynamoDB.DocumentClient.QueryInput => ({
-  TableName: TABLE_GROUP_WORDS,
+  TableName: Environment.TABLE_GROUP_WORDS,
   ProjectionExpression: 'nextTime, word, times',
   // KeyConditionExpression: '#id = :id and begins_with(#nextTime, :nextTime)',
   KeyConditionExpression: '#id = :id',
@@ -98,7 +99,7 @@ export const queryByGroupId05 = (groupId: string): DynamoDB.DocumentClient.Query
  * 対象： Times <> 0, NextTime <= now
  */
 export const queryByGroupId06 = (groupId: string, nextTime: string): DynamoDB.DocumentClient.QueryInput => ({
-  TableName: TABLE_GROUP_WORDS,
+  TableName: Environment.TABLE_GROUP_WORDS,
   ProjectionExpression: 'nextTime, word, times',
   KeyConditionExpression: '#id = :id and #nextTime <= :nextTime',
   FilterExpression: '#times <> :times',
@@ -121,7 +122,7 @@ export const queryByGroupId06 = (groupId: string, nextTime: string): DynamoDB.Do
  * 対象： Times = 1, NextTime = now
  */
 export const queryByGroupId07 = (groupId: string): DynamoDB.DocumentClient.QueryInput => ({
-  TableName: TABLE_GROUP_WORDS,
+  TableName: Environment.TABLE_GROUP_WORDS,
   ProjectionExpression: 'nextTime, word, times',
   // KeyConditionExpression: '#id = :id and begins_with(#nextTime, :nextTime)',
   KeyConditionExpression: '#id = :id',
@@ -145,7 +146,7 @@ export const queryByGroupId07 = (groupId: string): DynamoDB.DocumentClient.Query
  * 対象：  Times = 0, NextTime <= now, NextTime DESC
  */
 export const queryByGroupId08 = (groupId: string, nextTime: string): DynamoDB.DocumentClient.QueryInput => ({
-  TableName: TABLE_GROUP_WORDS,
+  TableName: Environment.TABLE_GROUP_WORDS,
   ProjectionExpression: 'nextTime, lastTime, word, times',
   KeyConditionExpression: '#id = :id and #nextTime <= :nextTime',
   FilterExpression: '#times = :times',

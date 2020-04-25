@@ -2,6 +2,7 @@ import { C007Response, WordItem } from '@typings/api';
 import { DBHelper, Logger, DateUtils } from '@utils';
 import { Words, GroupWords } from '@src/queries';
 import { TGroupWords } from '@typings/tables';
+import { Environment } from '@src/consts';
 
 export default async (req: Request): Promise<C007Response> => {
   // if (!event.pathParameters) {
@@ -19,7 +20,10 @@ export default async (req: Request): Promise<C007Response> => {
   }
 
   // 時間順で上位N件を対象とします
-  const targets = queryResult.Items.length > WORDS_LIMIT ? queryResult.Items.slice(0, WORDS_LIMIT) : queryResult.Items;
+  const targets =
+    queryResult.Items.length > Environment.WORDS_LIMIT
+      ? queryResult.Items.slice(0, Environment.WORDS_LIMIT)
+      : queryResult.Items;
 
   // 単語明細情報を取得する
   const tasks = targets.map((item) => DBHelper().get(Words.getItem((item as TGroupWords).word as string)));

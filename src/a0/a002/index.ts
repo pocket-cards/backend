@@ -55,7 +55,7 @@ const queryRemaining = async (userId: string) => {
   let review = 0;
 
   // ユーザのグループ一覧を取得する
-  const userInfo = await DBHelper().query(UserGroups.queryByUserId01(userId));
+  const userInfo = await DBHelper().query(UserGroups.query.byUserId(userId));
 
   // 検索失敗
   if (!userInfo.Items) {

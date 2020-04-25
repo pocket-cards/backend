@@ -4,6 +4,7 @@ import { C008Response, WordItem } from '@typings/api';
 import { DBHelper, Logger } from '@utils';
 import { GroupWords, Words } from '@src/queries';
 import { TGroupWords } from '@typings/tables';
+import { Environment } from '@src/consts';
 
 export default async (req: Request): Promise<C008Response> => {
   // if (!event.pathParameters) {
@@ -20,7 +21,7 @@ export default async (req: Request): Promise<C008Response> => {
   }
 
   // 時間順で上位N件を対象とします
-  const targets = getRandom(queryResult.Items, WORDS_LIMIT);
+  const targets = getRandom(queryResult.Items, Environment.WORDS_LIMIT);
 
   Logger.info('対象単語', targets);
   // 単語明細情報を取得する

@@ -1,9 +1,10 @@
 import { DynamoDB } from 'aws-sdk';
+import { Environment } from '@src/consts';
 
 /** ユーザ情報 */
 export const getUserInfo = (userId: string) =>
   ({
-    TableName: TABLE_USERS,
+    TableName: Environment.TABLE_USERS,
     Key: {
       id: userId,
     },
@@ -12,7 +13,7 @@ export const getUserInfo = (userId: string) =>
 /** ユーザ情報を更新する */
 export const updateUserInfo = (id: string, studyQuery: string) =>
   ({
-    TableName: TABLE_USERS,
+    TableName: Environment.TABLE_USERS,
     Key: {
       id,
     },

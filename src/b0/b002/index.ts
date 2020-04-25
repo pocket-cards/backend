@@ -2,13 +2,13 @@ import { Request } from 'express';
 import { B002Response } from '@typings/api';
 import { DBHelper, Logger } from '@utils';
 import { UserGroups } from '@queries';
+import { Commons } from '@src/utils';
 
 export default async (req: Request): Promise<B002Response> => {
-  // const userId = getUserId(event);
+  const userId = Commons.getUserId(req);
 
-  const userId = 'wwalpha';
   // 検索
-  const results = await DBHelper().query(UserGroups.queryByUserId01(userId));
+  const results = await DBHelper().query(UserGroups.query.byUserId(userId));
 
   Logger.info(results);
 

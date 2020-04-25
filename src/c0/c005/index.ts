@@ -23,7 +23,7 @@ export default async (req: Request): Promise<void> => {
   // 存在しない場合、検索し、保存する
   if (!Object.keys(GROUP_IDS).includes(groupId)) {
     // ユーザIDを検索する
-    const ugResult = await DBHelper().query(UserGroups.queryByGroupId02(groupId));
+    const ugResult = await DBHelper().query(UserGroups.query.byUserId(groupId));
 
     if (!ugResult.Items) {
       throw new Error('User info is not exists.');

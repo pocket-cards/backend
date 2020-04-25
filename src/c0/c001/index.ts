@@ -5,6 +5,7 @@ import axios from 'axios';
 import { C001Request } from '@typings/api';
 import { DBHelper, DateUtils, Logger, ClientUtils } from '@utils';
 import { Words, GroupWords } from '@queries';
+import { Environment } from '@src/consts';
 
 export default async (req: Request): Promise<void> => {
   if (!req.body) {
@@ -97,9 +98,9 @@ export default async (req: Request): Promise<void> => {
 };
 
 const getPronounce = async (word: string) => {
-  const apiKey = await getSSMValue(IPA_API_KEY);
+  const apiKey = await getSSMValue(Environment.IPA_API_KEY);
 
-  const res = await axios.get(`${IPA_URL}?word=${word}`, {
+  const res = await axios.get(`${Environment.IPA_URL}?word=${word}`, {
     headers: {
       'x-api-key': apiKey,
     },
@@ -125,10 +126,10 @@ const getMP3 = async (word: string): Promise<string> => {
   // ファイル名
   const filename: string = `${short.generate()}.mp3`;
   const prefix: string = DateUtils.getNow();
-  const key: string = `${PATH_PATTERN}/${prefix}/${filename}`;
+  const key: string = `${Environment.PATH_PATTERN}/${prefix}/${filename}`;
 
   const putRequest: S3.Types.PutObjectRequest = {
-    Bucket: MP3_BUCKET,
+    Bucket: Environment.MP3_BUCKET,
     Key: key,
     Body: response.AudioStream,
   };
@@ -141,13 +142,13 @@ const getMP3 = async (word: string): Promise<string> => {
 };
 
 const getTranslate = async (word: string, targetLanguageCode: string) => {
-  const apiKey = await getSSMValue(TRANSLATION_API_KEY);
+  const apiKey = await getSSMValue(Environment.TRANSLATION_API_KEY);
 
   const {
     data: {
       data: { translations },
     },
-  } = await axios.post(`${TRANSLATION_URL}?key=${apiKey}`, {
+  } = await axios.post(`${Environment.TRANSLATION_URL}?key=${apiKey}`, {
     q: word,
     from: 'en',
     target: targetLanguageCode,
