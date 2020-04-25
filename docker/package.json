@@ -4,7 +4,8 @@
   "license": "MIT",
   "scripts": {
     "build": "docker build --no-cache --rm -t aws-automation-testing .",
-    "imports": "ts-node src/import.ts",
+    "tables": "ts-node src/tables.ts",
+    "datas": "ts-node src/datas.ts",
     "composeup": "docker-compose up -d --build",
     "composedown": "docker-compose down"
   },
