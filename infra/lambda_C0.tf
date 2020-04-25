@@ -17,8 +17,8 @@ module "c001" {
   trigger_source_arn    = "${local.api_trigger_source_arn}/*/POST/groups/*/words"
 
   variables = {
-    TABLE_WORDS         = local.dynamodb_name_words
-    TABLE_GROUP_WORDS   = local.dynamodb_name_group_words
+    TABLE_WORD_MASTER         = local.dynamodb_name_words
+    TABLE_WORDS   = local.dynamodb_name_group_words
     IPA_URL             = local.ipa_url
     IPA_API_KEY         = local.ipa_api_key
     MP3_BUCKET          = local.bucket_name_audios
@@ -113,9 +113,9 @@ module "c004" {
   trigger_source_arn    = "${local.api_trigger_source_arn}/*/PUT/groups/*/words/*"
 
   variables = {
-    TABLE_GROUP_WORDS = local.dynamodb_name_group_words
+    TABLE_WORDS = local.dynamodb_name_group_words
     TABLE_HISTORY     = local.dynamodb_name_history
-    TABLE_USER_GROUPS = local.dynamodb_name_user_groups
+    TABLE_GROUPS = local.dynamodb_name_user_groups
     TZ                = local.timezone
   }
 
@@ -148,8 +148,8 @@ module "c006" {
 
   variables = {
     WORDS_LIMIT       = 10
-    TABLE_WORDS       = local.dynamodb_name_words
-    TABLE_GROUP_WORDS = local.dynamodb_name_group_words
+    TABLE_WORD_MASTER       = local.dynamodb_name_words
+    TABLE_WORDS = local.dynamodb_name_group_words
     TZ                = local.timezone
   }
 
@@ -181,8 +181,8 @@ module "c007" {
 
   variables = {
     WORDS_LIMIT       = 10
-    TABLE_WORDS       = local.dynamodb_name_words
-    TABLE_GROUP_WORDS = local.dynamodb_name_group_words
+    TABLE_WORD_MASTER       = local.dynamodb_name_words
+    TABLE_WORDS = local.dynamodb_name_group_words
     TZ                = local.timezone
   }
 
@@ -214,8 +214,8 @@ module "c008" {
 
   variables = {
     WORDS_LIMIT       = 10
-    TABLE_WORDS       = local.dynamodb_name_words
-    TABLE_GROUP_WORDS = local.dynamodb_name_group_words
+    TABLE_WORD_MASTER       = local.dynamodb_name_words
+    TABLE_WORDS = local.dynamodb_name_group_words
     TZ                = local.timezone
   }
 

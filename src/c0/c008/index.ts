@@ -1,7 +1,7 @@
 import { C008Response, WordItem } from '@typings/api';
 import { DBHelper, Logger } from '@utils';
-import { GroupWords, Words } from '@src/queries';
-import { TGroupWords } from '@typings/tables';
+import { Words } from '@src/queries';
+import { TWords } from '@typings/tables';
 import { DynamoDB } from 'aws-sdk';
 import { Environment } from '@src/consts';
 
@@ -12,7 +12,7 @@ export default async (req: Request): Promise<C008Response> => {
 
   const groupId = 'null'; //event.pathParameters['groupId'];
 
-  const queryResult = await DBHelper().query(GroupWords.query.queryByGroupId07(groupId));
+  const queryResult = null; //await DBHelper().query(Words.query.queryByGroupId07(groupId));
 
   // 検索結果０件の場合
   if (queryResult.Count === 0 || !queryResult.Items) {
@@ -26,7 +26,7 @@ export default async (req: Request): Promise<C008Response> => {
   // 単語明細情報を取得する
   const tasks = targets.map((item) =>
     DBHelper()
-      .getRequest(Words.getItem((item as TGroupWords).word as string))
+      .getRequest(Words.get((item as TWords).id as string, groupId))
       .promise()
   );
   const wordsInfo = await Promise.all(tasks);

@@ -1,9 +1,9 @@
 import { Request } from 'express';
 import moment from 'moment';
 import { A002Response } from '@typings/api';
-import { TUserGroups, THistory } from '@typings/tables';
+import { TGroups, THistory } from '@typings/tables';
 import { DBHelper, DateUtils, Commons } from '@utils';
-import { History, UserGroups, GroupWords } from '@queries';
+import { History, Groups, Words } from '@queries';
 
 // 環境変数
 const TIMESTAMP_ENDFIX = '000000000';
@@ -21,7 +21,7 @@ export default async (req: Request): Promise<A002Response> => {
   // 月次
   const day3 = `${moment().add(-1, 'months').format('YYYYMMDD')}${TIMESTAMP_ENDFIX}`;
 
-  const results = await DBHelper().query(History.queryByUserId(userId, `${day3}`));
+  const results = null; //await DBHelper().query(History.queryByUserId(userId, `${day3}`));
 
   const items = (results.Items as unknown) as THistory[];
   // 検索結果なし
@@ -55,7 +55,7 @@ const queryRemaining = async (userId: string) => {
   let review = 0;
 
   // ユーザのグループ一覧を取得する
-  const userInfo = await DBHelper().query(UserGroups.query.byUserId(userId));
+  const userInfo = await DBHelper().query(Groups.query.byUserId(userId));
 
   // 検索失敗
   if (!userInfo.Items) {
@@ -64,10 +64,10 @@ const queryRemaining = async (userId: string) => {
 
   // グループごと検索する
   for (let idx = 0; idx < userInfo.Items.length; idx = idx + 1) {
-    const groupId = (userInfo.Items[idx] as TUserGroups).groupId;
+    const groupId = (userInfo.Items[idx] as TGroups).id;
 
     // 件数検索
-    let result = await DBHelper().query(GroupWords.query.queryByGroupId01(groupId, DateUtils.getNow()));
+    let result = await DBHelper().query(Words.query.queryByGroupId01(groupId, DateUtils.getNow()));
 
     // 検索成功の場合
     if (result.Count) {
@@ -76,7 +76,7 @@ const queryRemaining = async (userId: string) => {
     }
 
     // 件数検索
-    result = await DBHelper().query(GroupWords.query.queryByGroupId02(groupId, DateUtils.getNow()));
+    result = await DBHelper().query(Words.query.queryByGroupId02(groupId, DateUtils.getNow()));
 
     // 検索成功の場合
     if (result.Count) {

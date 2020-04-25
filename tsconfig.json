@@ -22,7 +22,7 @@
       ],
       "@queries": [
         "./src/queries/index"
-      ]
+      ],
     }
   },
   "files": [
@@ -34,6 +34,7 @@
   ],
   "include": [
     "src/**/*",
+    "test/**/*.ts"
   ],
   "exclude": [
     "node_modules",

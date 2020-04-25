@@ -22,73 +22,80 @@
 | **Deleted**    | dynaomdb stream                |             | S001        | 履歴テーブルに保存する   |
 |                | Cognito Sync Trigger           |             | S002        |                          |
 
-## UserInfo
+## Users
 
 ### Definition
 
-| Item     | Key  | LSI1 | LSI2 | GSI1 | GSI2 |
-| -------- | ---- | ---- | ---- | ---- | ---- |
-| userId   | Hash |      |      |      |      |
-| target   |      |      |      |      |      |
-| email    |      |      |      |      |      |
-| nickName |      |      |      |      |      |
+| Item   | Key  | LSI1 | LSI2 | GSI1 | GSI2 |
+| ------ | ---- | ---- | ---- | ---- | ---- |
+| id     | Hash |      |      |      |      |
+| email  |      |      |      |      |      |
+| name   |      |      |      |      |      |
+| target |      |      |      |      |      |
 
 ### Search Conditions
 
-| Status       | Conditions   |
-| ------------ | ------------ |
-| Get Settings | UserId = xxx |
-| Put Settings | UserId = xxx |
+| Status | Conditions                        |
+| ------ | --------------------------------- |
+| Get    | id = xxx                          |
+| Put    | id = xxx, name = xxx, email = xxx |
 
-## GroupInfo
+## Groups
 
 ### Definition
 
-| Item      | Key   | LSI1 | LSI2 | GSI1 | GSI2 |
-| --------- | ----- | ---- | ---- | ---- | ---- |
-| userId    | Hash  |      |      | 〇   |      |
-| groupId   | Range |      |      | Hash |      |
-| groupName |       |      |      |      |      |
+| Item        | Key   | LSI1 | LSI2 | GSI1  | GSI2 |
+| ----------- | ----- | ---- | ---- | ----- | ---- |
+| id          | Hash  |      |      | Range |      |
+| userId      | Range |      |      | Hash  |      |
+| name        |       |      |      | 〇    |      |
+| description |       |      |      | 〇    |      |
 
 ### Search Conditions
 
-| Status       | Conditions                  | Index |
-| ------------ | --------------------------- | ----- |
-| Get Settings | UserId = xxx, GroupId = xxx |       |
-| Put Settings | UserId = xxx, GroupId = xxx |       |
-| Del Settings | UserId = xxx, GroupId = xxx |       |
-| Get UserId   | GroupId = xxx               | GSI   |
+| Status | Conditions                              | Index |
+| ------ | --------------------------------------- | ----- |
+| Get    | id = xxx                                |       |
+| Put    | id = xxx, name = xxx, description = xxx |       |
+| Del    | id = xxx                                |       |
+| Query  | userId = xxx                            | GSI1  |
 
-## GroupWords
+## Words
 
 ### Definition
 
-| Item     | Key   | LSI1  | LSI2 | GSI1 | GSI2 |
-| -------- | ----- | ----- | ---- | ---- | ---- |
-| groupId  | Hash  | Hash  |      |      |      |
-| word     | Range | 〇    |      |      |      |
-| nextTime |       | Range |      |      |      |
-| lastTime |       |       |      |      |      |
-| times    |       | 〇    |      |      |      |
+| Item     | Key   | LSI1 | LSI2 | GSI1  | GSI2 |
+| -------- | ----- | ---- | ---- | ----- | ---- |
+| id       | Hash  |      |      | Range |      |
+| groupId  | Range |      |      | Hash  |      |
+| nextTime |       |      |      |       |      |
+| lastTime |       |      |      |       |      |
+| times    |       |      |      |       |      |
 
 ### Search Conditions
 
-| Status         | Conditions                                             |
-| -------------- | ------------------------------------------------------ |
-| New Targets    | Times = 0, NextTime <= now, NextTime ASC               |
-| New Success    | Times = Times + 1, LastTime = now , NextTime = now ASC |
-| Review Targets | Times = 1                                              |
-| Test Targets   | Times <> 0, NextTime <= now                            |
-| Test Success   | Times = Times + 1, LastTime = now, NextTime = now + x  |
-| Test Failure   | Times = 0, LastTime = now, NextTime = now              |
+| Status         | Conditions                                             | Index |
+| -------------- | ------------------------------------------------------ | ----- |
+| Get            | id = xxx, groupId = xxx                                |       |
+| Put            | id = xxx, groupId = xxx                                |       |
+| WordList       | groupId = xxx                                          | GSI1  |
+| Review         | groupId = xxx, times = 1                               | GSI1  |
+| Test           | groupId = xxx, times <> 0, nextTime < Now              | GSI1  |
+| New            | groupId = xxx, times = 0, nextTime <= Now              | GSI1  |
+| New Targets    | Times = 0, NextTime <= now, NextTime ASC               |       |
+| New Success    | Times = Times + 1, LastTime = now , NextTime = now ASC |       |
+| Review Targets | Times = 1                                              |       |
+| Test Targets   | Times <> 0, NextTime <= now                            |       |
+| Test Success   | Times = Times + 1, LastTime = now, NextTime = now + x  |       |
+| Test Failure   | Times = 0, LastTime = now, NextTime = now              |       |
 
-## WordDict
+## WordMaster
 
 ### Definition
 
 | Item      | Key  | LSI1 | LSI2 | GSI1 | GSI2 |
 | --------- | ---- | ---- | ---- | ---- | ---- |
-| word      | Hash |      |      |      |      |
+| id        | Hash |      |      |      |      |
 | mp3       |      |      |      |      |      |
 | pronounce |      |      |      |      |      |
 | ja        |      |      |      |      |      |
@@ -98,8 +105,8 @@
 
 | Status   | Conditions |
 | -------- | ---------- |
-| Get Word | Word = xxx |
-| Put Word | Word = xxx |
+| Get Word | id = xxx   |
+| Put Word | id = xxx   |
 
 ## Histroy
 
@@ -120,10 +127,10 @@
 | Get Weekly  | UserId = xxx, Timestamp >= YYYYMMDD000000000 |
 | Get Monthly | UserId = xxx, Timestamp >= YYYYMMDD000000000 |
 
-## Maintenance Functions
+<!-- ## Maintenance Functions
 
 | Function | Description                                            |
 | -------- | ------------------------------------------------------ |
 | M001     | Send notification to slack when build Success / Failed |
 | M002     | CodeBuild state change to failed                       |
-| M003     | CodePipeline state change to success                   |
+| M003     | CodePipeline state change to success                   | -->

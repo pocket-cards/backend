@@ -2,8 +2,8 @@ import { Request } from 'express';
 import { DynamoDB } from 'aws-sdk';
 import { C008Response, WordItem } from '@typings/api';
 import { DBHelper, Logger } from '@utils';
-import { GroupWords, Words } from '@src/queries';
-import { TGroupWords } from '@typings/tables';
+import { Words, WordMaster } from '@src/queries';
+import { TWords } from '@typings/tables';
 import { Environment } from '@src/consts';
 
 export default async (req: Request): Promise<C008Response> => {
@@ -13,7 +13,7 @@ export default async (req: Request): Promise<C008Response> => {
 
   const groupId = '111'; //event.pathParameters['groupId'];
 
-  const queryResult = await DBHelper().query(GroupWords.query.queryByGroupId05(groupId));
+  const queryResult = await DBHelper().query(Words.query.review(groupId));
 
   // 検索結果０件の場合
   if (queryResult.Count === 0 || !queryResult.Items) {
@@ -25,11 +25,7 @@ export default async (req: Request): Promise<C008Response> => {
 
   Logger.info('対象単語', targets);
   // 単語明細情報を取得する
-  const tasks = targets.map((item) =>
-    DBHelper()
-      .getRequest(Words.getItem((item as TGroupWords).word as string))
-      .promise()
-  );
+  const tasks = targets.map((item) => DBHelper().get(WordMaster.get((item as TWords).id as string)));
   const wordsInfo = await Promise.all(tasks);
 
   Logger.info('検索結果', wordsInfo);

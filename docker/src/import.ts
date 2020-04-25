@@ -24,7 +24,57 @@ const create = async () => {
     absolute: true,
   });
 
-  const tasks = files.map(file => db.createTable(require(file)).promise());
+  db.createTable({
+    TableName: 'AAAA',
+    KeySchema: [
+      {
+        AttributeName: 'id',
+        KeyType: 'HASH',
+      },
+      {
+        AttributeName: 'userId',
+        KeyType: 'RANGE',
+      },
+    ],
+    AttributeDefinitions: [
+      {
+        AttributeName: 'id',
+        AttributeType: 'S',
+      },
+      {
+        AttributeName: 'userId',
+        AttributeType: 'S',
+      },
+    ],
+    BillingMode: 'PROVISIONED',
+    ProvisionedThroughput: {
+      ReadCapacityUnits: 1000,
+      WriteCapacityUnits: 1000,
+    },
+    GlobalSecondaryIndexes: [
+      {
+        IndexName: 'gsi1',
+        KeySchema: [
+          {
+            AttributeName: 'userId',
+            KeyType: 'HASH',
+          },
+          {
+            AttributeName: 'id',
+            KeyType: 'RANGE',
+          },
+        ],
+        Projection: {
+          ProjectionType: 'ALL',
+        },
+        ProvisionedThroughput: {
+          ReadCapacityUnits: 1000,
+          WriteCapacityUnits: 1000,
+        },
+      },
+    ],
+  });
+  const tasks = files.map((file) => db.createTable(require(file)).promise());
 
   await Promise.all(tasks);
 };

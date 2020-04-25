@@ -1,22 +1,14 @@
 {
-  "TableName": "PocketCards_UserGroups",
+  "TableName": "PocketCards_WordMaster",
   "KeySchema": [
     {
-      "AttributeName": "userId",
+      "AttributeName": "id",
       "KeyType": "HASH"
-    },
-    {
-      "AttributeName": "groupId",
-      "KeyType": "RANGE"
     }
   ],
   "AttributeDefinitions": [
     {
-      "AttributeName": "userId",
-      "AttributeType": "S"
-    },
-    {
-      "AttributeName": "groupId",
+      "AttributeName": "id",
       "AttributeType": "S"
     }
   ],

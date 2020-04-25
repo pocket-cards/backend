@@ -4,7 +4,7 @@ import * as short from 'short-uuid';
 import axios from 'axios';
 import { C001Request } from '@typings/api';
 import { DBHelper, DateUtils, Logger, ClientUtils } from '@utils';
-import { Words, GroupWords } from '@queries';
+import { Words, WordMaster } from '@queries';
 import { Environment } from '@src/consts';
 
 export default async (req: Request): Promise<void> => {
@@ -21,9 +21,9 @@ export default async (req: Request): Promise<void> => {
   // グループ単語登録用タスクを作成する
   let putTasks = input.words.map((item) =>
     DBHelper().put(
-      GroupWords.put.item({
-        id: groupId,
-        word: item,
+      Words.put({
+        id: item,
+        groupId,
         nextTime: DateUtils.getNow(),
         times: 0,
       })
@@ -43,7 +43,7 @@ export default async (req: Request): Promise<void> => {
   Logger.info('単語登録完了しました.');
 
   // 単語存在確認
-  const getTasks = input.words.map((item) => DBHelper().get(Words.getItem(item)));
+  const getTasks = input.words.map((item) => DBHelper().get(WordMaster.get(item)));
   const getResults = await Promise.all(getTasks);
 
   Logger.info('検索結果', getResults);
@@ -81,8 +81,8 @@ export default async (req: Request): Promise<void> => {
     const vocJpn = item[3];
 
     return DBHelper().put(
-      Words.putItem({
-        word: pronounce['word'],
+      WordMaster.put({
+        id: pronounce['word'],
         pronounce: pronounce['pronounce'],
         mp3,
         vocChn,

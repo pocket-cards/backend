@@ -1,6 +1,6 @@
 import { Request } from 'express';
 import { DBHelper, Logger, Commons } from '@utils';
-import { UserGroups } from '@queries';
+import { Groups } from '@queries';
 import { B004Params, B004Request } from '@typings/api';
 
 /**
@@ -14,10 +14,10 @@ export default async (req: Request): Promise<void> => {
 
   // データ更新
   const results = await DBHelper().put(
-    UserGroups.put({
-      userId,
-      groupId,
-      groupName: item.groupName,
+    Groups.put({
+      id: groupId,
+      userId: userId,
+      name: item.groupName,
       description: item.description,
     })
   );

@@ -10,4 +10,4 @@ Resources:
       Runtime: nodejs10.x
       Environment:
         Variables:
-          TABLE_USER_GROUPS: PocketCards_UserGroups
+          TABLE_GROUPS: PocketCards_UserGroups

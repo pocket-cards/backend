@@ -13,6 +13,6 @@ Resources:
       Environment:
         Variables:
           TABLE_USERS: PocketCards_Users
-          TABLE_USER_GROUPS: PocketCards_UserGroups
-          TABLE_GROUP_WORDS: PocketCards_GroupWords
+          TABLE_GROUPS: PocketCards_UserGroups
+          TABLE_WORDS: PocketCards_GroupWords
           TZ: Asia/Tokyo

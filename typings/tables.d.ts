@@ -1,7 +1,8 @@
-export interface TGroupWords {
-  id: string;
+export interface TWords {
   // 単語
-  word: string;
+  id: string;
+  // グループID
+  groupId: string;
   // 次の学習時間
   nextTime: string;
   // 最後の学習時間
@@ -10,9 +11,9 @@ export interface TGroupWords {
   times: number;
 }
 
-export interface TWords {
+export interface TWordMaster {
   // 単語
-  word: string;
+  id: string;
   // 発音記号
   pronounce?: string;
   // 語彙（中国語）
@@ -27,7 +28,7 @@ export interface TUsers {
   // ユーザID
   id: string;
   // メール
-  email: string;
+  email?: string;
   // 前回ログイン
   lastLogin?: string;
   // 直近ログイン
@@ -36,18 +37,16 @@ export interface TUsers {
   studyQuery?: string;
 }
 
-export interface UserGroupsKey {
+export interface GroupsKey {
+  // グループID
+  id: string;
   // ユーザID
   userId: string;
 }
 
-export interface TUserGroups extends UserGroupsKey {
-  // ユーザ名
-  userId: string;
-  // グループID
-  groupId: string;
+export interface TGroups extends GroupsKey {
   // グループ名
-  groupName: string;
+  name?: string;
   // 説明
   description?: string;
 }

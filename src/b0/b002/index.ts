@@ -1,14 +1,14 @@
 import { Request } from 'express';
-import { B002Response } from '@typings/api';
 import { DBHelper, Logger } from '@utils';
-import { UserGroups } from '@queries';
 import { Commons } from '@src/utils';
+import { Groups } from '@src/queries';
+import { B002Response } from '@typings/api';
 
 export default async (req: Request): Promise<B002Response> => {
   const userId = Commons.getUserId(req);
 
   // 検索
-  const results = await DBHelper().query(UserGroups.query.byUserId(userId));
+  const results = await DBHelper().query(Groups.query.byUserId(userId));
 
   Logger.info(results);
 

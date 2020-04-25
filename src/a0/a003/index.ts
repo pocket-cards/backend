@@ -1,19 +1,19 @@
 import { DynamoDB } from 'aws-sdk';
 import moment from 'moment';
 import { Request } from 'express';
-import { TUsers, TUserGroups, TGroupWords } from '@typings/tables';
+import { TUsers, TGroups, TWords } from '@typings/tables';
 import { DateUtils, DBHelper, Commons, Logger } from '@utils';
-import { Users, UserGroups, GroupWords } from '@queries';
+import { Users, Words } from '@queries';
 import { Environment } from '@src/consts';
 
 export default async (req: Request): Promise<void> => {
   //const { userName } = req;
-  const userName = 'wwalpha';
+  const userId = 'wwalpha';
 
-  if (!userName) throw new Error('UserNameが存在しません。');
+  if (!userId) throw new Error('UserNameが存在しません。');
 
   // ユーザ情報検索
-  const userInfo = await DBHelper().get(Users.getUserInfo(userName));
+  const userInfo = await DBHelper().get(Users.get(userId));
 
   // ユーザ情報が存在しない
   if (!userInfo.Item) return;
@@ -25,7 +25,7 @@ export default async (req: Request): Promise<void> => {
     return;
   }
 
-  const userGroupsInfo = await DBHelper().query(UserGroups.query.byUserId(id));
+  const userGroupsInfo = null; //await DBHelper().query(Users.query.byUserId(id));
 
   // ユーザグループ情報が存在しない
   if (!userGroupsInfo.Items || userGroupsInfo.Count === 0) return;
@@ -33,17 +33,17 @@ export default async (req: Request): Promise<void> => {
   let maxDate = '00000000';
 
   for (let idx in userGroupsInfo.Items) {
-    const { groupId } = userGroupsInfo.Items[idx] as TUserGroups;
+    const { id } = userGroupsInfo.Items[idx] as TGroups;
 
     // 最後の学習日を取得する
-    const groupInfo = await DBHelper().query(GroupWords.query.queryByGroupId03(groupId));
+    const groupInfo = await DBHelper().query(Words.query.lastStudyDate(id));
 
     // データが存在しない
     if (!groupInfo.Items || groupInfo.Count === 0) {
       continue;
     }
 
-    const { lastTime } = groupInfo.Items[0] as TGroupWords;
+    const { lastTime } = groupInfo.Items[0] as TWords;
 
     // 最大日付を計算する
     if (lastTime) {
@@ -62,16 +62,16 @@ export default async (req: Request): Promise<void> => {
   }
 
   // ユーザ情報を更新する
-  await DBHelper().update(Users.updateUserInfo(userName, DateUtils.getNow()));
+  await DBHelper().update(Users.update.userInfo(userId, DateUtils.getNow()));
 
   try {
     await updateTable(100);
 
     for (let idx in userGroupsInfo.Items) {
-      const { groupId } = userGroupsInfo.Items[idx] as TUserGroups;
+      const { id } = userGroupsInfo.Items[idx] as TGroups;
 
       // 学習履歴ある単語を全部取得する
-      const groupInfo = await DBHelper().query(GroupWords.query.queryByGroupId03(groupId));
+      const groupInfo = await DBHelper().query(Words.query.lastStudyDate(id));
 
       Logger.info(`対象件数: ${groupInfo.Count}`);
 
@@ -88,12 +88,12 @@ export default async (req: Request): Promise<void> => {
         Logger.info(`対象件数: ${items.length}`);
 
         const tasks = newItems.map((item) => {
-          const { word, nextTime } = item as TGroupWords;
+          const { id: word, nextTime } = item as TWords;
 
           // 新時間
           const newTime = moment(nextTime).add(diff, 'days').format('YYYYMMDD');
 
-          return DBHelper().update(GroupWords.update.updateItem01(groupId, word, newTime));
+          return DBHelper().update(Words.update.updateItem01(id, word, newTime));
         });
 
         await Promise.all(tasks);
@@ -107,7 +107,7 @@ export default async (req: Request): Promise<void> => {
 const updateTable = async (newWCU: number) => {
   const client = new DynamoDB();
 
-  let oldWCU = await getWriteCapacityUnits(client, Environment.TABLE_GROUP_WORDS);
+  let oldWCU = await getWriteCapacityUnits(client, Environment.TABLE_WORDS);
 
   // WCU変更なしの場合、処理終了
   if (!oldWCU || oldWCU === -1 || oldWCU === newWCU) {
@@ -117,7 +117,7 @@ const updateTable = async (newWCU: number) => {
   // WCUを変更する
   await client
     .updateTable({
-      TableName: Environment.TABLE_GROUP_WORDS,
+      TableName: Environment.TABLE_WORDS,
       ProvisionedThroughput: {
         ReadCapacityUnits: 3,
         WriteCapacityUnits: newWCU,
@@ -129,7 +129,7 @@ const updateTable = async (newWCU: number) => {
     // 2秒待ち
     await Commons.sleep(2000);
 
-    oldWCU = await getWriteCapacityUnits(client, Environment.TABLE_GROUP_WORDS);
+    oldWCU = await getWriteCapacityUnits(client, Environment.TABLE_WORDS);
 
     // WCUが存在しない
     if (!oldWCU || oldWCU === -1) {

@@ -17,8 +17,8 @@
 
 #   variables = {
 #     TABLE_HISTORY     = local.dynamodb_name_history
-#     TABLE_USER_GROUPS = local.dynamodb_name_user_groups
-#     TABLE_GROUP_WORDS = local.dynamodb_name_group_words
+#     TABLE_GROUPS = local.dynamodb_name_user_groups
+#     TABLE_WORDS = local.dynamodb_name_group_words
 #     TZ                = local.timezone
 #   }
 

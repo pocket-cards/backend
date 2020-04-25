@@ -1,5 +1,5 @@
 import { GroupInfo } from './types';
-import { TUserGroups } from './tables';
+import { TGroups } from './tables';
 
 // ------------------------------
 // Common
@@ -51,14 +51,14 @@ export interface A002Response {
 // ------------------------------
 export interface B001Request {}
 
-export type B001Response = TUserGroups[];
+export type B001Response = TGroups[];
 
 // ------------------------------
 // B002
 // ------------------------------
 export interface B002Request {}
 
-export type B002Response = TUserGroups[];
+export type B002Response = TGroups[];
 
 // ------------------------------
 // B003
@@ -69,7 +69,7 @@ export interface B003Params {
 
 export interface B003Request {}
 
-export type B003Response = TUserGroups;
+export type B003Response = TGroups;
 
 // ------------------------------
 // B004
@@ -83,14 +83,14 @@ export interface B004Request {
   description?: string;
 }
 
-export type B004Response = TUserGroups;
+export type B004Response = TGroups;
 
 // ------------------------------
 // B005
 // ------------------------------
 export interface B005Request {}
 
-export type B005Response = TUserGroups[];
+export type B005Response = TGroups[];
 
 // ------------------------------
 // C001

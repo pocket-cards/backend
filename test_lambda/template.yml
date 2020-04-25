@@ -64,7 +64,7 @@ Resources:
             Method: GET
       Environment:
         Variables:
-          TABLE_USER_GROUPS: PocketCards_UserGroups
+          TABLE_GROUPS: PocketCards_UserGroups
 
   # ---------------------------------------
   # Path: /groups/{groupId}/words
@@ -83,8 +83,8 @@ Resources:
             Method: POST
       Environment:
         Variables:
-          TABLE_WORDS: PocketCards_Words
-          TABLE_GROUP_WORDS: PocketCards_GroupWords
+          TABLE_WORD_MASTER: PocketCards_Words
+          TABLE_WORDS: PocketCards_GroupWords
           IPA_URL: https://m1rb1oo72l.execute-api.ap-northeast-1.amazonaws.com/v1
           IPA_API_KEY: /pocket-cards/ipa_api_key
           MP3_BUCKET: pocket-cards-mp3
@@ -108,8 +108,8 @@ Resources:
   #           Method: GET
   #     Environment:
   #       Variables:
+  #         TABLE_WORD_MASTER: dummy
   #         TABLE_WORDS: dummy
-  #         TABLE_GROUP_WORDS: dummy
   # ---------------------------------------
   # Path: /groups/{groupId}/words/{word}
   # Method: PUT
@@ -126,8 +126,8 @@ Resources:
             Method: PUT
       Environment:
         Variables:
-          TABLE_GROUP_WORDS: PocketCards_GroupWords
-          TABLE_USER_GROUPS: PocketCards_UserGroups
+          TABLE_WORDS: PocketCards_GroupWords
+          TABLE_GROUPS: PocketCards_UserGroups
           TABLE_HISTORY: PocketCards_History
   # ---------------------------------------
   # Path: /groups/{groupId}/new
@@ -146,8 +146,8 @@ Resources:
       Environment:
         Variables:
           WORDS_LIMIT: 20
+          TABLE_WORD_MASTER: dummy
           TABLE_WORDS: dummy
-          TABLE_GROUP_WORDS: dummy
   # ---------------------------------------
   # Path: /groups/{groupId}/test
   # Method: GET
@@ -164,8 +164,8 @@ Resources:
             Method: GET
       Environment:
         Variables:
+          TABLE_WORD_MASTER: dummy
           TABLE_WORDS: dummy
-          TABLE_GROUP_WORDS: dummy
           WORDS_LIMIT: 20
   # ---------------------------------------
   # Path: /groups/{groupId}/review
@@ -183,6 +183,6 @@ Resources:
             Method: GET
       Environment:
         Variables:
+          TABLE_WORD_MASTER: dummy
           TABLE_WORDS: dummy
-          TABLE_GROUP_WORDS: dummy
           WORDS_LIMIT: 20

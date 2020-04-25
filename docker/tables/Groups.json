@@ -1,12 +1,12 @@
 {
-  "TableName": "PocketCards_Words",
+  "TableName": "PocketCards_Groups",
   "KeySchema": [
     {
       "AttributeName": "id",
       "KeyType": "HASH"
     },
     {
-      "AttributeName": "groupId",
+      "AttributeName": "userId",
       "KeyType": "RANGE"
     }
   ],
@@ -16,7 +16,7 @@
       "AttributeType": "S"
     },
     {
-      "AttributeName": "groupId",
+      "AttributeName": "userId",
       "AttributeType": "S"
     }
   ],
@@ -30,7 +30,7 @@
       "IndexName": "gsi1",
       "KeySchema": [
         {
-          "AttributeName": "groupId",
+          "AttributeName": "userId",
           "KeyType": "HASH"
         },
         {

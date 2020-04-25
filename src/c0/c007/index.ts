@@ -1,7 +1,7 @@
 import { C007Response, WordItem } from '@typings/api';
 import { DBHelper, Logger, DateUtils } from '@utils';
-import { Words, GroupWords } from '@src/queries';
-import { TGroupWords } from '@typings/tables';
+import { Words, WordMaster } from '@src/queries';
+import { TWordMaster } from '@typings/tables';
 import { Environment } from '@src/consts';
 
 export default async (req: Request): Promise<C007Response> => {
@@ -12,7 +12,7 @@ export default async (req: Request): Promise<C007Response> => {
   const groupId = 'null';
 
   // テスト単語一覧を取得する
-  const queryResult = await DBHelper().query(GroupWords.query.queryByGroupId06(groupId, DateUtils.getNow()));
+  const queryResult = await DBHelper().query(Words.query.test(groupId, DateUtils.getNow()));
 
   // 検索結果０件の場合
   if (queryResult.Count === 0 || !queryResult.Items) {
@@ -26,7 +26,7 @@ export default async (req: Request): Promise<C007Response> => {
       : queryResult.Items;
 
   // 単語明細情報を取得する
-  const tasks = targets.map((item) => DBHelper().get(Words.getItem((item as TGroupWords).word as string)));
+  const tasks = targets.map((item) => DBHelper().get(WordMaster.get((item as TWordMaster).id as string)));
   const wordsInfo = await Promise.all(tasks);
 
   Logger.info('検索結果', wordsInfo);

@@ -1,7 +1,7 @@
 import moment from 'moment';
 import { DBHelper, Logger, DateUtils } from '@utils';
-import { GroupWords, Words } from '@queries';
-import { TGroupWords } from '@typings/tables';
+import { Words, WordMaster } from '@queries';
+import { TWords } from '@typings/tables';
 import { C006Response, WordItem } from '@typings/api';
 import { Environment } from '@src/consts';
 
@@ -12,7 +12,7 @@ export default async (req: Request): Promise<C006Response> => {
 
   const groupId = 'null'; //event.pathParameters['groupId'];
 
-  const queryResult = await DBHelper().query(GroupWords.query.queryByGroupId08(groupId, DateUtils.getNow()));
+  const queryResult = null; //await DBHelper().query(Words.query.queryByGroupId08(groupId, DateUtils.getNow()));
 
   // 検索結果０件の場合
   if (queryResult.Count === 0 || !queryResult.Items) {
@@ -21,7 +21,7 @@ export default async (req: Request): Promise<C006Response> => {
 
   Logger.info(`Count: ${queryResult.Count}`);
 
-  const items = queryResult.Items as TGroupWords[];
+  const items = queryResult.Items as TWords[];
 
   items.sort((a, b) => {
     if (!a.lastTime && b.lastTime) return 1;
@@ -34,11 +34,7 @@ export default async (req: Request): Promise<C006Response> => {
   const targets = items.length > Environment.WORDS_LIMIT ? items.slice(0, Environment.WORDS_LIMIT) : items;
 
   // 単語明細情報を取得する
-  const tasks = targets.map((item) =>
-    DBHelper()
-      .getRequest(Words.getItem((item as TGroupWords).word as string))
-      .promise()
-  );
+  const tasks = targets.map((item) => DBHelper().get(WordMaster.get((item as TWords).id as string)));
   const wordsInfo = await Promise.all(tasks);
 
   Logger.info('検索結果', wordsInfo);

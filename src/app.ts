@@ -24,6 +24,6 @@ app.get('/groups/:groupId/test', express.json(), (req, res) => entry(req, res, C
 // 復習モード単語一覧
 app.get('/groups/:groupId/review', express.json(), (req, res) => entry(req, res, C008));
 
-app.listen(process.env.PORT || 8080);
+app.listen(process.env.PORT || 8080, () => console.log('started...'));
 
-console.log('started...');
+export default app;

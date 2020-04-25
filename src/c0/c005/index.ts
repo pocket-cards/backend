@@ -1,9 +1,9 @@
 import { Request } from 'express';
 import moment from 'moment';
 import { C004Request } from '@typings/api';
-import { TUserGroups, THistory } from '@typings/tables';
+import { TGroups, THistory } from '@typings/tables';
 import { DBHelper, DateUtils } from '@utils';
-import { UserGroups, GroupWords, History } from '@src/queries';
+import { History, Users, Words } from '@src/queries';
 
 const GROUP_IDS: { [key: string]: string } = {};
 
@@ -23,18 +23,18 @@ export default async (req: Request): Promise<void> => {
   // 存在しない場合、検索し、保存する
   if (!Object.keys(GROUP_IDS).includes(groupId)) {
     // ユーザIDを検索する
-    const ugResult = await DBHelper().query(UserGroups.query.byUserId(groupId));
+    const ugResult = null; //await DBHelper().query(Users.query.byUserId(groupId));
 
     if (!ugResult.Items) {
       throw new Error('User info is not exists.');
     }
 
     // 保存する
-    GROUP_IDS[groupId] = ((ugResult.Items[0] as unknown) as TUserGroups).userId;
+    GROUP_IDS[groupId] = ((ugResult.Items[0] as unknown) as TGroups).userId;
   }
 
   // 旧イメージ
-  const oldImage = await DBHelper().get(GroupWords.get.item(groupId, word));
+  const oldImage = await DBHelper().get(Words.get(word, groupId));
 
   const historyItem: THistory = {
     userId: GROUP_IDS[groupId],
@@ -53,16 +53,16 @@ export default async (req: Request): Promise<void> => {
   await DBHelper().transactWrite({
     TransactItems: [
       {
-        Update: GroupWords.update.updateItem02({
-          id: groupId,
-          word,
+        Update: Words.update.updateItem02({
+          id: word,
+          groupId,
           lastTime: DateUtils.getNow(),
           nextTime,
           times,
         }),
       },
       {
-        Put: History.putItem(historyItem),
+        Put: History.put(historyItem),
       },
     ],
   });
