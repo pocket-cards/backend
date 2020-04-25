@@ -13,14 +13,12 @@ export default async (req: Request): Promise<void> => {
   const item = req.body as B004Request;
 
   // データ更新
-  const results = await DBHelper().put(
+  await DBHelper().put(
     Groups.put({
       id: groupId,
       userId,
-      name: item.groupName,
+      name: item.name,
       description: item.description,
     })
   );
-
-  Logger.info(results);
 };
