@@ -81,18 +81,16 @@ export interface B004Params {
 }
 
 export interface B004Request {
-  groupName: string;
+  name?: string;
   description?: string;
 }
-
-export type B004Response = TGroups;
 
 // ------------------------------
 // B005
 // ------------------------------
-export interface B005Request {}
-
-export type B005Response = TGroups[];
+export interface B005Params {
+  groupId: string;
+}
 
 // ------------------------------
 // C001

@@ -16,11 +16,11 @@ export const put = (item: TGroups): DynamoDB.DocumentClient.PutItemInput => ({
 });
 
 /** データ削除 */
-export const del = (userId: string, groupId: string): DynamoDB.DocumentClient.DeleteItemInput => ({
+export const del = (key: GroupsKey): DynamoDB.DocumentClient.DeleteItemInput => ({
   TableName: Environment.TABLE_GROUPS,
   Key: {
-    userId,
-    groupId,
+    id: key.id,
+    userId: key.userId,
   },
 });
 
