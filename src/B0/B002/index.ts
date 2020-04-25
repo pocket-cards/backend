@@ -1,29 +1,19 @@
-import { APIGatewayEvent } from 'aws-lambda';
-import validate from './validator';
-import app from './app';
-import { BaseResponse } from '@typings/api';
-import { getResponse, Logger } from '@utils/utils';
+import { Request } from 'express';
+import { B002Response } from '@typings/api';
+import { DBHelper, Logger } from '@utils';
+import { UserGroups } from '@queries';
 
-// イベント入口
-export const handler = async (event: APIGatewayEvent): Promise<BaseResponse> => {
-  // イベントログ
-  Logger.info(event);
+export default async (req: Request): Promise<B002Response> => {
+  // const userId = getUserId(event);
 
-  try {
-    // 認証
-    await validate(event);
+  const userId = 'wwalpha';
+  // 検索
+  const results = await DBHelper().query(UserGroups.queryByUserId01(userId));
 
-    // 本処理
-    const result = await app(event);
+  Logger.info(results);
 
-    // 本処理結果
-    Logger.info(result);
+  // ０件
+  if (results.Count === 0 || !results.Items) return [];
 
-    return getResponse(200, JSON.stringify(result));
-  } catch (error) {
-    // エラーログ
-    Logger.error(error);
-
-    return getResponse(500, JSON.stringify(error.message));
-  }
+  return results.Items as B002Response;
 };

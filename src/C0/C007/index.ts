@@ -1,55 +1,58 @@
-import { APIGatewayEvent, Callback } from 'aws-lambda';
-import app from './app';
-import validate from './validator';
-import { GroupWords } from '@typings/tables';
-import { BaseResponse, C007Response } from '@typings/api';
-import { Logger } from '@utils/utils';
+import { C007Response, WordItem } from '@typings/api';
+import { DBHelper, Logger, DateUtils } from '@utils';
+import { Words, GroupWords } from '@src/queries';
+import { TGroupWords } from '@typings/tables';
 
-// イベント入口
-export const handler = (event: APIGatewayEvent, _: any, callback: Callback<BaseResponse>) => {
-  // イベントログ
-  Logger.info(event);
+export default async (req: Request): Promise<C007Response> => {
+  // if (!event.pathParameters) {
+  //   return EmptyResponse();
+  // }
 
-  validate(event)
-    .then(() => app(event))
-    .then((result: C007Response) => {
-      // 終了ログ
-      Logger.info(result);
-      callback(null, {
-        statusCode: 200,
-        isBase64Encoded: false,
-        headers: {
-          'content-type': 'application/json',
-          'Access-Control-Allow-Origin': '*'
-        },
-        body: JSON.stringify(result)
-      });
-    })
-    .catch(err => {
-      // エラーログ
-      Logger.info(err);
-      callback(err, {
-        statusCode: 500,
-        isBase64Encoded: false,
-        headers: {
-          'content-type': 'application/json',
-          'Access-Control-Allow-Origin': '*'
-        }
-      });
-    });
+  const groupId = 'null';
+
+  // テスト単語一覧を取得する
+  const queryResult = await DBHelper().query(GroupWords.query.queryByGroupId06(groupId, DateUtils.getNow()));
+
+  // 検索結果０件の場合
+  if (queryResult.Count === 0 || !queryResult.Items) {
+    return EmptyResponse();
+  }
+
+  // 時間順で上位N件を対象とします
+  const targets = queryResult.Items.length > WORDS_LIMIT ? queryResult.Items.slice(0, WORDS_LIMIT) : queryResult.Items;
+
+  // 単語明細情報を取得する
+  const tasks = targets.map((item) => DBHelper().get(Words.getItem((item as TGroupWords).word as string)));
+  const wordsInfo = await Promise.all(tasks);
+
+  Logger.info('検索結果', wordsInfo);
+
+  // 返却結果
+  const items: WordItem[] = [];
+
+  targets.forEach((item, idx) => {
+    const word = wordsInfo[idx].Item;
+
+    // 明細情報存在しないデータを除外する
+    if (!word) return;
+
+    items.push({
+      word: word.word,
+      mp3: word.mp3,
+      pronounce: word.pronounce,
+      vocChn: word.vocChn,
+      vocJpn: word.vocJpn,
+      times: item.times,
+    } as WordItem);
+  });
+
+  return {
+    count: items.length,
+    words: items,
+  };
 };
 
-export interface Response {
-  statusCode: number;
-  headers?: {
-    [key: string]: string;
-  };
-  isBase64Encoded: boolean;
-  body?: string;
-}
-
-export interface RequestBody {
-  words: string[];
-}
-
-export interface ResponseBody extends GroupWords {}
+const EmptyResponse = (): C007Response => ({
+  count: 0,
+  words: [],
+});

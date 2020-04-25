@@ -14,11 +14,14 @@
       "@typings/*": [
         "./typings/*"
       ],
-      "@utils/*": [
-        "./src/Z0/*"
-      ],
       "@src/*": [
         "./src/*"
+      ],
+      "@utils": [
+        "./src/utils/index"
+      ],
+      "@queries": [
+        "./src/queries/index"
       ]
     }
   },
@@ -31,8 +34,6 @@
   ],
   "include": [
     "src/**/*",
-    "test/**/*",
-    "UT/**/*"
   ],
   "exclude": [
     "node_modules",

@@ -4,7 +4,7 @@ import baseConfig from './webpack.base';
 
 const prod: Configuration = {
   mode: 'production',
-  externals: ['aws-sdk', 'aws-xray-sdk', 'moment', 'dynamodb-helper'],
+  // externals: ['aws-sdk', 'aws-xray-sdk', 'moment', 'dynamodb-helper'],
   optimization: {
     minimize: false,
   },

@@ -1,17 +1,18 @@
+import { Request } from 'express';
+import { DynamoDB } from 'aws-sdk';
 import { C008Response, WordItem } from '@typings/api';
 import { DBHelper, Logger } from '@utils';
 import { GroupWords, Words } from '@src/queries';
 import { TGroupWords } from '@typings/tables';
-import { DynamoDB } from 'aws-sdk';
 
 export default async (req: Request): Promise<C008Response> => {
   // if (!event.pathParameters) {
   //   return EmptyResponse();
   // }
 
-  const groupId = 'null'; //event.pathParameters['groupId'];
+  const groupId = '111'; //event.pathParameters['groupId'];
 
-  const queryResult = await DBHelper().query(GroupWords.query.queryByGroupId07(groupId));
+  const queryResult = await DBHelper().query(GroupWords.query.queryByGroupId05(groupId));
 
   // 検索結果０件の場合
   if (queryResult.Count === 0 || !queryResult.Items) {

@@ -1,51 +1,29 @@
-import { app } from './app';
-import { APIGatewayEvent, Callback } from 'aws-lambda';
-import { Logger } from '@utils/utils';
+import { Request } from 'express';
+import { DBHelper } from '@utils';
+import { C002Response } from '@typings/api';
+import { GroupWords } from '@src/queries';
+import { TGroupWords } from '@typings/tables';
 
-// イベント入口
-export const handler = (event: APIGatewayEvent, _: any, callback: Callback<Response>) => {
-  // イベントログ
-  Logger.info(event);
+export default async (req: Request): Promise<C002Response[]> => {
+  // if (!event.pathParameters) {
+  //   return [] as ResponseBody[];
+  // }
 
-  app(event)
-    .then((result: ResponseBody[]) => {
-      // 終了ログ
-      Logger.info(result);
-      callback(null, {
-        statusCode: 200,
-        isBase64Encoded: false,
-        headers: {
-          'content-type': 'application/json'
-        },
-        body: JSON.stringify(result)
-      });
-    })
-    .catch(err => {
-      // エラーログ
-      Logger.info(err);
-      callback(err, {
-        statusCode: 500,
-        isBase64Encoded: false,
-        headers: {
-          'content-type': 'application/json'
-        }
-      } as Response);
-    });
+  // const groupId = event.pathParameters['groupId'];
+  const groupId = '1111';
+
+  const queryResult = await DBHelper().query(GroupWords.query.queryByGroupId04(groupId));
+
+  // 検索結果０件の場合
+  if (queryResult.Count === 0 || !queryResult.Items) {
+    return [] as C002Response[];
+  }
+
+  // 戻り値に変換する
+  return queryResult.Items.map(
+    (item) =>
+      ({
+        word: (item as TGroupWords).word,
+      } as C002Response)
+  );
 };
-
-export interface Response {
-  statusCode: number;
-  headers?: {
-    [key: string]: string;
-  };
-  isBase64Encoded: boolean;
-  body?: string;
-}
-
-export interface RequestBody {
-  words: string[];
-}
-
-export interface ResponseBody {
-  word: string;
-}
