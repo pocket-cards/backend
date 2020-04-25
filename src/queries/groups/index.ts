@@ -1,15 +1,12 @@
 import { DynamoDB } from 'aws-sdk';
 import { Environment } from '@src/consts';
-import { TGroups } from '@typings/tables';
+import { TGroups, GroupsKey } from '@typings/tables';
 import * as query from './query';
 
 /** データ取得 */
-export const get = (userId: string, groupId: string): DynamoDB.DocumentClient.GetItemInput => ({
+export const get = (key: GroupsKey): DynamoDB.DocumentClient.GetItemInput => ({
   TableName: Environment.TABLE_GROUPS,
-  Key: {
-    userId,
-    groupId,
-  },
+  Key: key,
 });
 
 /** データ登録 */

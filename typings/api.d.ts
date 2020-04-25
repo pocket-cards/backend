@@ -1,5 +1,5 @@
-import { GroupInfo } from './types';
 import { TGroups } from './tables';
+import { Request } from 'express';
 
 // ------------------------------
 // Common
@@ -12,6 +12,8 @@ export interface BaseResponse {
   isBase64Encoded: boolean;
   body?: string;
 }
+
+export type Callback = (req: Request) => Promise<any>;
 
 export interface WordItem {
   // 単語

@@ -13,7 +13,7 @@ export default () => {
     },
     logger: {
       appenders: { console: { type: 'console' } },
-      categories: { default: { appenders: ['console'], level: 'info' } },
+      categories: { default: { appenders: ['console'], level: process.env.LOGGER_LEVEL } },
     },
   });
 

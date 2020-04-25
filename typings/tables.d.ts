@@ -41,7 +41,7 @@ export interface GroupsKey {
   // グループID
   id: string;
   // ユーザID
-  userId: string;
+  userId?: string;
 }
 
 export interface TGroups extends GroupsKey {

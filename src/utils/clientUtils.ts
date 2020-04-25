@@ -2,7 +2,7 @@ import * as XRay from 'aws-xray-sdk';
 import * as AWSSDK from 'aws-sdk';
 import { DynamoDB, Polly, S3, Translate, SSM, Lambda } from 'aws-sdk';
 
-export const AWS = process.env.LOCAL_TEST ? AWSSDK : XRay.captureAWS(AWSSDK);
+export const AWS = process.env.ENVIRONMENT === 'local' ? AWSSDK : XRay.captureAWS(AWSSDK);
 
 let dynamoDBClient: DynamoDB.DocumentClient;
 let pollyClient: Polly;

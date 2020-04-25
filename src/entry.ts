@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
 import { Logger } from '@utils';
+import { Callback } from '@typings/api';
 
-export default async (req: Request, res: Response, callback: any) => {
+export default async (req: Request, res: Response, callback: Callback) => {
   // イベントログ;
   Logger.info(req.headers);
   Logger.info(req.body);

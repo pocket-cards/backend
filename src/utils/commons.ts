@@ -9,7 +9,7 @@ export const sleep = (timeout: number) => new Promise((resolve) => setTimeout(()
  * @param event APIGateway EVENT
  * @param authKey Header Key
  */
-export const getUserId = (req: Request, authKey: string = 'Authorization') => {
+export const getUserId = (req: Request, authKey: string = 'authorization') => {
   const value = req.headers[authKey];
 
   // データが存在しない場合、エラーとする
@@ -33,7 +33,8 @@ export const getUserId = (req: Request, authKey: string = 'Authorization') => {
     // const userJson = Buffer.from(value, 'base64').toString();
     // const userInfo = JSON.parse(userJson);
     // return userInfo['cognito:username'];
-    return 'wwalpha';
+    // return 'wwalpha';
+    return req.headers['authorization'] as string;
   } catch (err) {
     // Logger.info(err);
     return null;
