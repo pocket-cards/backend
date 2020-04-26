@@ -8,7 +8,7 @@ export default () => {
   helper = new Helper({
     options: {
       region: process.env.AWS_DEFAULT_REGION,
-      endpoint: process.env.DYNAMO_ENDPOINT,
+      endpoint: process.env.AWS_ENDPOINT,
       sslEnabled: false,
     },
     logger: {

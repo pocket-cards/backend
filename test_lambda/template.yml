@@ -10,7 +10,7 @@ Globals:
     MemorySize: 1024
     # Environment:
     #   Variables:
-    #     DYNAMO_ENDPOINT: http://172.16.80.25:4569
+    #     AWS_ENDPOINT: http://172.16.80.25:4569
 
 Resources:
   # ---------------------------------------

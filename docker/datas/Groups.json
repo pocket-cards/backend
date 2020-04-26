@@ -1,26 +1,32 @@
 [
   {
-    "id": "Group001",
-    "userId": "User001",
+    "id": "B002-1",
+    "userId": "B002",
     "name": "GroupName001",
     "description": "Group Description 001"
   },
   {
-    "id": "Group002",
-    "userId": "User001",
+    "id": "B002-2",
+    "userId": "B002",
     "name": "GroupName002",
     "description": "Group Description 002"
   },
   {
-    "id": "Group003",
-    "userId": "User002",
-    "name": "GroupName003",
-    "description": "Group Description 003"
+    "id": "B003",
+    "userId": "B003",
+    "name": "GroupName001",
+    "description": "Group Description 001"
   },
   {
-    "id": "Group004",
-    "userId": "User002",
-    "name": "GroupName004",
-    "description": "Group Description 004"
+    "id": "B004",
+    "userId": "B004",
+    "name": "GroupName001",
+    "description": "Group Description 001"
+  },
+  {
+    "id": "B005",
+    "userId": "B005",
+    "name": "GroupName001",
+    "description": "Group Description 001"
   }
 ]

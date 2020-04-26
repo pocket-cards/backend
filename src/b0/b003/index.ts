@@ -5,7 +5,7 @@ import { TGroups } from '@typings/tables';
 import { B003Response, B003Params } from '@typings/api';
 
 /**
- * グループ情報削除
+ * グループ情報検索
  *
  * GET /groups/:groupId
  */

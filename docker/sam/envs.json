@@ -1,6 +1,6 @@
 {
   "Parameters": {
-    "DYNAMO_ENDPOINT": "http://host.docker.internal:4569"
+    "AWS_ENDPOINT": "http://host.docker.internal:4569"
   },
   "A001": {
     "DUMMY_GROUP_WORDS": "T_GROUP_WORDS"

@@ -7,7 +7,8 @@ chai.should();
 
 describe('B003', () => {
   it('Case001', async () => {
-    const res = await chai.request(server).get('/groups/Group001').set('Authorization', 'User001').send();
+    const URL = '/groups/B003';
+    const res = await chai.request(server).get(URL).set('authorization', 'B003').send();
 
     chai.expect(res.body).to.be.deep.eq(require('./datas/res001.json'));
   });
