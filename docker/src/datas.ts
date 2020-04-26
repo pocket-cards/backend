@@ -15,8 +15,11 @@ const helper = new Helper({
 });
 
 const insert = async () => {
-  // Table: Test
+  console.log('Insert PocketCards_Groups...');
   await helper.bulk('PocketCards_Groups', require('../datas/Groups.json'));
+
+  console.log('Insert PocketCards_Words...');
+  await helper.bulk('PocketCards_Words', require('../datas/Words.json'));
 };
 
 (async () => {

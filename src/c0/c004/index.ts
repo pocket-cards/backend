@@ -1,15 +1,21 @@
 import { Request } from 'express';
-import { C003Response, C003Params } from '@typings/api';
+import { C004Params, C004Response } from '@typings/api';
 import { DBHelper } from '@utils';
 import { Words } from '@src/queries';
 import { TWords } from '@typings/tables';
 
-export default async (req: Request): Promise<C003Response> => {
-  const params = (req.params as unknown) as C003Params;
+export default async (req: Request): Promise<C004Response> => {
+  const params = (req.params as unknown) as C004Params;
+  // const request = req.body as C004Request;
 
-  const result = await DBHelper().get(Words.get({ id: params.word, groupId: params.groupId }));
+  // const result = await DBHelper().put(Words.put({
+  //   id: params.word,
+  //   groupId: params.word,
+  //   nextTime:
+  // }));
 
-  return result.Item as TWords;
+  // return result.Item as TWords;
+  return;
 };
 
 // const EmptyResponse = (): C008Response => ({

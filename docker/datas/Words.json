@@ -1,0 +1,23 @@
+[
+  {
+    "id": "C003-1",
+    "groupId": "C003",
+    "nextTime": "20190426",
+    "lastTime": "20190425",
+    "times": 0
+  },
+  {
+    "id": "C004-1",
+    "groupId": "C003",
+    "nextTime": "20190426",
+    "lastTime": "20190425",
+    "times": 0
+  },
+  {
+    "id": "C005-1",
+    "groupId": "C005",
+    "nextTime": "20190426",
+    "lastTime": "20190425",
+    "times": 0
+  }
+]

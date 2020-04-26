@@ -1,8 +1,11 @@
-export interface TWords {
+export interface WordKey {
   // 単語
   id: string;
   // グループID
   groupId: string;
+}
+
+export interface TWords extends WordKey {
   // 次の学習時間
   nextTime: string;
   // 最後の学習時間

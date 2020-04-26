@@ -1,4 +1,4 @@
-import { TGroups } from './tables';
+import { TGroups, TWords } from './tables';
 import { Request } from 'express';
 
 // ------------------------------
@@ -109,14 +109,40 @@ export interface C002Response {
 }
 
 // ------------------------------
+// C003
+// ------------------------------
+export interface C003Params {
+  groupId: string;
+  word: string;
+}
+
+export type C003Response = TWords;
+
+// ------------------------------
 // C004
 // ------------------------------
+export interface C004Params {
+  groupId: string;
+  word: string;
+}
+
 export interface C004Request {
-  correct: boolean;
+  nextTime: string;
+  lastTime: string;
   times: number;
 }
 
-export interface C004Response {}
+export type C004Response = void;
+
+// ------------------------------
+// C005
+// ------------------------------
+export interface C005Params {
+  groupId: string;
+  word: string;
+}
+
+export type C005Response = void;
 
 // ------------------------------
 // C006
