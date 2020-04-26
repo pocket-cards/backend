@@ -1,5 +1,5 @@
 import { DynamoDB } from 'aws-sdk';
-import { Environment } from '@src/consts';
+import { Environment } from '@consts';
 
 /** グループ一覧を取得する */
 export const byUserId = (userId: string, projection?: string): DynamoDB.DocumentClient.QueryInput => ({

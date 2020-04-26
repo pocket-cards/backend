@@ -5,7 +5,7 @@ import axios from 'axios';
 import { C001Request } from '@typings/api';
 import { DBHelper, DateUtils, Logger, ClientUtils } from '@utils';
 import { Words, WordMaster } from '@queries';
-import { Environment } from '@src/consts';
+import { Environment } from '@consts';
 
 export default async (req: Request): Promise<void> => {
   if (!req.body) {

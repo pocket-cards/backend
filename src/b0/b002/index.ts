@@ -1,7 +1,7 @@
 import { Request } from 'express';
 import { DBHelper, Logger } from '@utils';
-import { Commons } from '@src/utils';
-import { Groups } from '@src/queries';
+import { Commons } from '@utils';
+import { Groups } from '@queries';
 import { B002Response } from '@typings/api';
 
 export default async (req: Request): Promise<B002Response> => {

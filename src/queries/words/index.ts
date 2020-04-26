@@ -1,6 +1,6 @@
 import * as query from './query';
 import * as update from './update';
-import { Environment } from '@src/consts';
+import { Environment } from '@consts';
 import { DynamoDB } from 'aws-sdk';
 import { TWords, WordKey } from '@typings/tables';
 

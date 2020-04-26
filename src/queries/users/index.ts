@@ -1,5 +1,5 @@
 import { DynamoDB } from 'aws-sdk';
-import { Environment } from '@src/consts';
+import { Environment } from '@consts';
 import { TUsers } from '@typings/tables';
 import * as update from './update';
 

@@ -4,7 +4,7 @@ import { Request } from 'express';
 import { TUsers, TGroups, TWords } from '@typings/tables';
 import { DateUtils, DBHelper, Commons, Logger } from '@utils';
 import { Users, Words } from '@queries';
-import { Environment } from '@src/consts';
+import { Environment } from '@consts';
 
 export default async (req: Request): Promise<void> => {
   //const { userName } = req;

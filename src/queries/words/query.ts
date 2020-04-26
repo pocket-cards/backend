@@ -1,5 +1,5 @@
 import { DynamoDB } from 'aws-sdk';
-import { Environment } from '@src/consts';
+import { Environment } from '@consts';
 
 /**
  * 日付ごとの単語量を計算する

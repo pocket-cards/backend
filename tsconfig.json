@@ -14,8 +14,8 @@
       "@typings/*": [
         "./typings/*"
       ],
-      "@src/*": [
-        "./src/*"
+      "@consts": [
+        "./src/consts/index"
       ],
       "@utils": [
         "./src/utils/index"
@@ -23,6 +23,18 @@
       "@queries": [
         "./src/queries/index"
       ],
+      "@src/a0": [
+        "./src/a0/index"
+      ],
+      "@src/b0": [
+        "./src/b0/index"
+      ],
+      "@src/c0": [
+        "./src/c0/index"
+      ],
+      "@app": [
+        "./src/app"
+      ]
     }
   },
   "files": [

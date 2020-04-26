@@ -1,8 +1,8 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import server from '@src/app';
-import { DBHelper } from '@src/utils';
-import { Groups } from '@src/queries';
+import server from '@app';
+import { DBHelper } from '@utils';
+import { Groups } from '@queries';
 
 chai.use(chaiHttp);
 chai.should();

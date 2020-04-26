@@ -1,5 +1,5 @@
 import { DynamoDB } from 'aws-sdk';
-import { Environment } from '@src/consts';
+import { Environment } from '@consts';
 import { TGroups, GroupsKey } from '@typings/tables';
 import * as query from './query';
 

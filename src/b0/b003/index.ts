@@ -1,6 +1,6 @@
 import { Request } from 'express';
 import { DBHelper, Logger, Commons } from '@utils';
-import { Groups } from '@src/queries';
+import { Groups } from '@queries';
 import { TGroups } from '@typings/tables';
 import { B003Response, B003Params } from '@typings/api';
 

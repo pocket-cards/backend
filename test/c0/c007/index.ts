@@ -5,7 +5,7 @@ import server from '@app';
 chai.use(chaiHttp);
 chai.should();
 
-describe('C006', () => {
+describe('C007', () => {
   // 10件超え
   it('Case001', async () => {
     const URL = '/groups/C006-1/new';

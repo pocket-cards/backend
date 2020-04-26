@@ -1,7 +1,7 @@
 import { Request } from 'express';
 import { C004Params, C004Response } from '@typings/api';
 import { DBHelper } from '@utils';
-import { Words } from '@src/queries';
+import { Words } from '@queries';
 import { TWords } from '@typings/tables';
 
 export default async (req: Request): Promise<C004Response> => {

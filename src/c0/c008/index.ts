@@ -1,60 +1,29 @@
-import { C008Response, WordItem } from '@typings/api';
+import { Request } from 'express';
 import { DBHelper, Logger } from '@utils';
-import { Words } from '@src/queries';
-import { TWords } from '@typings/tables';
-import { DynamoDB } from 'aws-sdk';
-import { Environment } from '@src/consts';
+import { Environment } from '@consts';
+import { Words, WordMaster } from '@queries';
+import { TWords, TWordMaster } from '@typings/tables';
+import { C008Response, WordItem, C008Params } from '@typings/api';
 
 export default async (req: Request): Promise<C008Response> => {
-  // if (!event.pathParameters) {
-  //   return EmptyResponse();
-  // }
+  const params = (req.params as unknown) as C008Params;
+  const groupId = params.groupId;
 
-  const groupId = 'null'; //event.pathParameters['groupId'];
-
-  const queryResult = null; //await DBHelper().query(Words.query.queryByGroupId07(groupId));
+  const queryResult = await DBHelper().query(Words.query.review(groupId));
 
   // 検索結果０件の場合
   if (queryResult.Count === 0 || !queryResult.Items) {
     return EmptyResponse();
   }
-
+  const items = queryResult.Items as TWords[];
   // 時間順で上位N件を対象とします
-  const targets = getRandom(queryResult.Items, Environment.WORDS_LIMIT);
-
-  Logger.info('対象単語', targets);
-  // 単語明細情報を取得する
-  const tasks = targets.map((item) =>
-    DBHelper()
-      .getRequest(Words.get({ id: '', groupId: '' }))
-      .promise()
-  );
-  const wordsInfo = await Promise.all(tasks);
-
-  Logger.info('検索結果', wordsInfo);
-
-  // 返却結果
-  const items: WordItem[] = [];
-
-  targets.forEach((item, idx) => {
-    const word = wordsInfo[idx].Item;
-
-    // 明細情報存在しないデータを除外する
-    if (!word) return;
-
-    items.push({
-      word: word.word,
-      mp3: word.mp3,
-      pronounce: word.pronounce,
-      vocChn: word.vocChn,
-      vocJpn: word.vocJpn,
-      times: item.times,
-    } as WordItem);
-  });
+  const targets = getRandom(items, Environment.WORDS_LIMIT);
+  // 単語明細情報の取得
+  const results = await getDetails(targets);
 
   return {
-    count: items.length,
-    words: items,
+    count: results.length,
+    words: results,
   };
 };
 
@@ -63,12 +32,12 @@ const EmptyResponse = (): C008Response => ({
   words: [],
 });
 
-const getRandom = (items: DynamoDB.DocumentClient.AttributeMap[], maxItems: number) => {
+const getRandom = (items: TWords[], maxItems: number): TWords[] => {
   if (maxItems >= items.length) {
     return items;
   }
 
-  const results: DynamoDB.DocumentClient.AttributeMap[] = [];
+  const results: TWords[] = [];
 
   while (results.length != maxItems) {
     const min = 0;
@@ -80,4 +49,35 @@ const getRandom = (items: DynamoDB.DocumentClient.AttributeMap[], maxItems: numb
   }
 
   return results;
+};
+
+/** 単語明細情報の取得 */
+const getDetails = async (words: TWords[]) => {
+  const tasks = words.map((item) => DBHelper().get(WordMaster.get(item.id)));
+  const details = (await Promise.all(tasks)).filter((item) => item);
+
+  Logger.info('検索結果', details);
+
+  // 返却結果
+  const rets: WordItem[] = [];
+
+  words.forEach((t) => {
+    const finded = details.find((w) => (w.Item as TWordMaster).id === t.id);
+
+    // 明細情報存在しないデータを除外する
+    if (!finded) return;
+
+    const item = finded.Item as TWordMaster;
+
+    rets.push({
+      word: item.id,
+      mp3: item.mp3,
+      pronounce: item.pronounce,
+      vocChn: item.vocChn,
+      vocJpn: item.vocJpn,
+      times: t.times,
+    } as WordItem);
+  });
+
+  return rets;
 };

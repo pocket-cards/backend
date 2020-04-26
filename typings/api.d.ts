@@ -158,7 +158,9 @@ export interface C006Response {
 // ------------------------------
 // C007
 // ------------------------------
-export interface C007Request {}
+export interface C007Params {
+  groupId: string;
+}
 
 export interface C007Response {
   count: number;
@@ -167,7 +169,9 @@ export interface C007Response {
 // ------------------------------
 // C008
 // ------------------------------
-export interface C008Request {}
+export interface C008Params {
+  groupId: string;
+}
 
 export interface C008Response {
   count: number;
