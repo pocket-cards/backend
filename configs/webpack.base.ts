@@ -1,28 +1,26 @@
 import { NoEmitOnErrorsPlugin, LoaderOptionsPlugin, Configuration } from 'webpack';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin';
-import { sync } from 'glob';
 import * as path from 'path';
 
-const SRC_PATH = './src';
-const ENTRY_NAME = 'index.ts';
+// const SRC_PATH = './src';
+// const ENTRY_NAME = 'index.ts';
 
-const getEntries = () => {
-  const targets = sync(`${SRC_PATH}/**/${ENTRY_NAME}`);
-  const entries: { [key: string]: string } = {};
+// const getEntries = () => {
+//   const targets = sync(`${SRC_PATH}/**/${ENTRY_NAME}`);
+//   const entries: { [key: string]: string } = {};
 
-  targets.forEach((item) => {
-    const key = item.replace(`${SRC_PATH}/`, '').replace(/\//g, '_').replace(`_${ENTRY_NAME}`, '/index');
+//   targets.forEach((item) => {
+//     const key = item.replace(`${SRC_PATH}/`, '').replace(/\//g, '_').replace(`_${ENTRY_NAME}`, '/index');
 
-    entries[key] = item;
-  });
+//     entries[key] = item;
+//   });
 
-  return entries;
-};
+//   return entries;
+// };
 
 const configs: Configuration = {
   target: 'node',
-  // entry: getEntries(),
   entry: {
     app: 'src/app',
   },

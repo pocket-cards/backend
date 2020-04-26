@@ -11,16 +11,16 @@
     "buildw": "webpack -w --config ./configs/webpack.dev.ts",
     "build": "webpack --config ./configs/webpack.prod.ts",
     "sam:api": "sam local start-api -t test/template.yml -n test/envs.json",
+    "docker:build": "cd docker && yarn build",
     "docker:up": "docker-compose -f \"test/docker-compose.yml\" up -d --build",
     "docker:down": "docker-compose -f \"test/docker-compose.yml\" down",
     "pretest": "yarn docker:down && yarn docker:up && sleep 15",
     "test": "ts-mocha -r tsconfig-paths/register -r dotenv/config test/**/index.ts --exit --timeout 10000 dotenv_config_path=./configs/env/.env.test",
     "test1": "ts-mocha -r tsconfig-paths/register -r dotenv/config test/**/index1.ts --exit --timeout 10000 dotenv_config_path=./configs/env/.env.test",
-    "posttest":"yarn docker:down", 
+    "posttest": "yarn docker:down",
     "coverage": "nyc npm run test",
     "build:publish": "webpack --config ./configs/webpack.publish.ts",
-    "valid": "tsc --noEmit",
-    "dockerbuild":"cd docker && yarn build"
+    "valid": "tsc --noEmit"
   },
   "nyc": {
     "extends": "@istanbuljs/nyc-config-typescript",
