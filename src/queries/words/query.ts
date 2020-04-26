@@ -78,7 +78,7 @@ export const wordList = (groupId: string): DynamoDB.DocumentClient.QueryInput =>
  */
 export const review = (groupId: string): DynamoDB.DocumentClient.QueryInput => ({
   TableName: Environment.TABLE_WORDS,
-  ProjectionExpression: 'nextTime, word, times',
+  ProjectionExpression: 'id, nextTime, times',
   // KeyConditionExpression: '#id = :id and begins_with(#nextTime, :nextTime)',
   KeyConditionExpression: '#groupId = :groupId',
   FilterExpression: '#times = :times',
@@ -100,7 +100,7 @@ export const review = (groupId: string): DynamoDB.DocumentClient.QueryInput => (
  */
 export const test = (groupId: string, nextTime: string): DynamoDB.DocumentClient.QueryInput => ({
   TableName: Environment.TABLE_WORDS,
-  ProjectionExpression: 'nextTime, word, times',
+  ProjectionExpression: 'id, nextTime, times',
   KeyConditionExpression: '#groupId = :groupId and #nextTime <= :nextTime',
   FilterExpression: '#times <> :times',
   ExpressionAttributeNames: {

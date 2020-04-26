@@ -1,0 +1,85 @@
+{
+  "count": 10,
+  "words": [
+    {
+      "word": "WORD-4",
+      "mp3": "URL_MP3_4",
+      "pronounce": "Pronounce_4",
+      "vocChn": "WORD_ZH_4",
+      "vocJpn": "WORD_JA_4",
+      "times": 1
+    },
+    {
+      "word": "WORD-6",
+      "mp3": "URL_MP3_6",
+      "pronounce": "Pronounce_6",
+      "vocChn": "WORD_ZH_6",
+      "vocJpn": "WORD_JA_6",
+      "times": 1
+    },
+    {
+      "word": "WORD-7",
+      "mp3": "URL_MP3_7",
+      "pronounce": "Pronounce_7",
+      "vocChn": "WORD_ZH_7",
+      "vocJpn": "WORD_JA_7",
+      "times": 1
+    },
+    {
+      "word": "WORD-3",
+      "mp3": "URL_MP3_3",
+      "pronounce": "Pronounce_3",
+      "vocChn": "WORD_ZH_3",
+      "vocJpn": "WORD_JA_3",
+      "times": 1
+    },
+    {
+      "word": "WORD-10",
+      "mp3": "URL_MP3_10",
+      "pronounce": "Pronounce_10",
+      "vocChn": "WORD_ZH_10",
+      "vocJpn": "WORD_JA_10",
+      "times": 1
+    },
+    {
+      "word": "WORD-8",
+      "mp3": "URL_MP3_8",
+      "pronounce": "Pronounce_8",
+      "vocChn": "WORD_ZH_8",
+      "vocJpn": "WORD_JA_8",
+      "times": 1
+    },
+    {
+      "word": "WORD-9",
+      "mp3": "URL_MP3_9",
+      "pronounce": "Pronounce_9",
+      "vocChn": "WORD_ZH_9",
+      "vocJpn": "WORD_JA_9",
+      "times": 1
+    },
+    {
+      "word": "WORD-11",
+      "mp3": "URL_MP3_11",
+      "pronounce": "Pronounce_11",
+      "vocChn": "WORD_ZH_11",
+      "vocJpn": "WORD_JA_11",
+      "times": 1
+    },
+    {
+      "word": "WORD-5",
+      "mp3": "URL_MP3_5",
+      "pronounce": "Pronounce_5",
+      "vocChn": "WORD_ZH_5",
+      "vocJpn": "WORD_JA_5",
+      "times": 1
+    },
+    {
+      "word": "WORD-2",
+      "mp3": "URL_MP3_2",
+      "pronounce": "Pronounce_2",
+      "vocChn": "WORD_ZH_2",
+      "vocJpn": "WORD_JA_2",
+      "times": 1
+    }
+  ]
+}
