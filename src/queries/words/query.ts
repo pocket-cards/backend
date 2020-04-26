@@ -124,7 +124,7 @@ export const test = (groupId: string, nextTime: string): DynamoDB.DocumentClient
  */
 export const news = (groupId: string, nextTime: string): DynamoDB.DocumentClient.QueryInput => ({
   TableName: Environment.TABLE_WORDS,
-  ProjectionExpression: 'nextTime, lastTime, word, times',
+  ProjectionExpression: 'id, nextTime, lastTime, times',
   KeyConditionExpression: '#groupId = :groupId and #nextTime <= :nextTime',
   FilterExpression: '#times = :times',
   ExpressionAttributeNames: {

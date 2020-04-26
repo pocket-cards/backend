@@ -18,6 +18,10 @@
     {
       "AttributeName": "groupId",
       "AttributeType": "S"
+    },
+    {
+      "AttributeName": "nextTime",
+      "AttributeType": "S"
     }
   ],
   "BillingMode": "PROVISIONED",
@@ -34,7 +38,7 @@
           "KeyType": "HASH"
         },
         {
-          "AttributeName": "id",
+          "AttributeName": "nextTime",
           "KeyType": "RANGE"
         }
       ],

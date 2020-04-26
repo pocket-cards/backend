@@ -147,7 +147,9 @@ export type C005Response = void;
 // ------------------------------
 // C006
 // ------------------------------
-export interface C006Request {}
+export interface C006Params {
+  groupId: string;
+}
 
 export interface C006Response {
   count: number;

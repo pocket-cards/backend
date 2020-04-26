@@ -24,7 +24,7 @@ app.put('/groups/:groupId/words/:word', express.json(), (req, res) => entry(req,
 // 単語情報削除
 app.delete('/groups/:groupId/words/:word', express.json(), (req, res) => entry(req, res, C005));
 // 新規学習モード単語一覧
-// app.get('/groups/:groupId/new', express.json(), async (req, res) => await entry(req, res, C006));
+app.get('/groups/:groupId/new', express.json(), async (req, res) => await entry(req, res, C006));
 // // テストモード単語一覧
 // app.get('/groups/:groupId/test', express.json(), async (req, res) => entry(req, res, C007));
 // // 復習モード単語一覧

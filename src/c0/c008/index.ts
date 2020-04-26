@@ -26,7 +26,7 @@ export default async (req: Request): Promise<C008Response> => {
   // 単語明細情報を取得する
   const tasks = targets.map((item) =>
     DBHelper()
-      .getRequest(Words.get((item as TWords).id as string, groupId))
+      .getRequest(Words.get({ id: '', groupId: '' }))
       .promise()
   );
   const wordsInfo = await Promise.all(tasks);

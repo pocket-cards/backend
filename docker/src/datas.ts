@@ -1,8 +1,6 @@
 require('dotenv').config();
 
 import { Helper } from 'dynamodb-helper';
-import { DynamoDB } from 'aws-sdk';
-import { sync } from 'glob';
 
 const AWS_ENDPOINT = process.env.AWS_ENDPOINT;
 const DEFAULT_REGION = process.env.DEFAULT_REGION;
@@ -20,6 +18,9 @@ const insert = async () => {
 
   console.log('Insert PocketCards_Words...');
   await helper.bulk('PocketCards_Words', require('../datas/Words.json'));
+
+  console.log('Insert PocketCards_WordMaster...');
+  await helper.bulk('PocketCards_WordMaster', require('../datas/WordMaster.json'));
 };
 
 (async () => {

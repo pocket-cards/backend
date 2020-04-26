@@ -1,18 +1,16 @@
-import moment from 'moment';
+import { Request } from 'express';
+import * as _ from 'lodash';
 import { DBHelper, Logger, DateUtils } from '@utils';
-import { Words, WordMaster } from '@queries';
-import { TWords } from '@typings/tables';
-import { C006Response, WordItem } from '@typings/api';
 import { Environment } from '@src/consts';
+import { Words, WordMaster } from '@queries';
+import { TWords, TWordMaster } from '@typings/tables';
+import { C006Response, WordItem, C006Params } from '@typings/api';
 
 export default async (req: Request): Promise<C006Response> => {
-  // if (!event.pathParameters) {
-  //   return EmptyResponse();
-  // }
+  const params = (req.params as unknown) as C006Params;
+  const groupId = params.groupId;
 
-  const groupId = 'null'; //event.pathParameters['groupId'];
-
-  const queryResult = null; //await DBHelper().query(Words.query.queryByGroupId08(groupId, DateUtils.getNow()));
+  const queryResult = await DBHelper().query(Words.query.news(groupId, DateUtils.getNow()));
 
   // 検索結果０件の場合
   if (queryResult.Count === 0 || !queryResult.Items) {
@@ -22,39 +20,35 @@ export default async (req: Request): Promise<C006Response> => {
   Logger.info(`Count: ${queryResult.Count}`);
 
   const items = queryResult.Items as TWords[];
-
-  items.sort((a, b) => {
-    if (!a.lastTime && b.lastTime) return 1;
-    if (a.lastTime && !b.lastTime) return -1;
-    if (a.lastTime === b.lastTime) return 0;
-
-    return moment(a.lastTime).isBefore(moment(b.lastTime)) ? 1 : -1;
-  });
+  // 時間順
+  const sorted = _.orderBy(items, 'lastTime');
   // 時間順で上位N件を対象とします
-  const targets = items.length > Environment.WORDS_LIMIT ? items.slice(0, Environment.WORDS_LIMIT) : items;
+  const targets = sorted.length > Environment.WORDS_LIMIT ? items.slice(0, Environment.WORDS_LIMIT) : items;
 
   // 単語明細情報を取得する
-  const tasks = targets.map((item) => DBHelper().get(WordMaster.get((item as TWords).id as string)));
-  const wordsInfo = await Promise.all(tasks);
+  const tasks = targets.map((item) => DBHelper().get(WordMaster.get(item.id)));
+  const wordsInfo = (await Promise.all(tasks)).filter((item) => item);
 
   Logger.info('検索結果', wordsInfo);
 
   // 返却結果
   const results: WordItem[] = [];
 
-  targets.forEach((item, idx) => {
-    const word = wordsInfo[idx].Item;
+  targets.forEach((t, idx) => {
+    const finded = wordsInfo.find((w) => (w.Item as TWordMaster).id === t.id);
 
     // 明細情報存在しないデータを除外する
-    if (!word) return;
+    if (!finded) return;
+
+    const item = finded.Item as TWordMaster;
 
     results.push({
-      word: word.word,
-      mp3: word.mp3,
-      pronounce: word.pronounce,
-      vocChn: word.vocChn,
-      vocJpn: word.vocJpn,
-      times: item.times,
+      word: item.id,
+      mp3: item.mp3,
+      pronounce: item.pronounce,
+      vocChn: item.vocChn,
+      vocJpn: item.vocJpn,
+      times: t.times,
     } as WordItem);
   });
 

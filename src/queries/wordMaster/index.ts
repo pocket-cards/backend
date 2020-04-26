@@ -5,7 +5,7 @@ import { TWordMaster } from '@typings/tables';
 /** データ取得 */
 export const get = (id: string) =>
   ({
-    TableName: Environment.TABLE_WORDS,
+    TableName: Environment.TABLE_WORD_MASTER,
     Key: {
       id,
     },
@@ -14,6 +14,6 @@ export const get = (id: string) =>
 /** データ登録 */
 export const put = (item: TWordMaster) =>
   ({
-    TableName: Environment.TABLE_WORDS,
+    TableName: Environment.TABLE_WORD_MASTER,
     Item: item,
   } as DynamoDB.DocumentClient.PutItemInput);
