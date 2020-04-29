@@ -9,7 +9,7 @@
     "poststop": "sudo rm -rf localstack",
     "prestart": "yarn composeup && sleep 10",
     "start": "yarn tables && yarn datas",
-    "poststart": "docker build --no-cache --rm -t aws-automation-testing .",
+    "poststart": "docker build --no-cache --rm -t pocketcards/backend-testing .",
     "tables": "ts-node src/tables.ts",
     "datas": "ts-node src/datas.ts",
     "composeup": "docker-compose up -d --build",
