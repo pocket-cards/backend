@@ -8,22 +8,23 @@
     "stop": "yarn composedown",
     "poststop": "sudo rm -rf localstack",
     "prestart": "yarn composeup && sleep 10",
-    "start": "yarn tables && yarn datas",
+    "start": "yarn data:tables && yarn data:datas && yarn data:env",
     "poststart": "docker build --no-cache --rm -t pocketcards/backend-testing .",
-    "tables": "ts-node src/tables.ts",
-    "datas": "ts-node src/datas.ts",
+    "data:tables": "ts-node src/tables.ts",
+    "data:datas": "ts-node src/datas.ts",
+    "data:env": "ts-node src/envs.ts",
     "composeup": "docker-compose up -d --build",
     "composedown": "docker-compose down"
   },
   "dependencies": {
-    "aws-sdk": "^2.556.0",
+    "aws-sdk": "^2.665.0",
     "dynamodb-helper": "https://github.com/wwalpha/dynamodb-helper.git"
   },
   "devDependencies": {
     "@types/node": "^13.13.2",
     "dotenv": "^8.2.0",
     "glob": "^7.1.6",
-    "ts-node": "^8.4.1",
-    "typescript": "^3.6.4"
+    "ts-node": "^8.9.1",
+    "typescript": "^3.8.3"
   }
 }

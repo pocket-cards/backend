@@ -1,6 +1,7 @@
-require('dotenv').config();
-
+import * as path from 'path';
 import { Helper } from 'dynamodb-helper';
+
+require('dotenv').config({ path: path.join(__dirname, '../configs/.env') });
 
 const AWS_ENDPOINT = process.env.AWS_ENDPOINT;
 const DEFAULT_REGION = process.env.DEFAULT_REGION;

@@ -1,8 +1,9 @@
-require('dotenv').config();
-
 import { Helper } from 'dynamodb-helper';
 import { DynamoDB } from 'aws-sdk';
 import { sync } from 'glob';
+import * as path from 'path';
+
+require('dotenv').config({ path: path.join(__dirname, '../configs/.env') });
 
 const AWS_ENDPOINT = process.env.AWS_ENDPOINT;
 const DEFAULT_REGION = process.env.DEFAULT_REGION;

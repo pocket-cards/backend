@@ -5,7 +5,7 @@ services:
     ports:
       - '4566:4566'
     environment:
-      - SERVICES=dynamodb
+      - SERVICES=dynamodb,ssm,s3,secretsmanager
       - DATA_DIR=/tmp/localstack/data
       - DEFAULT_REGION=ap-northeast-1
     volumes:
