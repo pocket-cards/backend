@@ -8,11 +8,10 @@
     "stop": "yarn composedown",
     "poststop": "sudo rm -rf localstack",
     "prestart": "yarn composeup && sleep 10",
-    "start": "yarn data:tables && yarn data:datas && yarn data:env",
+    "start": "yarn data:tables && yarn data:datas",
     "poststart": "docker build --no-cache --rm -t pocketcards/backend-testing .",
     "data:tables": "ts-node src/tables.ts",
     "data:datas": "ts-node src/datas.ts",
-    "data:env": "ts-node src/envs.ts",
     "composeup": "docker-compose up -d --build",
     "composedown": "docker-compose down"
   },

@@ -8,7 +8,7 @@ EXPOSE 4566
 COPY localstack/data /usr/local/data
 
 # DynamoDBのみ有効
-ENV SERVICES=dynamodb \
+ENV SERVICES=dynamodb,s3 \
   DEFAULT_REGION=ap-northeast-1 \
   DATA_DIR=/usr/local/data
 
