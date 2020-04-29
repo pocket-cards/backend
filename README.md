@@ -10,7 +10,6 @@
 |                | /groups/{groupId}              | PUT         | B004        | グループ情報変更         |
 |                | /groups/{groupId}              | DELETE      | B005        | グループ情報削除         |
 |                | /groups/{groupId}/words        | POST        | C001        | 単語一括登録             |
-| **Deleted**    | /groups/{groupId}/words        | GET         | C002        | 単語一覧取得             |
 |                | /groups/{groupId}/words/{word} | GET         | C003        | 単語情報取得             |
 |                | /groups/{groupId}/words/{word} | PUT         | C004        | 単語情報更新             |
 |                | /groups/{groupId}/words/{word} | DELETE      | C005        | 単語情報削除             |
@@ -74,20 +73,17 @@
 
 ### Search Conditions
 
-| Status         | Conditions                                             | Index |
-| -------------- | ------------------------------------------------------ | ----- |
-| Get            | id = xxx, groupId = xxx                                |       |
-| Put            | id = xxx, groupId = xxx                                |       |
-| WordList       | groupId = xxx                                          | GSI1  |
-| Review         | groupId = xxx, times = 1                               | GSI1  |
-| Test           | groupId = xxx, times <> 0, nextTime < Now              | GSI1  |
-| New            | groupId = xxx, times = 0, nextTime <= Now              | GSI1  |
-| New Targets    | Times = 0, NextTime <= now, NextTime ASC               |       |
-| New Success    | Times = Times + 1, LastTime = now , NextTime = now ASC |       |
-| Review Targets | Times = 1                                              |       |
-| Test Targets   | Times <> 0, NextTime <= now                            |       |
-| Test Success   | Times = Times + 1, LastTime = now, NextTime = now + x  |       |
-| Test Failure   | Times = 0, LastTime = now, NextTime = now              |       |
+| Status       | Conditions                                             | Index |
+| ------------ | ------------------------------------------------------ | ----- |
+| Get          | id = xxx, groupId = xxx                                |       |
+| Put          | id = xxx, groupId = xxx                                |       |
+| 復習単語     | groupId = xxx, times = 1                               | GSI1  |
+| テスト単語   | groupId = xxx, nextTime < Now ,times <> 0              | GSI1  |
+| 新規単語     | groupId = xxx, nextTime <= Now, times = 0              | GSI1  |
+| New Success  | Times = Times + 1, LastTime = now , NextTime = now ASC |       |
+| Test Targets | Times <> 0, NextTime <= now                            |       |
+| Test Success | Times = Times + 1, LastTime = now, NextTime = now + x  |       |
+| Test Failure | Times = 0, LastTime = now, NextTime = now              |       |
 
 ## WordMaster
 

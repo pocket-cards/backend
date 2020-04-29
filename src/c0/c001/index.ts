@@ -8,10 +8,6 @@ import { Words, WordMaster } from '@queries';
 import { Environment } from '@consts';
 
 export default async (req: Request): Promise<void> => {
-  if (!req.body) {
-    return;
-  }
-
   const input = JSON.parse(req.body) as C001Request;
   const groupId = req.params['groupId'];
 
