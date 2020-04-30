@@ -3,13 +3,15 @@
   "author": "wwalpha <wwalpha@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "prebuild": "yarn composeup && sleep 10",
-    "build": "yarn data:tables && yarn data:datas",
+    "prebuild": "yarn composeup && sleep 15",
+    "build": "yarn data:tables && yarn data:datas && yarn data:init",
     "postbuild": "docker commit localstack pocketcards/backend-testing",
     "prestart": "yarn composedown",
     "start": "yarn build",
+    "poststart": "yarn composedown",
     "data:tables": "ts-node src/tables.ts",
     "data:datas": "ts-node src/datas.ts",
+    "data:init": "ts-node src/initialize.ts",
     "composeup": "docker-compose up -d --build",
     "composedown": "docker-compose down"
   },

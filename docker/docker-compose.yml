@@ -6,7 +6,7 @@ services:
     ports:
       - '4566:4566'
     environment:
-      - SERVICES=dynamodb,s3
+      - SERVICES=dynamodb,s3,ssm,secretsmanager
       - DATA_DIR=/usr/local/data
       - DEFAULT_REGION=ap-northeast-1
     # volumes:
