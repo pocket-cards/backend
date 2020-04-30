@@ -4,18 +4,10 @@ import { sync } from 'glob';
 import * as path from 'path';
 
 require('dotenv').config({ path: path.join(__dirname, '../.env') });
-require('dotenv').config({ path: path.join(__dirname, '../.env.credentials') });
 require('dotenv').config({ path: path.join(__dirname, '../../.env') });
 
 const AWS_ENDPOINT = process.env.AWS_ENDPOINT;
 const DEFAULT_REGION = process.env.DEFAULT_REGION;
-
-const helper = new Helper({
-  options: {
-    endpoint: AWS_ENDPOINT,
-    region: DEFAULT_REGION,
-  },
-});
 
 const create = async () => {
   const db = new DynamoDB({

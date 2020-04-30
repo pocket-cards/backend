@@ -2,7 +2,6 @@ import { Helper } from 'dynamodb-helper';
 import * as path from 'path';
 
 require('dotenv').config({ path: path.join(__dirname, '../.env') });
-require('dotenv').config({ path: path.join(__dirname, '../.env.credentials') });
 require('dotenv').config({ path: path.join(__dirname, '../../.env') });
 
 const AWS_ENDPOINT = process.env.AWS_ENDPOINT;
