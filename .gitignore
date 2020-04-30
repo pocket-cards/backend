@@ -3,9 +3,8 @@
 /dist
 /**/yarn.lock
 /.nyc_output
-/docker/localstack
-/samlocal/build
+.terraform
 /.vscode
-/docker/sam/build
-/infra/.terraform
+/docker/.env.credentials
 /coverage
+
