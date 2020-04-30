@@ -5,6 +5,6 @@
 /.nyc_output
 .terraform
 /.vscode
-/docker/.env.credentials
+.env.credentials
 /coverage
 

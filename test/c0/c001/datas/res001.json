@@ -1,0 +1,16 @@
+[
+  {
+    "vocJpn": "日本",
+    "mp3": "PATH_PATTERN/20200430/q25LKcm3vw2Q66ghes8QVA.mp3",
+    "vocChn": "日本",
+    "id": "Japan",
+    "pronounce": "dʒəˈpæn"
+  },
+  {
+    "vocJpn": "中国",
+    "mp3": "PATH_PATTERN/20200430/xzqG63HatpG5AnCqYBdsNZ.mp3",
+    "vocChn": "中国",
+    "id": "China",
+    "pronounce": "ˈtʃaɪnə"
+  }
+]

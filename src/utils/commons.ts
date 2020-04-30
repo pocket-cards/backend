@@ -1,4 +1,5 @@
 import { Request } from 'express';
+import { ClientUtils } from '@utils';
 
 // Sleep
 export const sleep = (timeout: number) => new Promise((resolve) => setTimeout(() => resolve(), timeout));
@@ -39,4 +40,27 @@ export const getUserId = (req: Request, authKey: string = 'authorization') => {
     // Logger.info(err);
     return null;
   }
+};
+
+/** SSM Value */
+export const getSSMValue = async (key: string) => {
+  const client = ClientUtils.ssm();
+
+  const result = await client
+    .getParameter({
+      Name: key,
+      WithDecryption: true,
+    })
+    .promise();
+
+  if (!result.Parameter || !result.Parameter.Value) {
+    throw new Error('Can not get parameters.');
+  }
+
+  if (process.env.ENVIRONMENT === 'local') {
+    const datas = result.Parameter.Value.split(':');
+    return datas[datas.length - 1];
+  }
+
+  return result.Parameter.Value;
 };
