@@ -4,6 +4,7 @@ on:
       - master
     paths:
       - docker/**
+      - .github/**
 
 jobs:
   build:
