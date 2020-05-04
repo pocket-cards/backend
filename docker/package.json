@@ -20,6 +20,7 @@
     "dynamodb-helper": "https://github.com/wwalpha/dynamodb-helper.git"
   },
   "devDependencies": {
+    "@types/glob": "^7.1.1",
     "@types/node": "^13.13.2",
     "dotenv": "^8.2.0",
     "glob": "^7.1.6",
