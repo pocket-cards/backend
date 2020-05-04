@@ -1,0 +1,13 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Resources:
+  C001:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../../../build/B0_B002/
+      Handler: index.handler
+      Runtime: nodejs10.x
+      Environment:
+        Variables:
+          TABLE_GROUPS: PocketCards_UserGroups

@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     /* Basic Options */
-    "target": "esnext" /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017','ES2018' or 'ESNEXT'. */,
+    "target": "ES2018" /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017','ES2018' or 'ESNEXT'. */,
     "module": "commonjs" /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'. */,
     "sourceMap": true,
     "outDir": "build",
@@ -14,11 +14,26 @@
       "@typings/*": [
         "./typings/*"
       ],
-      "@utils/*": [
-        "./src/Z0/*"
+      "@consts": [
+        "./src/consts/index"
       ],
-      "@src/*": [
-        "./src/*"
+      "@utils": [
+        "./src/utils/index"
+      ],
+      "@queries": [
+        "./src/queries/index"
+      ],
+      "@src/a0": [
+        "./src/a0/index"
+      ],
+      "@src/b0": [
+        "./src/b0/index"
+      ],
+      "@src/c0": [
+        "./src/c0/index"
+      ],
+      "@app": [
+        "./src/app"
       ]
     }
   },
@@ -31,8 +46,8 @@
   ],
   "include": [
     "src/**/*",
-    "test/**/*",
-    "UT/**/*"
+    "test/**/*.ts",
+    "docker/**/*.ts"
   ],
   "exclude": [
     "node_modules",

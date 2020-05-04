@@ -1,5 +1,5 @@
-import { GroupInfo } from './types';
-import { UserGroups } from './tables';
+import { TGroups, TWords } from './tables';
+import { Request } from 'express';
 
 // ------------------------------
 // Common
@@ -12,6 +12,8 @@ export interface BaseResponse {
   isBase64Encoded: boolean;
   body?: string;
 }
+
+export type Callback = (req: Request) => Promise<any>;
 
 export interface WordItem {
   // 単語
@@ -45,12 +47,50 @@ export interface A002Response {
   weekly: number;
   monthly: number;
 }
+
+// ------------------------------
+// B001
+// ------------------------------
+export interface B001Request {}
+
+export type B001Response = TGroups[];
+
 // ------------------------------
 // B002
 // ------------------------------
 export interface B002Request {}
 
-export type B002Response = UserGroups[];
+export type B002Response = TGroups[];
+
+// ------------------------------
+// B003
+// ------------------------------
+export interface B003Params {
+  groupId: string;
+}
+
+export interface B003Request {}
+
+export type B003Response = TGroups;
+
+// ------------------------------
+// B004
+// ------------------------------
+export interface B004Params {
+  groupId: string;
+}
+
+export interface B004Request {
+  name?: string;
+  description?: string;
+}
+
+// ------------------------------
+// B005
+// ------------------------------
+export interface B005Params {
+  groupId: string;
+}
 
 // ------------------------------
 // C001
@@ -62,19 +102,54 @@ export interface C001Request {
 export interface C001Response {}
 
 // ------------------------------
+// C002
+// ------------------------------
+export interface C002Response {
+  word: string;
+}
+
+// ------------------------------
+// C003
+// ------------------------------
+export interface C003Params {
+  groupId: string;
+  word: string;
+}
+
+export type C003Response = TWords;
+
+// ------------------------------
 // C004
 // ------------------------------
+export interface C004Params {
+  groupId: string;
+  word: string;
+}
+
 export interface C004Request {
-  correct: boolean;
+  nextTime: string;
+  lastTime: string;
   times: number;
 }
 
-export interface C004Response {}
+export type C004Response = void;
+
+// ------------------------------
+// C005
+// ------------------------------
+export interface C005Params {
+  groupId: string;
+  word: string;
+}
+
+export type C005Response = void;
 
 // ------------------------------
 // C006
 // ------------------------------
-export interface C006Request {}
+export interface C006Params {
+  groupId: string;
+}
 
 export interface C006Response {
   count: number;
@@ -83,7 +158,9 @@ export interface C006Response {
 // ------------------------------
 // C007
 // ------------------------------
-export interface C007Request {}
+export interface C007Params {
+  groupId: string;
+}
 
 export interface C007Response {
   count: number;
@@ -92,7 +169,9 @@ export interface C007Response {
 // ------------------------------
 // C008
 // ------------------------------
-export interface C008Request {}
+export interface C008Params {
+  groupId: string;
+}
 
 export interface C008Response {
   count: number;

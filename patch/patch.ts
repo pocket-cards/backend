@@ -8,7 +8,7 @@ let s3Client: S3;
 let translateClient: Translate;
 
 const PATH_PATTERN = 'audio';
-const TABLE_WORDS = 'PocketCards_Words';
+const TABLE_WORD_MASTER = 'PocketCards_Words';
 const IPA_URL = 'https://m1rb1oo72l.execute-api.ap-northeast-1.amazonaws.com/v1';
 const IPA_API_KEY = process.env.TF_VAR_ipa_api_key;
 const MP3_BUCKET = 'pocket-cards-mp3';
@@ -38,7 +38,7 @@ const patch = async () => {
   });
 
   const queryResult = await client.query(queryItem_groups('PocketCards_GroupWords', 'x001')).promise();
-  const scanResult = await client.scan(scanItem_words(TABLE_WORDS)).promise();
+  const scanResult = await client.scan(scanItem_words(TABLE_WORD_MASTER)).promise();
 
   const groupItems = queryResult.Items;
   const wordItems = scanResult.Items;
@@ -47,21 +47,25 @@ const patch = async () => {
     return;
   }
 
-  const results = groupItems.filter(item => wordItems.find(subItem => subItem.word === item.word) === undefined).map(item => item.word);
+  const results = groupItems
+    .filter((item) => wordItems.find((subItem) => subItem.word === item.word) === undefined)
+    .map((item) => item.word);
 
   console.log(results.length);
 
   while (results.length > 0) {
     const targets = results.length > 50 ? results.slice(0, 50) : results;
 
-    const taskArray = targets.map(item => Promise.all([getPronounce(item), getMP3(item), getTranslate(item, 'zh'), getTranslate(item, 'ja')]));
+    const taskArray = targets.map((item) =>
+      Promise.all([getPronounce(item), getMP3(item), getTranslate(item, 'zh'), getTranslate(item, 'ja')])
+    );
 
     const result = await Promise.all(taskArray);
 
     console.log('単語情報を収集しました.');
 
     // 単語辞書登録
-    const putTasks = result.map(item => {
+    const putTasks = result.map((item) => {
       const pronounce = item[0];
       const mp3 = item[1];
       const vocChn = item[2];
@@ -69,7 +73,7 @@ const patch = async () => {
 
       return client
         .put(
-          putItem_words(TABLE_WORDS, {
+          putItem_words(TABLE_WORD_MASTER, {
             word: pronounce['word'],
             pronounce: pronounce['pronounce'],
             mp3,
@@ -95,16 +99,16 @@ export const axiosGet = (url: string, config?: AxiosRequestConfig) =>
   new Promise<AxiosResponse<any>>((resolve, reject) => {
     axios
       .get(url, config)
-      .then(value => resolve(value))
-      .catch(err => reject(err));
+      .then((value) => resolve(value))
+      .catch((err) => reject(err));
   });
 
 export const axiosPost = (url: string, config?: AxiosRequestConfig) =>
   new Promise<AxiosResponse<any>>((resolve, reject) => {
     axios
       .post(url, config)
-      .then(value => resolve(value))
-      .catch(err => reject(err));
+      .then((value) => resolve(value))
+      .catch((err) => reject(err));
   });
 
 const getPronounce = async (word: string) => {

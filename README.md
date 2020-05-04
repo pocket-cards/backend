@@ -5,13 +5,11 @@
 | **descripted** | /users/{userId}                | GET         | A001        | ユーザ情報取得           |
 |                | /history                       | GET         | A002        | 学習履歴取得             |
 |                |                                |             | A003        | 最後の学習時間を計算する |
-|                | /groups                        | POST        | B001        | グループ登録             |
 |                | /groups                        | GET         | B002        | グループ一覧取得         |
 |                | /groups/{groupId}              | GET         | B003        | グループ情報取得         |
 |                | /groups/{groupId}              | PUT         | B004        | グループ情報変更         |
 |                | /groups/{groupId}              | DELETE      | B005        | グループ情報削除         |
 |                | /groups/{groupId}/words        | POST        | C001        | 単語一括登録             |
-| **Deleted**    | /groups/{groupId}/words        | GET         | C002        | 単語一覧取得             |
 |                | /groups/{groupId}/words/{word} | GET         | C003        | 単語情報取得             |
 |                | /groups/{groupId}/words/{word} | PUT         | C004        | 単語情報更新             |
 |                | /groups/{groupId}/words/{word} | DELETE      | C005        | 単語情報削除             |
@@ -23,73 +21,77 @@
 | **Deleted**    | dynaomdb stream                |             | S001        | 履歴テーブルに保存する   |
 |                | Cognito Sync Trigger           |             | S002        |                          |
 
-## UserInfo
+## Users
 
 ### Definition
 
-| Item     | Key  | LSI1 | LSI2 | GSI1 | GSI2 |
-| -------- | ---- | ---- | ---- | ---- | ---- |
-| userId   | Hash |      |      |      |      |
-| target   |      |      |      |      |      |
-| email    |      |      |      |      |      |
-| nickName |      |      |      |      |      |
+| Item   | Key  | LSI1 | LSI2 | GSI1 | GSI2 |
+| ------ | ---- | ---- | ---- | ---- | ---- |
+| id     | Hash |      |      |      |      |
+| email  |      |      |      |      |      |
+| name   |      |      |      |      |      |
+| target |      |      |      |      |      |
 
 ### Search Conditions
 
-| Status       | Conditions   |
-| ------------ | ------------ |
-| Get Settings | UserId = xxx |
-| Put Settings | UserId = xxx |
+| Status | Conditions                        |
+| ------ | --------------------------------- |
+| Get    | id = xxx                          |
+| Put    | id = xxx, name = xxx, email = xxx |
 
-## GroupInfo
+## Groups
 
 ### Definition
 
-| Item      | Key   | LSI1 | LSI2 | GSI1 | GSI2 |
-| --------- | ----- | ---- | ---- | ---- | ---- |
-| userId    | Hash  |      |      | 〇   |      |
-| groupId   | Range |      |      | Hash |      |
-| groupName |       |      |      |      |      |
+| Item        | Key   | LSI1 | LSI2 | GSI1  | GSI2 |
+| ----------- | ----- | ---- | ---- | ----- | ---- |
+| id          | Hash  |      |      | Range |      |
+| userId      | Range |      |      | Hash  |      |
+| name        |       |      |      | 〇    |      |
+| description |       |      |      | 〇    |      |
 
 ### Search Conditions
 
-| Status       | Conditions                  | Index |
-| ------------ | --------------------------- | ----- |
-| Get Settings | UserId = xxx, GroupId = xxx |       |
-| Put Settings | UserId = xxx, GroupId = xxx |       |
-| Del Settings | UserId = xxx, GroupId = xxx |       |
-| Get UserId   | GroupId = xxx               | GSI   |
+| Status | Conditions                              | Index |
+| ------ | --------------------------------------- | ----- |
+| Get    | id = xxx                                |       |
+| Put    | id = xxx, name = xxx, description = xxx |       |
+| Del    | id = xxx                                |       |
+| Query  | userId = xxx                            | GSI1  |
 
-## GroupWords
+## Words
 
 ### Definition
 
-| Item     | Key   | LSI1  | LSI2 | GSI1 | GSI2 |
-| -------- | ----- | ----- | ---- | ---- | ---- |
-| groupId  | Hash  | Hash  |      |      |      |
-| word     | Range | 〇    |      |      |      |
-| nextTime |       | Range |      |      |      |
-| lastTime |       |       |      |      |      |
-| times    |       | 〇    |      |      |      |
+| Item     | Key   | LSI1 | LSI2 | GSI1  | GSI2 |
+| -------- | ----- | ---- | ---- | ----- | ---- |
+| id       | Hash  |      |      | Range |      |
+| groupId  | Range |      |      | Hash  |      |
+| nextTime |       |      |      |       |      |
+| lastTime |       |      |      |       |      |
+| times    |       |      |      |       |      |
 
 ### Search Conditions
 
-| Status         | Conditions                                             |
-| -------------- | ------------------------------------------------------ |
-| New Targets    | Times = 0, NextTime <= now, NextTime ASC               |
-| New Success    | Times = Times + 1, LastTime = now , NextTime = now ASC |
-| Review Targets | Times = 1                                              |
-| Test Targets   | Times <> 0, NextTime <= now                            |
-| Test Success   | Times = Times + 1, LastTime = now, NextTime = now + x  |
-| Test Failure   | Times = 0, LastTime = now, NextTime = now              |
+| Status       | Conditions                                             | Index |
+| ------------ | ------------------------------------------------------ | ----- |
+| Get          | id = xxx, groupId = xxx                                |       |
+| Put          | id = xxx, groupId = xxx                                |       |
+| 復習単語     | groupId = xxx, times = 1                               | GSI1  |
+| テスト単語   | groupId = xxx, nextTime < Now ,times <> 0              | GSI1  |
+| 新規単語     | groupId = xxx, nextTime <= Now, times = 0              | GSI1  |
+| New Success  | Times = Times + 1, LastTime = now , NextTime = now ASC |       |
+| Test Targets | Times <> 0, NextTime <= now                            |       |
+| Test Success | Times = Times + 1, LastTime = now, NextTime = now + x  |       |
+| Test Failure | Times = 0, LastTime = now, NextTime = now              |       |
 
-## WordDict
+## WordMaster
 
 ### Definition
 
 | Item      | Key  | LSI1 | LSI2 | GSI1 | GSI2 |
 | --------- | ---- | ---- | ---- | ---- | ---- |
-| word      | Hash |      |      |      |      |
+| id        | Hash |      |      |      |      |
 | mp3       |      |      |      |      |      |
 | pronounce |      |      |      |      |      |
 | ja        |      |      |      |      |      |
@@ -99,8 +101,8 @@
 
 | Status   | Conditions |
 | -------- | ---------- |
-| Get Word | Word = xxx |
-| Put Word | Word = xxx |
+| Get Word | id = xxx   |
+| Put Word | id = xxx   |
 
 ## Histroy
 
@@ -121,10 +123,10 @@
 | Get Weekly  | UserId = xxx, Timestamp >= YYYYMMDD000000000 |
 | Get Monthly | UserId = xxx, Timestamp >= YYYYMMDD000000000 |
 
-## Maintenance Functions
+<!-- ## Maintenance Functions
 
 | Function | Description                                            |
 | -------- | ------------------------------------------------------ |
 | M001     | Send notification to slack when build Success / Failed |
 | M002     | CodeBuild state change to failed                       |
-| M003     | CodePipeline state change to success                   |
+| M003     | CodePipeline state change to success                   | -->

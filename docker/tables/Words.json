@@ -2,13 +2,25 @@
   "TableName": "PocketCards_Words",
   "KeySchema": [
     {
-      "AttributeName": "word",
+      "AttributeName": "id",
       "KeyType": "HASH"
+    },
+    {
+      "AttributeName": "groupId",
+      "KeyType": "RANGE"
     }
   ],
   "AttributeDefinitions": [
     {
-      "AttributeName": "word",
+      "AttributeName": "id",
+      "AttributeType": "S"
+    },
+    {
+      "AttributeName": "groupId",
+      "AttributeType": "S"
+    },
+    {
+      "AttributeName": "nextTime",
       "AttributeType": "S"
     }
   ],
@@ -16,5 +28,27 @@
   "ProvisionedThroughput": {
     "ReadCapacityUnits": 1000,
     "WriteCapacityUnits": 1000
-  }
+  },
+  "GlobalSecondaryIndexes": [
+    {
+      "IndexName": "gsi1",
+      "KeySchema": [
+        {
+          "AttributeName": "groupId",
+          "KeyType": "HASH"
+        },
+        {
+          "AttributeName": "nextTime",
+          "KeyType": "RANGE"
+        }
+      ],
+      "Projection": {
+        "ProjectionType": "ALL"
+      },
+      "ProvisionedThroughput": {
+        "ReadCapacityUnits": 1000,
+        "WriteCapacityUnits": 1000
+      }
+    }
+  ]
 }

@@ -1,0 +1,188 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Runtime: nodejs8.10
+    Handler: index.handler
+    Timeout: 10
+    MemorySize: 1024
+    # Environment:
+    #   Variables:
+    #     AWS_ENDPOINT: http://172.16.80.25:4569
+
+Resources:
+  # ---------------------------------------
+  # Path: /image2text
+  # Method: POST
+  # Description: 画像から単語に変換する
+  # ---------------------------------------
+  D001:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../build/D0_D001/
+      Events:
+        HelloWorld:
+          Type: Api
+          Properties:
+            Path: /image2text
+            Method: POST
+      Environment:
+        Variables:
+          EXCLUDE_MARK: dummy
+          EXCLUDE_MARK: dummy
+          IMAGE_BUCKET: dummy
+  # ---------------------------------------
+  # Path: /groups
+  # Method: POST
+  # ---------------------------------------
+  B001:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../build/B0_B001/
+      Events:
+        HelloWorld:
+          Type: Api
+          Properties:
+            Path: /groups
+            Method: POST
+
+  # ---------------------------------------
+  # Path: /groups
+  # Method: POST
+  # ---------------------------------------
+  B002:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../build/B0_B002/
+      Events:
+        HelloWorld:
+          Type: Api
+          Properties:
+            Path: /groups
+            Method: GET
+      Environment:
+        Variables:
+          TABLE_GROUPS: PocketCards_UserGroups
+
+  # ---------------------------------------
+  # Path: /groups/{groupId}/words
+  # Method: POST
+  # Description: regist all words
+  # ---------------------------------------
+  C001:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../build/C0_C001/
+      Events:
+        HelloWorld:
+          Type: Api
+          Properties:
+            Path: /groups/{groupId}/words
+            Method: POST
+      Environment:
+        Variables:
+          TABLE_WORD_MASTER: PocketCards_Words
+          TABLE_WORDS: PocketCards_GroupWords
+          IPA_URL: https://m1rb1oo72l.execute-api.ap-northeast-1.amazonaws.com/v1
+          IPA_API_KEY: /pocket-cards/ipa_api_key
+          MP3_BUCKET: pocket-cards-mp3
+          TRANSLATION_URL: https://translation.googleapis.com/language/translate/v2
+          TRANSLATION_API_KEY: /pocket-cards/translation_api_key
+          PATH_PATTERN: audio
+  # ---------------------------------------
+  # Path: /groups/{groupId}/words
+  # Method: GET
+  # Description: get words info
+  # ---------------------------------------
+  # C002:
+  #   Type: AWS::Serverless::Function
+  #   Properties:
+  #     CodeUri: ../build/C0_C002/
+  #     Events:
+  #       HelloWorld:
+  #         Type: Api
+  #         Properties:
+  #           Path: /groups/{groupId}/words
+  #           Method: GET
+  #     Environment:
+  #       Variables:
+  #         TABLE_WORD_MASTER: dummy
+  #         TABLE_WORDS: dummy
+  # ---------------------------------------
+  # Path: /groups/{groupId}/words/{word}
+  # Method: PUT
+  # ---------------------------------------
+  C004:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../build/C0_C004/
+      Events:
+        HelloWorld:
+          Type: Api
+          Properties:
+            Path: /groups/{groupId}/words/{word}
+            Method: PUT
+      Environment:
+        Variables:
+          TABLE_WORDS: PocketCards_GroupWords
+          TABLE_GROUPS: PocketCards_UserGroups
+          TABLE_HISTORY: PocketCards_History
+  # ---------------------------------------
+  # Path: /groups/{groupId}/new
+  # Method: GET
+  # ---------------------------------------
+  C006:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../build/C0_C006/
+      Events:
+        HelloWorld:
+          Type: Api
+          Properties:
+            Path: /groups/{groupId}/new
+            Method: GET
+      Environment:
+        Variables:
+          WORDS_LIMIT: 20
+          TABLE_WORD_MASTER: dummy
+          TABLE_WORDS: dummy
+  # ---------------------------------------
+  # Path: /groups/{groupId}/test
+  # Method: GET
+  # ---------------------------------------
+  C007:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../build/C0_C007/
+      Events:
+        HelloWorld:
+          Type: Api
+          Properties:
+            Path: /groups/{groupId}/test
+            Method: GET
+      Environment:
+        Variables:
+          TABLE_WORD_MASTER: dummy
+          TABLE_WORDS: dummy
+          WORDS_LIMIT: 20
+  # ---------------------------------------
+  # Path: /groups/{groupId}/review
+  # Method: GET
+  # ---------------------------------------
+  C008:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../build/C0_C008/
+      Events:
+        HelloWorld:
+          Type: Api
+          Properties:
+            Path: /groups/{groupId}/review
+            Method: GET
+      Environment:
+        Variables:
+          TABLE_WORD_MASTER: dummy
+          TABLE_WORDS: dummy
+          WORDS_LIMIT: 20
