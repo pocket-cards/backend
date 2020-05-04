@@ -5,7 +5,7 @@
   "scripts": {
     "prebuild": "yarn composeup && sleep 15",
     "build": "yarn data:tables && yarn data:datas && yarn data:init",
-    "postbuild": "docker commit localstack pocketcards/backend-testing",
+    "postbuild": "docker commit localstack pocket-cards/backend-testing",
     "prestart": "yarn composedown",
     "start": "yarn build",
     "poststart": "yarn composedown",
