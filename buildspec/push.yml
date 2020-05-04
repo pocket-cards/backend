@@ -10,9 +10,9 @@ phases:
       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/pocket-cards
   build:
     commands:
-      - docker build -t pocket-cards .
-      - docker tag pocket-cards:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/pocket-cards:latest
-      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/pocket-cards:latest
+      - docker build -t pocket-cards/backend .
+      - docker tag pocket-cards/backend:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/pocket-cards:backend
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/pocket-cards:backend
 artifacts:
   files:
     - 'build/**/*'
