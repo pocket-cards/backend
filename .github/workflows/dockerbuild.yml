@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: install and build
-        working-directory: ./build
+        working-directory: ./docker
         run: |
           yarn install
           yarn build
