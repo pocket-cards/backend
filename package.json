@@ -9,9 +9,12 @@
   "scripts": {
     "dev": "nodemon ./build/app.js",
     "buildw": "webpack -w --config ./configs/webpack.dev.ts",
-    "build": "webpack --config ./configs/webpack.prod.ts",
-    "sam:api": "sam local start-api -t test/template.yml -n test/envs.json",
-    "docker:build": "cd docker && yarn build",
+    "build:source": "webpack --config ./configs/webpack.prod.ts",
+    "prebuild": "yarn build:source",
+    "build": "yarn docker:build && yarn docker:tag",
+    "postbuild": "yarn push",
+    "docker:build": "docker build -t pocket-cards .",
+    "docker:buildtest": "cd docker && yarn build",
     "docker:up": "docker-compose -f \"test/docker-compose.yml\" up -d --build",
     "docker:down": "docker-compose -f \"test/docker-compose.yml\" down",
     "docker:restart": "yarn docker:down && yarn docker:up",
@@ -21,7 +24,6 @@
     "debug": "ts-mocha -r tsconfig-paths/register -r dotenv/config test/**/index1.ts --exit --timeout 10000",
     "posttest": "yarn docker:down",
     "coverage": "nyc npm run test",
-    "build:publish": "webpack --config ./configs/webpack.publish.ts",
     "valid": "tsc --noEmit"
   },
   "nyc": {
@@ -36,13 +38,12 @@
     ]
   },
   "dependencies": {
-    "aws-xray-sdk": "^3.0.0",
     "axios": "^0.19.0",
     "dynamodb-helper": "https://github.com/wwalpha/dynamodb-helper.git",
     "express": "^4.17.1",
     "lodash": "^4.17.15",
     "log4js": "^6.1.0",
-    "moment": "^2.24.0",
+    "moment": "^2.25.1",
     "short-uuid": "^3.1.1"
   },
   "devDependencies": {
@@ -56,7 +57,7 @@
     "@types/rimraf": "^3.0.0",
     "@types/webpack": "^4.41.0",
     "@types/webpack-merge": "^4.1.5",
-    "aws-sdk": "^2.666.0",
+    "aws-sdk": "^2.668.0",
     "aws-sdk-mock": "^5.1.0",
     "chai": "^4.2.0",
     "chai-exclude": "^2.0.2",
@@ -72,9 +73,9 @@
     "nyc": "^15.0.1",
     "rimraf": "^3.0.0",
     "source-map-support": "^0.5.16",
-    "ts-loader": "^7.0.1",
+    "ts-loader": "^7.0.2",
     "ts-mocha": "^7.0.0",
-    "ts-node": "^8.9.1",
+    "ts-node": "^8.10.1",
     "tsconfig-paths": "^3.9.0",
     "tsconfig-paths-webpack-plugin": "^3.2.0",
     "typescript": "^3.8.3",

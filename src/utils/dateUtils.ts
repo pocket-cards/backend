@@ -10,9 +10,7 @@ export const getNextTime = (times: number) => {
 
   const addValue = days[times - 1];
 
-  const nextTime = moment()
-    .add(addValue, 'days')
-    .format('YYYYMMDD');
+  const nextTime = moment().add(addValue, 'days').format('YYYYMMDD');
 
   return `${nextTime}`;
 };

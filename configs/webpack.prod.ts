@@ -5,7 +5,7 @@ import baseConfig from './webpack.base';
 const prod: Configuration = {
   mode: 'production',
   optimization: {
-    minimize: false,
+    minimize: true,
   },
   plugins: [
     new LoaderOptionsPlugin({

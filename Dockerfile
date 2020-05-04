@@ -1,8 +1,10 @@
 # Source Docker Image
 FROM node:12.16.2-alpine
 
+ENV PORT=80
+
 # Output Port
-EXPOSE 8080
+EXPOSE ${PORT}
 
 WORKDIR /usr/local/src
 

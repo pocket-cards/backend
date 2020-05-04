@@ -6,7 +6,7 @@ import entry from './entry';
 const app = express();
 
 // health check
-app.get('/version', (_, res) => res.send('v3.1.0'));
+app.get('/', (_, res) => res.send('v3.1.0'));
 // グループ一覧
 app.get('/groups', express.json(), (req, res) => entry(req, res, B002));
 // グループ一覧
@@ -30,6 +30,9 @@ app.get('/groups/:groupId/test', express.json(), async (req, res) => entry(req, 
 // 復習モード単語一覧
 app.get('/groups/:groupId/review', express.json(), async (req, res) => entry(req, res, C008));
 
-app.listen(process.env.PORT || 3000, () => console.log('started...'));
+app.listen(process.env.PORT || 8080, () => {
+  console.log('Started...');
+  console.log('Port: ', process.env.PORT || 8080);
+});
 
 export default app;

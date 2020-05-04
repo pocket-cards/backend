@@ -10,6 +10,7 @@ export default () => {
       region: process.env.AWS_DEFAULT_REGION,
       endpoint: process.env.AWS_ENDPOINT,
       sslEnabled: false,
+      xray: false,
     },
     logger: {
       appenders: { console: { type: 'console' } },

@@ -11,9 +11,7 @@ phases:
     commands:
       - yarn install
       - yarn valid
-      - yarn build
-      - yarn coverage
-      - docker build -t backend .
+      - yarn build:source
 artifacts:
   files:
     - 'build/**/*'
