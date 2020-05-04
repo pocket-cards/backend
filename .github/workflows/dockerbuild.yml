@@ -18,7 +18,8 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: cd docker
-      - run: npm -i g
-      - run: yarn install
-      - run: yarn build
+      - name: install and build
+        working-directory: ./build
+        run: |
+          yarn install
+          yarn build
