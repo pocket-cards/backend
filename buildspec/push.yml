@@ -6,13 +6,12 @@ phases:
       nodejs: 12
   pre_build:
     commands:
-      - AWS_ACCOUNT_ID=$CODEBUILD_BUILD_ARN && IFS=':' && set -- $AWS_ACCOUNT_ID && AWS_ACCOUNT_ID=$5
-      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/pocket-cards
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $ECR_REGISTRY
   build:
     commands:
-      - docker build -t pocket-cards/backend .
-      - docker tag pocket-cards/backend:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/pocket-cards:backend
-      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/pocket-cards:backend
+      - docker build -t $ECR_REPOSITORY .
+      - docker tag $ECR_REPOSITORY:latest $ECR_REGISTRY/$ECR_REPOSITORY:latest
+      - docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
 artifacts:
   files:
     - 'build/**/*'
