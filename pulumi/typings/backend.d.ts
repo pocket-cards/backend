@@ -1,22 +1,67 @@
-import { ec2, ecs, servicediscovery, lb, route53, apigatewayv2 } from '@pulumi/aws';
+import { ec2, ecs, servicediscovery, lb, route53, apigatewayv2, ecr, s3, dynamodb, acm, cognito } from '@pulumi/aws';
 import { Initial } from './initial';
 import { Install } from './install';
+import { Output } from '@pulumi/pulumi';
 
 export namespace Backend {
   // ----------------------------------------------------------------------------------------------
   // Backend Outputs
   // ----------------------------------------------------------------------------------------------
-  export interface Inputs {
-    Route53: Install.Route53Outputs;
-    ECR: Initial.ECROutputs;
-    Cognito: Initial.CognitoOutputs;
-    ACM: Install.ACM.Outputs;
+  interface Inputs {
+    Route53: Route53Input;
+    ECR: ecr.Repository;
+    Cognito: CognitoInputs;
+    ACM: acm.Certificate;
+    S3: S3Inputs;
+    DynamoDB: DynamoDBInputs;
+  }
+
+  // ----------------------------------------------------------------------------------------------
+  // VPC Inputs
+  // ----------------------------------------------------------------------------------------------
+  interface VPCInputs {
+    Id: Output<string>;
+    Subnets: Output<string>[];
+  }
+
+  // ----------------------------------------------------------------------------------------------
+  // Route53 Inputs
+  // ----------------------------------------------------------------------------------------------
+  interface Route53Input {
+    Zone: route53.Zone;
+  }
+
+  // ----------------------------------------------------------------------------------------------
+  // DynamoDB Inputs
+  // ----------------------------------------------------------------------------------------------
+  interface DynamoDBInputs {
+    Users: dynamodb.Table;
+    Words: dynamodb.Table;
+    Groups: dynamodb.Table;
+    History: dynamodb.Table;
+    WordMaster: dynamodb.Table;
+  }
+
+  // ----------------------------------------------------------------------------------------------
+  // S3 Inputs
+  // ----------------------------------------------------------------------------------------------
+  interface S3Inputs {
+    Audio: s3.Bucket;
+  }
+
+  // ----------------------------------------------------------------------------------------------
+  // Cognito Inputs
+  // ----------------------------------------------------------------------------------------------
+  interface CognitoInputs {
+    UserPool: cognito.UserPool;
+    UserPoolClient: cognito.UserPoolClient;
+    IdentityPool: cognito.IdentityPool;
   }
 
   // ----------------------------------------------------------------------------------------------
   // Backend Outputs
   // ----------------------------------------------------------------------------------------------
-  export interface Outputs {
+  interface Outputs {
     VPC: VPC.Outputs;
     ECS: ECS.Outputs;
     APIGateway: API.Outputs;
@@ -59,6 +104,15 @@ export namespace Backend {
     // ----------------------------------------------------------------------------------------------
     // Outputs
     // ----------------------------------------------------------------------------------------------
+    interface Inputs {
+      TaskDef: TaskDefinition;
+      VPC: Backend.VPC.Outputs;
+      S3: S3Inputs;
+    }
+
+    // ----------------------------------------------------------------------------------------------
+    // Outputs
+    // ----------------------------------------------------------------------------------------------
     type Outputs = ECSOutputs;
 
     // ----------------------------------------------------------------------------------------------
@@ -86,13 +140,23 @@ export namespace Backend {
       Listener: lb.Listener;
       TargetGroup: lb.TargetGroup;
     }
+
+    interface TaskDefinition {
+      TABLE_GROUPS: Output<string>;
+      TABLE_USERS: Output<string>;
+      TABLE_HISTORY: Output<string>;
+      TABLE_WORD_MASTER: Output<string>;
+      TABLE_WORDS: Output<string>;
+      REPO_URL: Output<string>;
+      MP3_BUCKET: Output<string>;
+    }
   }
 
   namespace API {
     interface Inputs {
       Route53: Route53Inputs;
-      Cognito: Initial.CognitoOutputs;
-      ACM: Install.ACM.Outputs;
+      Cognito: CognitoInputs;
+      ACM: acm.Certificate;
     }
 
     // ----------------------------------------------------------------------------------------------

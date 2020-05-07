@@ -12,10 +12,7 @@ export namespace Install {
   // ----------------------------------------------------------------------------------------------
   // Parameter Store Outputs
   // ----------------------------------------------------------------------------------------------
-  export interface ParameterOutputs {
-    Github: ssm.Parameter;
-    Pulumi: ssm.Parameter;
-  }
+  export interface ParameterOutputs {}
 
   // ----------------------------------------------------------------------------------------------
   // Route53 Outputs
