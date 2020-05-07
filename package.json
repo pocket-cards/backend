@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon ./build/app.js",
-    "buildw": "webpack -w --config ./configs/webpack.dev.ts",
+    "buildw": "cross-env NODE_OPTIONS=--max_old_space_size=4096 webpack --config ./configs/webpack.dev.ts",
     "build:ecs": "webpack --config ./configs/webpack.ecs.ts",
     "build:lambda": "tsc src/lambda/**/* -t ES2018 -m commonjs --outDir build/lambda",
     "build:source": "yarn build:ecs && yarn build:lambda",
@@ -41,6 +41,7 @@
   "dependencies": {
     "aws-sdk": "^2.671.0",
     "axios": "^0.19.0",
+    "cross-env": "^7.0.2",
     "dynamodb-helper": "https://github.com/wwalpha/dynamodb-helper.git",
     "express": "^4.17.1",
     "lodash": "^4.17.15",
@@ -52,6 +53,7 @@
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "@types/archiver": "^3.0.0",
     "@types/chai": "^4.2.11",
+    "@types/dotenv-webpack": "^1.7.0",
     "@types/jszip": "^3.1.6",
     "@types/lodash": "^4.14.149",
     "@types/mocha": "^7.0.2",
@@ -66,6 +68,7 @@
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^5.1.1",
     "dotenv": "^8.2.0",
+    "dotenv-webpack": "^1.7.0",
     "glob": "^7.1.6",
     "js-yaml": "^3.13.1",
     "jszip": "^3.2.2",
@@ -80,7 +83,7 @@
     "tsconfig-paths": "^3.9.0",
     "tsconfig-paths-webpack-plugin": "^3.2.0",
     "typescript": "^3.8.3",
-    "webpack": "^4.41.4",
+    "webpack": "^4.43.0",
     "webpack-cli": "^3.3.10",
     "webpack-merge": "^4.2.2"
   }

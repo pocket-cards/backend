@@ -4,9 +4,6 @@ import baseConfig from './webpack.base';
 
 const ecs: Configuration = {
   mode: 'production',
-  optimization: {
-    minimize: true,
-  },
   plugins: [
     new LoaderOptionsPlugin({
       debug: false,
