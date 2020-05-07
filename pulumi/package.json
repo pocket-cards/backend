@@ -1,0 +1,21 @@
+{
+  "name": "pocket-cards",
+  "devDependencies": {
+    "@types/node": "^13.13.4"
+  },
+  "scripts": {
+    "start": "pulumi up -e -y -p 100 --skip-preview",
+    "diff": "pulumi up --diff -p 100",
+    "valid": "tsc --noemit",
+    "env": "export ENVIRONMENT=dev",
+    "show:output": "pulumi stack ouput -j",
+    "secret": "pulumi config set --secret ZONE_ID XXXXXXXXXXXXX",
+    "state:import": "pulumi stack import --file state.json",
+    "state:export": "pulumi stack export --file state.json"
+  },
+  "dependencies": {
+    "@pulumi/aws": "^2.3.0",
+    "@pulumi/awsx": "^0.20.0",
+    "@pulumi/pulumi": "^2.1.0"
+  }
+}

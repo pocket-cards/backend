@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "target": "ES2018",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "sourceMap": false,
+    "experimentalDecorators": true,
+    "pretty": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "baseUrl": "."
+  },
+  "files": [
+    "typings/index.d.ts",
+    "typings/install.d.ts",
+    "typings/initial.d.ts",
+    "typings/frontend.d.ts",
+    "typings/backend.d.ts"
+  ],
+  "include": [
+    "index.ts",
+    "src/**/*",
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
