@@ -23,8 +23,6 @@ const configs: Configuration = {
   target: 'node',
   entry: {
     'ecs/app': 'src/ecs/app',
-    'lambda/start': 'src/lambda/start/index',
-    'lambda/stop': 'src/lambda/stop/index',
   },
   output: {
     filename: '[name].js',

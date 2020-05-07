@@ -9,7 +9,9 @@
   "scripts": {
     "dev": "nodemon ./build/app.js",
     "buildw": "webpack -w --config ./configs/webpack.dev.ts",
-    "build:source": "webpack --config ./configs/webpack.prod.ts",
+    "build:ecs": "webpack --config ./configs/webpack.ecs.ts",
+    "build:lambda": "tsc src/lambda/**/* -t ES2018 -m commonjs --outDir build/lambda",
+    "build:source": "yarn build:ecs && yarn build:lambda",
     "prebuild": "yarn build:source",
     "build": "yarn docker:build",
     "docker:build": "docker build -t pocket-cards/backend .",
@@ -37,6 +39,7 @@
     ]
   },
   "dependencies": {
+    "aws-sdk": "^2.671.0",
     "axios": "^0.19.0",
     "dynamodb-helper": "https://github.com/wwalpha/dynamodb-helper.git",
     "express": "^4.17.1",
@@ -56,7 +59,6 @@
     "@types/rimraf": "^3.0.0",
     "@types/webpack": "^4.41.0",
     "@types/webpack-merge": "^4.1.5",
-    "aws-sdk": "^2.666.0",
     "aws-sdk-mock": "^5.1.0",
     "chai": "^4.2.0",
     "chai-exclude": "^2.0.2",
