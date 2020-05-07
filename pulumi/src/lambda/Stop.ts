@@ -15,6 +15,7 @@ export default (inputs: Backend.ECSInputs) => {
     handler: 'index.handler',
     role: role.arn,
     runtime: 'nodejs12.x',
+    timeout: 10,
     memorySize: 256,
     environment: {
       variables: {
