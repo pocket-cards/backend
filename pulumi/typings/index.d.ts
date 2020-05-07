@@ -83,6 +83,6 @@ interface ECSOutputs {
   Service: {
     Arn: Output<string>;
     TaskDefinition: Output<string>;
-    DesiredCount: Output<string>;
+    DesiredCount: OutputInstance<number | undefined>;
   };
 }
