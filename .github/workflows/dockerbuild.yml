@@ -34,11 +34,6 @@ jobs:
           yarn install
           yarn build
 
-  # Push ECR
-  deploy:
-    runs-on: ubuntu-latest
-
-    steps:
       # Config AWS Credentials
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
