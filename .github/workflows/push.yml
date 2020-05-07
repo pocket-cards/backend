@@ -4,22 +4,8 @@ on:
       - master
     paths:
       - !docker/**
-      - !.github/workflows/dockerbuild.yml
 
 jobs:
-  # AWS Credentials
-  credentials:
-    runs-on: ubuntu-latest
-
-    steps:
-      # Config AWS Credentials
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-northeast-1
-
   # Docker Build
   build:
     runs-on: ubuntu-latest
@@ -38,11 +24,14 @@ jobs:
           yarn install
           yarn build
 
-  # Push ECR
-  deploy:
-    runs-on: ubuntu-latest
+      # Config AWS Credentials
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-1
 
-    steps:
       # Login to ECR
       - name: Login to Amazon ECR
         id: login-ecr
