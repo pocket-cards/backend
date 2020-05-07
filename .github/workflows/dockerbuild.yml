@@ -8,23 +8,14 @@ on:
       - docker/**
       - .github/workflows/dockerbuild.yml
 
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_DEFAULT_REGION: ap-northeast-1
+
 jobs:
-  # Initial
-  Initial:
-    runs-on: ubuntu-latest
-
-    steps:
-      # Config AWS Credentials
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-northeast-1
-
   # Docker Build
   Build:
-    needs: Initial
     runs-on: ubuntu-latest
 
     steps:
@@ -45,7 +36,6 @@ jobs:
 
   Deploy:
     needs:
-      - Initial
       - Build
 
     runs-on: ubuntu-latest
