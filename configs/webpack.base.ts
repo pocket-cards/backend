@@ -22,7 +22,9 @@ import * as path from 'path';
 const configs: Configuration = {
   target: 'node',
   entry: {
-    app: 'src/app',
+    'ecs/app': 'src/ecs/app',
+    'lambda/start': 'src/lambda/start/index',
+    'lambda/stop': 'src/lambda/stop/index',
   },
   output: {
     filename: '[name].js',

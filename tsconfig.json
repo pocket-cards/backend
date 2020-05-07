@@ -15,25 +15,25 @@
         "./typings/*"
       ],
       "@consts": [
-        "./src/consts/index"
+        "src/ecs/consts/index"
       ],
       "@utils": [
-        "./src/utils/index"
+        "src/ecs/utils/index"
       ],
       "@queries": [
-        "./src/queries/index"
+        "src/ecs/queries/index"
       ],
       "@src/a0": [
-        "./src/a0/index"
+        "src/ecs/a0/index"
       ],
       "@src/b0": [
-        "./src/b0/index"
+        "src/ecs/b0/index"
       ],
       "@src/c0": [
-        "./src/c0/index"
+        "src/ecs/c0/index"
       ],
       "@app": [
-        "./src/app"
+        "./src/ecs/app"
       ]
     }
   },
