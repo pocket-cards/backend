@@ -15,45 +15,45 @@ env:
 
 jobs:
   # Docker Build
-  # Build:
-  #   name: Build and deploy
-  #   runs-on: ubuntu-latest
+  Build:
+    name: Build and deploy
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #     # checkout
-  #     - uses: actions/checkout@master
+    steps:
+      # checkout
+      - uses: actions/checkout@master
 
-  #     # install nodejs
-  #     - uses: actions/setup-node@master
-  #       with:
-  #         node-version: 12.x
+      # install nodejs
+      - uses: actions/setup-node@master
+        with:
+          node-version: 12.x
 
-  #     # Library install
-  #     - name: install and build
-  #       run: |
-  #         yarn install
-  #         yarn build
+      # Library install
+      - name: install and build
+        run: |
+          yarn install
+          yarn build
 
-  #     - name: Configure AWS credentials
-  #       uses: aws-actions/configure-aws-credentials@v1
-  #       with:
-  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  #         aws-region: ap-northeast-1
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-1
 
-  #     # Login to ECR
-  #     - name: Login to Amazon ECR
-  #       id: login-ecr
-  #       uses: aws-actions/amazon-ecr-login@v1
+      # Login to ECR
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
 
-  #     # Push to ECR
-  #     - name: ECR Push
-  #       run: |
-  #         docker tag $ECR_REPOSITORY:latest $ECR_REGISTRY/$ECR_REPOSITORY:latest
-  #         docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
-  #       env:
-  #         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-  #         ECR_REPOSITORY: pocket-cards/backend
+      # Push to ECR
+      - name: ECR Push
+        run: |
+          docker tag $ECR_REPOSITORY:latest $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: pocket-cards/backend
 
   Pulumi:
     runs-on: ubuntu-latest
@@ -70,3 +70,21 @@ jobs:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
           PULUMI_CI: up
           PULUMI_ROOT: pulumi
+
+  Slack:
+    needs:
+      - Build
+      - Pulumi
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Slack Notify
+        uses: rtCamp/action-slack-notify@v2.0.1
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_CHANNEL: build
+          SLACK_TITLE: Backend Build
+          SLACK_COLOR: '#43a047'
+          SLACK_MESSAGE: ${{ github.repository }} Build Success
+          SLACK_USERNAME: ${{ github.repository }}

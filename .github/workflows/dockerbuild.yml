@@ -49,3 +49,20 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: pocket-cards/backend-testing
+
+  Slack:
+    needs:
+      - Build
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Slack Notify
+        uses: rtCamp/action-slack-notify@v2.0.1
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_CHANNEL: build
+          SLACK_TITLE: Backend Testing Build
+          SLACK_COLOR: '#43a047'
+          SLACK_MESSAGE: ${{ github.repository }} Build Success
+          SLACK_USERNAME: ${{ github.repository }}
