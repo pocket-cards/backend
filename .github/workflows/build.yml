@@ -56,12 +56,12 @@ jobs:
           ECR_REPOSITORY: pocket-cards/backend
 
   Pulumi:
-    needs:
-      - Build
-
     runs-on: ubuntu-latest
 
     steps:
+      # checkout
+      - uses: actions/checkout@master
+
       # select stack
       - uses: docker://pulumi/actions
         with:
