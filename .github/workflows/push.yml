@@ -3,8 +3,8 @@ on:
     branches:
       - master
     paths:
-      - docker/**
-      - .github/workflows/dockerbuild.yml
+      - !docker/**
+      - !.github/workflows/dockerbuild.yml
 
 jobs:
   # AWS Credentials
@@ -24,23 +24,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [12.x]
-      fail-fast: true
-
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@master
 
-      # Node.js
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+      # install nodejs
+      - uses: actions/setup-node@master
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 12.x
 
       # Library install
       - name: install and build
-        working-directory: ./docker
         run: |
           yarn install
           yarn build
@@ -62,4 +55,4 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: pocket-cards/backend-testing
+          ECR_REPOSITORY: pocket-cards/backend
