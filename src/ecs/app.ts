@@ -1,9 +1,14 @@
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import { B002, B003, B004, B005 } from 'src/ecs/b0';
 import { C001, C003, C005, C006, C007, C008 } from 'src/ecs/c0';
 import entry from './entry';
 
 const app = express();
+
+app.use((req: Request, res: Response, next: NextFunction) => {
+  console.info(`${req.method} ${req.originalUrl}`, req);
+  next();
+});
 
 // health check
 app.get('/', (_, res) => res.send('v3.1.0'));
