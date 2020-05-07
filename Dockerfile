@@ -9,7 +9,7 @@ EXPOSE ${PORT}
 WORKDIR /usr/local/src
 
 # 既存データ
-COPY build/* .
+COPY build/ecs/* .
 
 # Entry Point
 ENTRYPOINT ["node", "app"]
