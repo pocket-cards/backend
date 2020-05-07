@@ -4,8 +4,9 @@ on:
   push:
     branches:
       - master
-    paths:
-      - '!docker/**'
+    paths-ignore:
+      - docker/**
+      - .github/workflows/dockerbuild.yml
 
 jobs:
   # Docker Build
