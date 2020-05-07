@@ -10,12 +10,13 @@ export default JSON.parse(`
         "logs:PutLogEvents"
       ],
       "Resource": [
-        "arn:aws:logs:ap-northeast-1:*:*"
+        "*"
       ]
     },
     {
       "Effect": "Allow",
       "Action": [
+        "ecs:UpdateService",
         "ecs:ListTasks",
         "ecs:DescribeTasks",
         "ec2:DescribeNetworkInterfaces"

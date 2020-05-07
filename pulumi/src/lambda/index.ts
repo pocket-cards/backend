@@ -1,6 +1,6 @@
 import { Backend } from 'typings';
-import Start from './start';
-import Stop from './stop';
+import Start from './Start';
+import Stop from './Stop';
 
 export default (inputs: Backend.Inputs) => {
   // ECS Start

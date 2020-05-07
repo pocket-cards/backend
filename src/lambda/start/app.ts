@@ -32,7 +32,7 @@ export default async () => {
       break;
     }
 
-    await sleep(5000);
+    await sleep(3000);
   }
 
   const taskArns = tasks.taskArns;
@@ -51,10 +51,11 @@ export default async () => {
     const task = details.tasks[0];
 
     if (task.lastStatus === 'RUNNING') {
+      runningTask = task;
       break;
     }
 
-    await sleep(5000);
+    await sleep(3000);
   }
 
   // find eni infomation

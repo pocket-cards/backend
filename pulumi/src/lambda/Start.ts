@@ -17,6 +17,7 @@ export default (inputs: Backend.Inputs) => {
     role: role.arn,
     runtime: 'nodejs12.x',
     memorySize: 256,
+    timeout: 90,
     environment: {
       variables: {
         CLUSTER_ARN: inputs.ECS.ClusterArn,

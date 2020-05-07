@@ -10,13 +10,16 @@ export default JSON.parse(`
         "logs:PutLogEvents"
       ],
       "Resource": [
-        "arn:aws:logs:ap-northeast-1:*:*"
+        "*"
       ]
     },
     {
+      "Sid": "VisualEditor0",
       "Effect": "Allow",
       "Action": [
-        "ecs:ListTasks"
+          "ecs:UpdateService",
+          "ecs:ListTasks",
+          "ecs:StopTask"
       ],
       "Resource": "*"
     }
