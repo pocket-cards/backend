@@ -36,6 +36,23 @@ jobs:
           yarn install
           yarn build
 
+      # zip folders
+      - name: zip folder
+        working-directory: build/lambda
+        run: |
+          zip -r start start
+          zip -r stop stop
+
+      # Lambda Deploy
+      - uses: docker://amazon/aws-cli
+        with:
+          args: lambda update-function-code --function-name PocketCards_ECS_Start --zip fileb://./build/lambda/start.zip
+
+      - uses: docker://amazon/aws-cli
+        with:
+          args: lambda update-function-code --function-name PocketCards_ECS_Stop --zip fileb://./build/lambda/stop.zip
+
+      # ECR Deploy
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
