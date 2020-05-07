@@ -1,3 +1,5 @@
+name: Testing Build
+
 on:
   push:
     branches:
