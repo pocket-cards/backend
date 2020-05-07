@@ -1,10 +1,10 @@
-name: Testing
+name: Backend
 
 on:
   push:
     branches:
       - master
-    paths:
+    paths-ignore:
       - docker/**
       - .github/workflows/dockerbuild.yml
 
@@ -25,6 +25,7 @@ jobs:
   # Docker Build
   Build:
     needs: Initial
+
     runs-on: ubuntu-latest
 
     steps:
@@ -38,11 +39,11 @@ jobs:
 
       # Library install
       - name: install and build
-        working-directory: ./docker
         run: |
           yarn install
           yarn build
 
+  # Docker image deploy
   Deploy:
     needs:
       - Initial
@@ -63,4 +64,29 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: pocket-cards/backend-testing
+          ECR_REPOSITORY: pocket-cards/backend
+
+  Pulumi:
+    needs:
+      - Initial
+      - Build
+
+    runs-on: ubuntu-latest
+
+    steps:
+      # select stack
+      - uses: docker://pulumi/actions
+        with:
+          args: stack select dev-backend
+        working-directory: pulumi
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+
+      # stack update
+      - uses: docker://pulumi/actions
+        with:
+          args: up -e -y -p 100
+        working-directory: pulumi
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+          PULUMI_CI: up
