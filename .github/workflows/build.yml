@@ -40,8 +40,8 @@ jobs:
       - name: zip folder
         working-directory: build/lambda
         run: |
-          zip -r start start.js
-          zip -r stop stop.js
+          zip -r -j start start/**
+          zip -r -j stop stop/**
 
       # Lambda Deploy
       - uses: docker://amazon/aws-cli
