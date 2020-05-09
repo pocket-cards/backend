@@ -33,17 +33,20 @@ export default (inputs: Backend.Inputs) => {
   );
 
   // integration
-  const integration = new apigatewayv2.Integration('apigateway.integration.start', {
-    apiId: inputs.API.ApiId,
-    connectionType: 'INTERNET',
-    description: 'Lambda Integration',
-    integrationMethod: 'POST',
-    integrationType: 'AWS_PROXY',
-    integrationUri: func.arn,
-    passthroughBehavior: 'WHEN_NO_MATCH',
-    payloadFormatVersion: '2.0',
-    timeoutMilliseconds: 29000,
-  });
+  const integration = new apigatewayv2.Integration(
+    'apigateway.integration.start',
+    {
+      apiId: inputs.API.ApiId,
+      connectionType: 'INTERNET',
+      description: 'Lambda Integration',
+      integrationMethod: 'POST',
+      integrationType: 'AWS_PROXY',
+      integrationUri: func.arn,
+      payloadFormatVersion: '2.0',
+      timeoutMilliseconds: 29000,
+    },
+    { ignoreChanges: ['passthroughBehavior'] }
+  );
 
   // route
   new apigatewayv2.Route('apigateway.route.start', {
