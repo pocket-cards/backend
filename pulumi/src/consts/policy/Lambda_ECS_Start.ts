@@ -20,7 +20,8 @@ export default JSON.parse(`
         "ecs:ListTasks",
         "ecs:DescribeTasks",
         "ec2:DescribeNetworkInterfaces",
-        "apigateway:PATCH"
+        "apigateway:PATCH",
+        "apigateway:GET"
       ],
       "Resource": "*"
     }

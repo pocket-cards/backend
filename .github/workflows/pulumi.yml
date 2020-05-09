@@ -1,0 +1,68 @@
+name: Pulumi
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - pulumi/**
+      - .github/workflows/pulumi.yml
+  repository_dispatch:
+    types: build
+
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_DEFAULT_REGION: ap-northeast-1
+
+jobs:
+  Pulumi:
+    runs-on: ubuntu-latest
+
+    steps:
+      # checkout
+      - uses: actions/checkout@master
+
+      # stack update
+      - uses: docker://pulumi/actions
+        with:
+          args: up -e -y -p 100 -s dev-backend
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+          PULUMI_CI: up
+          PULUMI_ROOT: pulumi
+
+  Slack:
+    needs:
+      - Pulumi
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Slack Notify
+        uses: rtCamp/action-slack-notify@v2.0.1
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_CHANNEL: build
+          SLACK_TITLE: Backend Build
+          SLACK_COLOR: '#43a047'
+          SLACK_MESSAGE: ${{ github.repository }} Build Success
+          SLACK_USERNAME: ${{ github.repository }}
+
+  BuildFailed:
+    needs:
+      - Pulumi
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build Failed Notify
+        uses: rtCamp/action-slack-notify@v2.0.1
+        if: failure()
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_CHANNEL: build
+          SLACK_TITLE: Build Failed
+          SLACK_COLOR: '#43a047'
+          SLACK_MESSAGE: ${{ github.repository }} Build Failed...
+          SLACK_USERNAME: ${{ github.repository }}
