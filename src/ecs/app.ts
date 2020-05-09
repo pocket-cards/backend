@@ -1,5 +1,5 @@
 import express, { Request, Response, NextFunction } from 'express';
-import { B002, B003, B004, B005 } from '@src/b0';
+import { B001, B002, B003, B004, B005 } from '@src/b0';
 import { C001, C003, C005, C006, C007, C008 } from '@src/c0';
 import entry from './entry';
 
@@ -7,14 +7,16 @@ const app = express();
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   console.info(`${req.method} ${req.originalUrl}`);
-  console.info(JSON.stringify(req.headers));
-  console.info(JSON.stringify(req.body));
+  console.info('Headers', JSON.stringify(req.headers));
+  console.info('Body', JSON.stringify(req.body));
 
   next();
 });
 
 // health check
 app.get('/', (_, res) => res.send('v3.1.0'));
+// グループ新規
+app.put('/groups', express.json(), (req, res) => entry(req, res, B001));
 // グループ一覧
 app.get('/groups', express.json(), (req, res) => entry(req, res, B002));
 // グループ一覧

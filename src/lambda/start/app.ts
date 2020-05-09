@@ -82,7 +82,7 @@ export default async () => {
     .updateIntegration({
       ApiId: API_ID,
       IntegrationId: INTEGRATION_ID,
-      IntegrationUri: `http://${publicIp}`,
+      IntegrationUri: `http://${publicIp}/{proxy}`,
     })
     .promise();
 };

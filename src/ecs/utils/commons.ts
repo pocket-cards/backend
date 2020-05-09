@@ -11,31 +11,23 @@ export const sleep = (timeout: number) => new Promise((resolve) => setTimeout(()
  * @param authKey Header Key
  */
 export const getUserId = (req: Request, authKey: string = 'authorization') => {
-  const value = req.headers[authKey];
+  const value = req.headers[authKey] as string;
 
   // データが存在しない場合、エラーとする
   if (!value) {
     throw new Error('Can not found User Id.');
   }
 
+  return getUserInfo(value);
+};
+
+export const getUserInfo = (base64: string) => {
   try {
-    // {
-    //   sub: 'cbff371c-ef97-4afc-b6a3-166c2163307e',
-    //   aud: 'relm874c6hkjouqalvvq0utth',
-    //   email_verified: true,
-    //   token_use: 'id',
-    //   auth_time: 1570971688,
-    //   iss: 'https://cognito-idp.ap-northeast-1.amazonaws.com/ap-northeast-1_Pn4pwBiY0',
-    //   'cognito:username': 'wwalpha',
-    //   exp: 1570975288,
-    //   iat: 1570971688,
-    //   email: 'wwalpha@gmail.com'
-    // }
-    // const userJson = Buffer.from(value, 'base64').toString();
-    // const userInfo = JSON.parse(userJson);
-    // return userInfo['cognito:username'];
-    // return 'wwalpha';
-    return req.headers['authorization'] as string;
+    const jwtToken = base64.split('.');
+    const userInfo = JSON.parse(Buffer.from(jwtToken[1], 'base64').toString());
+
+    console.log(userInfo);
+    return userInfo['cognito:username'];
   } catch (err) {
     // Logger.info(err);
     return null;

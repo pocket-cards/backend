@@ -51,9 +51,14 @@ export interface A002Response {
 // ------------------------------
 // B001
 // ------------------------------
-export interface B001Request {}
+export interface B001Request {
+  name: string;
+  description?: string;
+}
 
-export type B001Response = TGroups[];
+export interface B001Response {
+  groupId: string;
+}
 
 // ------------------------------
 // B002

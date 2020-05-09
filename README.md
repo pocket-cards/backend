@@ -5,6 +5,7 @@
 | **descripted** | /users/{userId}                | GET         | A001        | ユーザ情報取得           |
 |                | /history                       | GET         | A002        | 学習履歴取得             |
 |                |                                |             | A003        | 最後の学習時間を計算する |
+|                | /groups                        | PUT         | B001        | グループ新規作成         |
 |                | /groups                        | GET         | B002        | グループ一覧取得         |
 |                | /groups/{groupId}              | GET         | B003        | グループ情報取得         |
 |                | /groups/{groupId}              | PUT         | B004        | グループ情報変更         |

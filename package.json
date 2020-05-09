@@ -7,7 +7,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon",
+    "dev": "nodemon ./src/ecs/app.ts",
     "buildw": "cross-env NODE_OPTIONS=--max_old_space_size=4096 webpack --config ./configs/webpack.dev.ts",
     "build:ecs": "cross-env NODE_OPTIONS=--max_old_space_size=4096 webpack --config ./configs/webpack.ecs.ts",
     "build:lambda": "tsc src/lambda/**/* -t ES2018 -m commonjs --outDir build/lambda",
@@ -38,12 +38,17 @@
       "src/**/*.ts"
     ]
   },
-  "nodemonConfig":{
+  "nodemonConfig": {
     "watch": [
       "src/**/*.ts"
     ],
-    "ignore": ["node_modules/*"],
-    "exec": "ts-node -r tsconfig-paths/register ./src/ecs/app.ts"
+    "delay": 3,
+    "ignore": [
+      "node_modules/*"
+    ],
+    "execMap": {
+      "ts": "ts-node -r tsconfig-paths/register -r dotenv/config"
+    }
   },
   "dependencies": {
     "aws-sdk": "^2.671.0",
