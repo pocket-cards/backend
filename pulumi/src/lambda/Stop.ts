@@ -8,23 +8,27 @@ export default (inputs: Backend.Inputs) => {
   const role = getRole();
 
   // lambda function
-  const func = new lambda.Function('lambda.function.ecs.stop', {
-    name: `${Consts.PROJECT_NAME_UC}_ECS_Stop`,
-    code: new AssetArchive({
-      'index.js': new StringAsset(Consts.LAMBDA_CODE),
-    }),
-    handler: 'index.handler',
-    role: role.arn,
-    runtime: 'nodejs12.x',
-    timeout: 10,
-    memorySize: 256,
-    environment: {
-      variables: {
-        CLUSTER_ARN: inputs.ECS.ClusterArn,
-        SERVICE_NAME: inputs.ECS.ServiceArn,
+  const func = new lambda.Function(
+    'lambda.function.ecs.stop',
+    {
+      name: `${Consts.PROJECT_NAME_UC}_ECS_Stop`,
+      code: new AssetArchive({
+        'index.js': new StringAsset(Consts.LAMBDA_CODE),
+      }),
+      handler: 'index.handler',
+      role: role.arn,
+      runtime: 'nodejs12.x',
+      timeout: 10,
+      memorySize: 256,
+      environment: {
+        variables: {
+          CLUSTER_ARN: inputs.ECS.ClusterArn,
+          SERVICE_NAME: inputs.ECS.ServiceArn,
+        },
       },
     },
-  });
+    { ignoreChanges: ['code', 'lastModified', 'sourceCodeHash'] }
+  );
 
   const integration = new apigatewayv2.Integration('apigateway.integration.stop', {
     apiId: inputs.API.ApiId,
