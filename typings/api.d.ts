@@ -65,7 +65,10 @@ export interface B001Response {
 // ------------------------------
 export interface B002Request {}
 
-export type B002Response = TGroups[];
+export interface B002Response {
+  count: number;
+  groups: TGroups[];
+}
 
 // ------------------------------
 // B003
