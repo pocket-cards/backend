@@ -1,6 +1,6 @@
 import { DynamoDB } from 'aws-sdk';
-import { TWords } from '@typings/tables';
-import { Environment } from 'src/ecs/consts';
+import { TWords } from 'typings/tables';
+import { Environment } from '@consts';
 
 /** 次の学習時間を調整する */
 export const updateItem01 = (id: string, word: string, nextTime: string): DynamoDB.DocumentClient.UpdateItemInput => ({

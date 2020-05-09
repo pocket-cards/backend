@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import { ClientUtils } from 'src/ecs/utils';
+import { ssm } from './clientUtils';
 
 // Sleep
 export const sleep = (timeout: number) => new Promise((resolve) => setTimeout(() => resolve(), timeout));
@@ -44,7 +44,7 @@ export const getUserId = (req: Request, authKey: string = 'authorization') => {
 
 /** SSM Value */
 export const getSSMValue = async (key: string) => {
-  const client = ClientUtils.ssm();
+  const client = ssm();
 
   const result = await client
     .getParameter({

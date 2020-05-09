@@ -1,8 +1,8 @@
 import { Request } from 'express';
-import { DBHelper, Logger, Commons } from 'src/ecs/utils';
-import { Groups } from 'src/ecs/queries';
-import { TGroups } from '@typings/tables';
-import { B003Response, B003Params } from '@typings/api';
+import { DBHelper, Logger, Commons } from '@utils';
+import { Groups } from '@queries';
+import { TGroups } from 'typings/tables';
+import { B003Response, B003Params } from 'typings/api';
 
 /**
  * グループ情報検索

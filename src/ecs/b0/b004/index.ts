@@ -1,7 +1,7 @@
 import { Request } from 'express';
-import { DBHelper, Logger, Commons } from 'src/ecs/utils';
-import { B004Params, B004Request } from '@typings/api';
-import { Groups } from 'src/ecs/queries';
+import { DBHelper, Logger, Commons } from '@utils';
+import { B004Params, B004Request } from 'typings/api';
+import { Groups } from '@queries';
 
 /**
  * グループ情報変更

@@ -1,7 +1,7 @@
 import { Request } from 'express';
-import { DBHelper } from 'src/ecs/utils';
-import { C002Response } from '@typings/api';
-import { TWords } from '@typings/tables';
+import { DBHelper } from '@utils';
+import { C002Response } from 'typings/api';
+import { TWords } from 'typings/tables';
 
 export default async (req: Request): Promise<C002Response[]> => {
   // if (!event.pathParameters) {

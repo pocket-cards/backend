@@ -1,9 +1,9 @@
 import { Polly, S3 } from 'aws-sdk';
 import axios from 'axios';
 import * as short from 'short-uuid';
-import { DBHelper, ClientUtils, DateUtils, Logger, Commons } from 'src/ecs/utils';
-import { WordMaster } from 'src/ecs/queries';
-import { Environment } from 'src/ecs/consts';
+import { DBHelper, ClientUtils, DateUtils, Logger, Commons } from '@utils';
+import { WordMaster } from '@queries';
+import { Environment } from '@consts';
 
 let pronounceKey: string | undefined;
 let translateKey: string | undefined;

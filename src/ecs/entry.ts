@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { Logger } from 'src/ecs/utils';
-import { Callback } from '@typings/api';
+import { Logger } from '@utils';
+import { Callback } from 'typings/api';
 
 export default async (req: Request, res: Response, callback: Callback) => {
   // イベントログ;

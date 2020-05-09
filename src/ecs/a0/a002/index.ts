@@ -1,9 +1,9 @@
 import { Request } from 'express';
 import moment from 'moment';
-import { A002Response } from '@typings/api';
-import { TGroups, THistory } from '@typings/tables';
-import { DBHelper, DateUtils, Commons } from 'src/ecs/utils';
-import { History, Groups, Words } from 'src/ecs/queries';
+import { A002Response } from 'typings/api';
+import { TGroups, THistory } from 'typings/tables';
+import { DBHelper, DateUtils, Commons } from '@utils';
+import { Histories, Groups, Words } from '@queries';
 
 // 環境変数
 const TIMESTAMP_ENDFIX = '000000000';

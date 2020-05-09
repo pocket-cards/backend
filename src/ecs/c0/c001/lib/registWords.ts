@@ -1,6 +1,6 @@
 import { AWSError } from 'aws-sdk';
-import { DBHelper, DateUtils } from 'src/ecs/utils';
-import { Words } from 'src/ecs/queries';
+import { DBHelper, DateUtils } from '@utils';
+import { Words } from '@queries';
 
 /** Wordsのデータ登録 */
 export default async (groupId: string, words: string[]) => {

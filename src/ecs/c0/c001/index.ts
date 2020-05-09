@@ -1,6 +1,6 @@
 import { Request } from 'express';
-import { Logger } from 'src/ecs/utils';
-import { C001Request } from '@typings/api';
+import { Logger } from '@utils';
+import { C001Request } from 'typings/api';
 import registWords from './lib/registWords';
 import checkDictExists from './lib/checkDictExists';
 import registDictionary from './lib/registDictionary';

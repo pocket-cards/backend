@@ -1,5 +1,5 @@
 import { DynamoDB } from 'aws-sdk';
-import { Environment } from 'src/ecs/consts';
+import { Environment } from '@consts';
 
 /** ユーザ情報を更新する */
 export const userInfo = (id: string, studyQuery: string) =>

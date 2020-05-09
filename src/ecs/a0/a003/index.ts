@@ -1,10 +1,10 @@
 import { DynamoDB } from 'aws-sdk';
 import moment from 'moment';
 import { Request } from 'express';
-import { TUsers, TGroups, TWords } from '@typings/tables';
-import { DateUtils, DBHelper, Commons, Logger } from 'src/ecs/utils';
-import { Users, Words } from 'src/ecs/queries';
-import { Environment } from 'src/ecs/consts';
+import { TUsers, TGroups, TWords } from 'typings/tables';
+import { DateUtils, DBHelper, Commons, Logger } from '@utils';
+import { Users, Words } from '@queries';
+import { Environment } from '@consts';
 
 export default async (req: Request): Promise<void> => {
   //const { userName } = req;

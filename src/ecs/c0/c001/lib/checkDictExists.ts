@@ -1,5 +1,5 @@
-import { DBHelper, Logger } from 'src/ecs/utils';
-import { WordMaster } from 'src/ecs/queries';
+import { DBHelper, Logger } from '@utils';
+import { WordMaster } from '@queries';
 
 /** 単語が辞書に存在するかのチェック */
 export default async (words: string[]) => {

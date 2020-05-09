@@ -1,9 +1,9 @@
 import { Request } from 'express';
-import { DBHelper, Logger } from 'src/ecs/utils';
-import { Environment } from 'src/ecs/consts';
-import { Words, WordMaster } from 'src/ecs/queries';
-import { TWords, TWordMaster } from '@typings/tables';
-import { C008Response, WordItem, C008Params } from '@typings/api';
+import { DBHelper, Logger } from '@utils';
+import { Environment } from '@consts';
+import { Words, WordMaster } from '@queries';
+import { TWords, TWordMaster } from 'typings/tables';
+import { C008Response, WordItem, C008Params } from 'typings/api';
 
 export default async (req: Request): Promise<C008Response> => {
   const params = (req.params as unknown) as C008Params;

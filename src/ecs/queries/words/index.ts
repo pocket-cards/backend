@@ -1,8 +1,8 @@
 import * as query from './query';
 import * as update from './update';
-import { Environment } from 'src/ecs/consts';
+import { Environment } from '@consts';
 import { DynamoDB } from 'aws-sdk';
-import { TWords, WordKey } from '@typings/tables';
+import { TWords, WordKey } from 'typings/tables';
 
 /** データ取得 */
 export const get = (key: WordKey) =>

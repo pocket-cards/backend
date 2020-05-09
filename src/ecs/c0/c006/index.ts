@@ -1,10 +1,10 @@
 import { Request } from 'express';
 import orderBy from 'lodash/orderBy';
-import { DBHelper, Logger, DateUtils } from 'src/ecs/utils';
-import { Environment } from 'src/ecs/consts';
-import { Words, WordMaster } from 'src/ecs/queries';
-import { TWords, TWordMaster } from '@typings/tables';
-import { C006Response, WordItem, C006Params } from '@typings/api';
+import { DBHelper, Logger, DateUtils } from '@utils';
+import { Environment } from '@consts';
+import { Words, WordMaster } from '@queries';
+import { TWords, TWordMaster } from 'typings/tables';
+import { C006Response, WordItem, C006Params } from 'typings/api';
 
 export default async (req: Request): Promise<C006Response> => {
   const params = (req.params as unknown) as C006Params;

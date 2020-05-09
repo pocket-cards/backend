@@ -3,8 +3,8 @@ import chaiExclude from 'chai-exclude';
 import chaiHttp from 'chai-http';
 import server from '@app';
 import { DBHelper, ClientUtils } from '@utils';
-import { C001Request } from '@typings/api';
 import { WordMaster } from '@queries';
+import { C001Request } from 'typings/api';
 
 chai.use(chaiHttp);
 chai.use(chaiExclude);

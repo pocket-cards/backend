@@ -1,8 +1,8 @@
 import { Request } from 'express';
-import { C003Response, C003Params } from '@typings/api';
-import { DBHelper } from 'src/ecs/utils';
-import { Words } from 'src/ecs/queries';
-import { TWords } from '@typings/tables';
+import { C003Response, C003Params } from 'typings/api';
+import { DBHelper } from '@utils';
+import { Words } from '@queries';
+import { TWords } from 'typings/tables';
 
 export default async (req: Request): Promise<C003Response> => {
   const params = (req.params as unknown) as C003Params;

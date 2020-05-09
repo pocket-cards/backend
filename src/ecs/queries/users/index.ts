@@ -1,6 +1,6 @@
 import { DynamoDB } from 'aws-sdk';
-import { Environment } from 'src/ecs/consts';
-import { TUsers } from '@typings/tables';
+import { Environment } from '@consts';
+import { TUsers } from 'typings/tables';
 import * as update from './update';
 
 /** データ取得 */

@@ -1,6 +1,6 @@
 import { DynamoDB } from 'aws-sdk';
-import { Environment } from 'src/ecs/consts';
-import { TWordMaster } from '@typings/tables';
+import { Environment } from '@consts';
+import { TWordMaster } from 'typings/tables';
 
 /** データ取得 */
 export const get = (id: string) =>

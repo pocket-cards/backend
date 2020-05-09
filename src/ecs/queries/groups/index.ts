@@ -1,6 +1,6 @@
 import { DynamoDB } from 'aws-sdk';
-import { Environment } from 'src/ecs/consts';
-import { TGroups, GroupsKey } from '@typings/tables';
+import { Environment } from '@consts';
+import { TGroups, GroupsKey } from 'typings/tables';
 import * as query from './query';
 
 /** データ取得 */

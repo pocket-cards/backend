@@ -1,4 +1,4 @@
-// import { C001Request } from '@typings/api';
+// import { C001Request } from 'typings/api';
 
 // export default (event: ) =>
 //   new Promise((resolve, reject) => {
