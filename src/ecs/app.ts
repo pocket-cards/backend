@@ -7,6 +7,9 @@ const app = express();
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   console.info(`${req.method} ${req.originalUrl}`);
+  console.info(JSON.stringify(req.headers));
+  console.info(JSON.stringify(req.body));
+
   next();
 });
 
