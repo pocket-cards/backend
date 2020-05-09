@@ -53,6 +53,7 @@
   "dependencies": {
     "aws-sdk": "^2.671.0",
     "axios": "^0.19.0",
+    "cors": "^2.8.5",
     "cross-env": "^7.0.2",
     "dynamodb-helper": "https://github.com/wwalpha/dynamodb-helper.git",
     "express": "^4.17.1",
@@ -65,6 +66,7 @@
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "@types/archiver": "^3.0.0",
     "@types/chai": "^4.2.11",
+    "@types/cors": "^2.8.6",
     "@types/dotenv-webpack": "^1.7.0",
     "@types/jszip": "^3.1.6",
     "@types/lodash": "^4.14.149",
