@@ -7,10 +7,7 @@ export default (inputs: Backend.Inputs) => {
   const start = Start(inputs);
 
   // ECS Stop
-  const stop = Stop(inputs.ECS);
+  const stop = Stop(inputs);
 
-  return {
-    Start: start,
-    Stop: stop,
-  };
+  return [start, stop];
 };

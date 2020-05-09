@@ -15,7 +15,9 @@ const start = () => {
     const lambda = Lambda({
       API: {
         ApiId: main.APIGateway.API.Id,
-        IntegrationId: main.APIGateway.Integration.Id,
+        IntegrationId: main.APIGateway.Integration[0].Id,
+        ExecutionArn: main.APIGateway.API.ExecutionArn,
+        AuthorizerId: main.APIGateway.Authorizer.Id,
       },
       ECS: {
         ClusterArn: main.ECS.Cluster.Arn,
@@ -23,7 +25,16 @@ const start = () => {
       },
     });
 
-    return lambda;
+    return {
+      Lambda: lambda.map((item) => ({
+        Name: item.name,
+        Arn: item.arn,
+        InvokeArn: item.invokeArn,
+        Runtime: item.runtime,
+        Timeout: item.timeout,
+        RoleArn: item.role,
+      })),
+    };
   });
 };
 
