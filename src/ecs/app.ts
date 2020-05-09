@@ -6,7 +6,7 @@ import entry from './entry';
 const app = express();
 
 app.use((req: Request, res: Response, next: NextFunction) => {
-  console.info(`${req.method} ${req.originalUrl}`, req);
+  console.info(`${req.method} ${req.originalUrl}`, JSON.stringify(req));
   next();
 });
 
