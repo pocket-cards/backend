@@ -1,10 +1,12 @@
 import express, { Request, Response, NextFunction } from 'express';
+import cors from 'cors';
 import { B001, B002, B003, B004, B005 } from '@src/b0';
 import { C001, C003, C005, C006, C007, C008 } from '@src/c0';
 import entry from './entry';
 
 const app = express();
 
+app.use(cors());
 app.use((req: Request, res: Response, next: NextFunction) => {
   console.info(`${req.method} ${req.originalUrl}`);
   console.info('Headers', JSON.stringify(req.headers));
