@@ -5,7 +5,7 @@ export const handler = async (event: any) => {
   // イベントログ
 
   try {
-    app();
+    await app();
 
     return 'STARTED';
   } catch (error) {
