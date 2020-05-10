@@ -41,8 +41,9 @@ export default (inputs: Backend.Inputs) => {
       integrationUri: func.arn,
       payloadFormatVersion: '2.0',
       timeoutMilliseconds: 29000,
-    },
-    { ignoreChanges: ['passthroughBehavior'] }
+      passthroughBehavior: 'WHEN_NO_MATCH',
+    }
+    // { ignoreChanges: ['passthroughBehavior'] }
   );
 
   // route
@@ -51,6 +52,13 @@ export default (inputs: Backend.Inputs) => {
     routeKey: 'POST /stop',
     authorizationType: 'JWT',
     authorizerId: inputs.API.AuthorizerId,
+    target: interpolate`integrations/${integration.id}`,
+  });
+
+  // start option
+  new apigatewayv2.Route('apigateway.route.stop.option', {
+    apiId: inputs.API.ApiId,
+    routeKey: 'OPTIONS /stop',
     target: interpolate`integrations/${integration.id}`,
   });
 

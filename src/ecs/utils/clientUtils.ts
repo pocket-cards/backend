@@ -79,10 +79,7 @@ export const ssm = (options?: SSM.ClientConfiguration): SSM => {
   if (options) return new AWS.SSM(options);
 
   // 初期化設定なし
-  return new AWS.SSM({
-    region: process.env.DEFAULT_REGION,
-    endpoint: process.env.AWS_ENDPOINT,
-  });
+  return new AWS.SSM();
 };
 
 export const lambda = (options?: Lambda.ClientConfiguration): Lambda => {

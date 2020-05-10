@@ -1,3 +1,4 @@
+export const AWS_DEFAULT_REGION = process.env.AWS_DEFAULT_REGION as string;
 export const TABLE_USERS = process.env.TABLE_USERS as string;
 export const TABLE_GROUPS = process.env.TABLE_GROUPS as string;
 export const TABLE_WORDS = process.env.TABLE_WORDS as string;

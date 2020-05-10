@@ -3,6 +3,7 @@ import { Rekognition, S3 } from 'aws-sdk';
 import * as short from 'short-uuid';
 import { DateUtils, ClientUtils } from '@utils';
 import { D001Response, D001Request } from 'typings/api';
+import { Environment } from '@consts';
 
 // Rekognition
 let rekognitionClient: Rekognition;
@@ -29,7 +30,9 @@ export default async (req: Request): Promise<D001Response> => {
 
   // S3 Client初期化
   if (!s3Client) {
-    s3Client = new S3();
+    s3Client = ClientUtils.s3({
+      region: Environment.AWS_DEFAULT_REGION,
+    });
   }
 
   // S3に保存する

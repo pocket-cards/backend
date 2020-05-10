@@ -84,9 +84,10 @@ const saveWithMP3 = async (word: string): Promise<string> => {
     Body: response.AudioStream,
   };
 
-  const sClient = ClientUtils.s3();
+  const s3Client = ClientUtils.s3();
+
   // S3に保存する
-  await sClient.putObject(putRequest).promise();
+  await s3Client.putObject(putRequest).promise();
 
   return key;
 };
