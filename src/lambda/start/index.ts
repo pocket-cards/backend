@@ -7,7 +7,9 @@ export const handler = async (event: any) => {
   try {
     await app();
 
-    return 'STARTED';
+    return {
+      status: 'STARTED',
+    };
   } catch (error) {
     console.log(error);
     throw error;

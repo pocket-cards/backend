@@ -7,7 +7,9 @@ export const handler = async () => {
   try {
     await app();
 
-    return 'STOPPED';
+    return {
+      status: 'STOPPED',
+    };
   } catch (error) {
     console.log(error);
     throw error;

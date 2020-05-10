@@ -17,7 +17,9 @@ export default async () => {
 
   // list numbers check
   if (tasks.taskArns.length === 0) {
-    return 'STOPPED';
+    return {
+      status: 'STOPPED',
+    };
   }
 
   const details = await ecs
@@ -30,7 +32,9 @@ export default async () => {
   const task = details.tasks[0];
 
   if (task.lastStatus !== 'RUNNING') {
-    return task.lastStatus;
+    return {
+      status: task.lastStatus,
+    };
   }
 
   // find eni infomation
@@ -61,5 +65,7 @@ export default async () => {
     })
     .promise();
 
-  return task.lastStatus;
+  return {
+    status: task.lastStatus,
+  };
 };
