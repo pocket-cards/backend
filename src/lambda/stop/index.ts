@@ -1,7 +1,7 @@
 import app from './app';
 
 // イベント入口
-export const handler = async (event: any) => {
+export const handler = async () => {
   // イベントログ
 
   try {
