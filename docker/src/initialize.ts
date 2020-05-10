@@ -20,13 +20,13 @@ const initS3 = async () => {
     })
     .promise();
 
-  console.log(await s3.listBuckets().promise());
-
   await s3
     .createBucket({
       Bucket: process.env.IMAGE_BUCKET as string,
     })
     .promise();
+
+  console.log(await s3.listBuckets().promise());
 };
 
 (async () => {

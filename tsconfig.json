@@ -21,14 +21,8 @@
       "@queries": [
         "src/ecs/queries/index"
       ],
-      "@src/a0": [
-        "src/ecs/a0/index"
-      ],
-      "@src/b0": [
-        "src/ecs/b0/index"
-      ],
-      "@src/c0": [
-        "src/ecs/c0/index"
+      "@src/*": [
+        "src/ecs/*"
       ],
       "@app": [
         "./src/ecs/app"
