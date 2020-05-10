@@ -1,6 +1,7 @@
 import { Backend } from 'typings';
 import Start from './Start';
 import Stop from './Stop';
+import Status from './Status';
 
 export default (inputs: Backend.Inputs) => {
   // ECS Start
@@ -9,5 +10,8 @@ export default (inputs: Backend.Inputs) => {
   // ECS Stop
   const stop = Stop(inputs);
 
-  return [start, stop];
+  // ECS Status
+  const status = Status(inputs);
+
+  return [start, stop, status];
 };

@@ -1,13 +1,9 @@
 import app from './app';
 
 // イベント入口
-export const handler = async (event: any) => {
-  // イベントログ
-
+export const handler = async () => {
   try {
-    await app();
-
-    return 'STOPPED';
+    return await app();
   } catch (error) {
     console.log(error);
     throw error;

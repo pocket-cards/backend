@@ -5,11 +5,9 @@ export const handler = async (event: any) => {
   // イベントログ
 
   try {
-    await app();
+    app();
 
-    return {
-      statusCode: 200,
-    };
+    return 'STARTED';
   } catch (error) {
     console.log(error);
     throw error;
