@@ -16,12 +16,7 @@ export default JSON.parse(`
     {
       "Effect": "Allow",
       "Action": [
-        "ecs:UpdateService",
-        "ecs:ListTasks",
-        "ecs:DescribeTasks",
-        "ec2:DescribeNetworkInterfaces",
-        "apigateway:PATCH",
-        "apigateway:GET"
+        "ecs:UpdateService"
       ],
       "Resource": "*"
     }

@@ -24,8 +24,6 @@ export default (inputs: Backend.Inputs) => {
         variables: {
           CLUSTER_ARN: inputs.ECS.ClusterArn,
           SERVICE_NAME: inputs.ECS.ServiceArn,
-          API_ID: inputs.API.ApiId,
-          INTEGRATION_ID: inputs.API.IntegrationId,
         },
       },
     },

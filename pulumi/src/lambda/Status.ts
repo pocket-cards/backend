@@ -23,6 +23,8 @@ export default (inputs: Backend.Inputs) => {
       environment: {
         variables: {
           CLUSTER_ARN: inputs.ECS.ClusterArn,
+          API_ID: inputs.API.ApiId,
+          INTEGRATION_ID: inputs.API.IntegrationId,
         },
       },
     },
