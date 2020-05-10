@@ -12,6 +12,11 @@ export default async () => {
     })
     .promise();
 
+  // list numbers check
+  if (tasks.taskArns.length === 0) {
+    return 'STOPPED';
+  }
+
   const details = await ecs
     .describeTasks({
       cluster: CLUSTER_ARN,
