@@ -2,6 +2,8 @@ import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import { B001, B002, B003, B004, B005 } from '@src/b0';
 import { C001, C003, C005, C006, C007, C008 } from '@src/c0';
+import { D001 } from '@src/d0';
+
 import entry from './entry';
 
 const app = express();
@@ -41,6 +43,8 @@ app.get('/groups/:groupId/new', express.json(), async (req, res) => await entry(
 app.get('/groups/:groupId/test', express.json(), async (req, res) => entry(req, res, C007));
 // 復習モード単語一覧
 app.get('/groups/:groupId/review', express.json(), async (req, res) => entry(req, res, C008));
+// 画像から単語に変換する
+app.post('/image2text', express.json(), async (req, res) => entry(req, res, D001));
 
 app.listen(process.env.PORT || 8080, () => {
   console.log('Started...');
