@@ -25,12 +25,6 @@ jobs:
         with:
           node-version: 12.x
 
-      # Library install
-      - name: install and build
-        run: |
-          yarn install
-          yarn build
-
       # GCP Login
       - name: GCP Authenticate
         uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
@@ -39,17 +33,26 @@ jobs:
           service_account_email: ${{ secrets.GCP_SA_EMAIL }}
           service_account_key: ${{ secrets.GCP_SA_KEY }}
 
+      # Library install
+      - name: install and build
+        run: |
+          yarn install
+          yarn build
+
       # Configure docker to use the gcloud command-line tool as a credential helper
       - name: Set up docker to authenticate via gcloud command-line tool.
         run: |
           gcloud auth configure-docker
 
+      # Docker Build
       - name: Build a docker image
         run: docker build . -t $IMAGE
 
+      # Docker Push
       - name: Push the docker image
         run: docker push $IMAGE
 
+      # CloudRun Deploy
       - name: Deploy to Cloud Run
         run: |
           gcloud run deploy api \
