@@ -7,9 +7,7 @@ on:
     paths-ignore:
       - docker/**
       - pulumi/**
-      - .github/workflows/dockerbuild.yml
-      - .github/workflows/release.yml
-      - .github/workflows/pulumi.yml
+      - .github/**
 
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
