@@ -1,0 +1,60 @@
+name: release
+
+on:
+  release:
+    types:
+      - created
+      - edited
+      - prereleased
+      - published
+
+env:
+  GCP_PROJECT: ${{ secrets.GCP_PROJECT }}
+  GCP_REGION: ${{ secrets.GCP_REGION }}
+  IMAGE: gcr.io/${{ secrets.GCP_PROJECT }}/backend:latest
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@master
+
+      # install nodejs
+      - uses: actions/setup-node@master
+        with:
+          node-version: 12.x
+
+      # Library install
+      - name: install and build
+        run: |
+          yarn install
+          yarn build
+
+      # GCP Login
+      - name: GCP Authenticate
+        uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: '273.0.0'
+          service_account_email: ${{ secrets.GCP_SA_EMAIL }}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+
+      # Configure docker to use the gcloud command-line tool as a credential helper
+      - name: Set up docker to authenticate via gcloud command-line tool.
+        run: |
+          gcloud auth configure-docker
+
+      - name: Build a docker image
+        run: docker build . -t $IMAGE
+
+      - name: Push the docker image
+        run: docker push $IMAGE
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy api \
+            --image $IMAGE \
+            --project $GCP_PROJECT \
+            --region $GCP_REGION \
+            --platform managed \
+            --quiet
