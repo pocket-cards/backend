@@ -4,9 +4,6 @@ on:
   release:
     types:
       - created
-      - edited
-      - prereleased
-      - published
 
 env:
   GCP_PROJECT: ${{ secrets.GCP_PROJECT }}
