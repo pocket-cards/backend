@@ -30,6 +30,10 @@ export interface TWordMaster {
 export interface TUsers {
   // ユーザID
   id: string;
+  // ユーザ名
+  name?: string;
+  // ユーザ ICon
+  icon?: string;
   // メール
   email?: string;
   // 前回ログイン

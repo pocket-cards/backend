@@ -65,6 +65,7 @@
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "@types/archiver": "^3.0.0",
+    "@types/aws-lambda": "^8.10.51",
     "@types/chai": "^4.2.11",
     "@types/cors": "^2.8.6",
     "@types/dotenv-webpack": "^1.7.0",
