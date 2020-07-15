@@ -42,6 +42,7 @@ jobs:
           zip -r -j start start/**
           zip -r -j stop stop/**
           zip -r -j status status/**
+          zip -r -j cognito cognito/**
 
       # Lambda Deploy
       - uses: docker://amazon/aws-cli
@@ -55,6 +56,10 @@ jobs:
       - uses: docker://amazon/aws-cli
         with:
           args: lambda update-function-code --function-name PocketCards_ECS_Status --zip fileb://./build/lambda/status.zip
+
+      - uses: docker://amazon/aws-cli
+        with:
+          args: lambda update-function-code --function-name PocketCards_Cognito --zip fileb://./build/lambda/cognito.zip
 
       # ECR Deploy
       - name: Configure AWS credentials
