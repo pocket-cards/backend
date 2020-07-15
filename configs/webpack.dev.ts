@@ -1,5 +1,5 @@
 import { Configuration, LoaderOptionsPlugin } from 'webpack';
-import merge from 'webpack-merge';
+import { merge } from 'webpack-merge';
 import Dotenv from 'dotenv-webpack';
 import baseConfig from './webpack.base';
 
