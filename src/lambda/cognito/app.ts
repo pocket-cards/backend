@@ -2,7 +2,7 @@ import { DynamoDB } from 'aws-sdk';
 import { CognitoUserPoolTriggerEvent } from 'aws-lambda';
 import { TUsers } from 'typings/tables';
 
-const db = new DynamoDB();
+const db = new DynamoDB.DocumentClient();
 
 export default async (e: CognitoUserPoolTriggerEvent) => {
   if (e.triggerSource === 'PostAuthentication_Authentication') {
@@ -24,7 +24,7 @@ const createUser = async (e: CognitoUserPoolTriggerEvent) => {
   };
 
   // ユーザ登録
-  await db.putItem(put(item)).promise();
+  await db.put(put(item)).promise();
 };
 
 /** データ更新 */
