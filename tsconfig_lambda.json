@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "ES2018" ,
+    "module": "commonjs",
+    "lib": ["ES2017"],
+    "sourceMap": true,
+    "outDir": "build/lambda",
+    "moduleResolution": "node",
+    "noImplicitAny": false,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "baseUrl": "./"
+  },
+  "files": [
+    "./typings/types.d.ts",
+    "./typings/api.d.ts",
+    "./typings/tables.d.ts",
+    "./typings/aws-xray-sdk.d.ts",
+    "./typings/aws.d.ts"
+  ],
+  "include": [
+    "src/lambda/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

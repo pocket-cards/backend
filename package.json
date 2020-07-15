@@ -10,7 +10,7 @@
     "dev": "nodemon ./src/ecs/app.ts",
     "buildw": "cross-env NODE_OPTIONS=--max_old_space_size=4096 webpack --config ./configs/webpack.dev.ts",
     "build:ecs": "cross-env NODE_OPTIONS=--max_old_space_size=4096 webpack --config ./configs/webpack.ecs.ts",
-    "build:lambda": "tsc src/lambda/**/* -t ES2018 -m commonjs --outDir build/lambda",
+    "build:lambda": "tsc --build tsconfig_lambda.json",
     "build:source": "yarn build:ecs && yarn build:lambda",
     "prebuild": "yarn build:source",
     "build": "yarn docker:build",

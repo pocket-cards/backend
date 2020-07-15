@@ -20,7 +20,7 @@ const createUser = async (e: CognitoUserPoolTriggerEvent) => {
     id: e.userName,
     email: e.request.userAttributes['email'],
     name: e.request.userAttributes['name'],
-    icon: e.request.userAttributes['email'],
+    icon: e.request.userAttributes['picture'],
   };
 
   // ユーザ登録
