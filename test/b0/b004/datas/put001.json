@@ -1,0 +1,9 @@
+{
+  "TableName": "PocketCards_Groups",
+  "Item": {
+    "name": "GroupName102",
+    "description": "Group Description 102",
+    "id": "B004",
+    "userId": null
+  }
+}

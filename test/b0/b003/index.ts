@@ -4,7 +4,6 @@ import chaiHttp from 'chai-http';
 import server from '@app';
 import AWS from 'aws-sdk';
 import AWSMock from 'aws-sdk-mock';
-import { HEADER_AUTH } from '../../Commons';
 
 chai.use(chaiHttp);
 chai.use(chaiExclude);
