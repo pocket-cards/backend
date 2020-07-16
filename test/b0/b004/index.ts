@@ -38,3 +38,8 @@ describe('B004', () => {
     chai.expect(result.Item).to.be.deep.eq(require('./datas/res001.json'));
   });
 });
+
+afterEach(() => {
+  // mock clear
+  AWSMock.restore('DynamoDB.DocumentClient');
+});
