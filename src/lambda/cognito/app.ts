@@ -28,7 +28,7 @@ const createUser = async (e: CognitoUserPoolTriggerEvent) => {
     await db.put(put(item)).promise();
   } catch (e) {
     // 条件チェックエラーの場合、無視する
-    if (e.errorType === 'ConditionalCheckFailedException') {
+    if (e.code === 'ConditionalCheckFailedException') {
       return;
     }
 
