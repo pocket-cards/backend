@@ -5,6 +5,8 @@ let helper: Helper;
 export default () => {
   if (helper) return helper;
 
+  const loggerLevel = process.env.LOGGER_LEVEL ? process.env.LOGGER_LEVEL : 'info';
+
   helper = new Helper({
     options: {
       region: process.env.AWS_DEFAULT_REGION,
@@ -14,7 +16,7 @@ export default () => {
     },
     logger: {
       appenders: { console: { type: 'console' } },
-      categories: { default: { appenders: ['console'], level: process.env.LOGGER_LEVEL } },
+      categories: { default: { appenders: ['console'], level: loggerLevel } },
     },
   });
 
