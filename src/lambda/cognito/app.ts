@@ -24,7 +24,16 @@ const createUser = async (e: CognitoUserPoolTriggerEvent) => {
   };
 
   // ユーザ登録
-  await db.put(put(item)).promise();
+  try {
+    await db.put(put(item)).promise();
+  } catch (e) {
+    // 条件チェックエラーの場合、無視する
+    if (e.errorType === 'ConditionalCheckFailedException') {
+      return;
+    }
+
+    throw e;
+  }
 };
 
 /** データ更新 */
