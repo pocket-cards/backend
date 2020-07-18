@@ -29,11 +29,15 @@ jobs:
         with:
           node-version: 12.x
 
-      # Library install
+      # install libraries and build
       - name: install and build
         run: |
           yarn install
           yarn build
+
+      # execute test
+      - name: test
+        run: yarn coverage
 
       # zip folders
       - name: zip folder

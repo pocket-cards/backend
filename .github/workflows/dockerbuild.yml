@@ -1,83 +1,83 @@
-name: Testing
+# name: Testing
 
-on:
-  push:
-    branches:
-      - master
-    paths:
-      - docker/**
-      - .github/workflows/dockerbuild.yml
+# on:
+#   push:
+#     branches:
+#       - master
+#     paths:
+#       - docker/**
+#       - .github/workflows/dockerbuild.yml
 
-jobs:
-  # Docker Build
-  Build:
-    runs-on: ubuntu-latest
+# jobs:
+#   # Docker Build
+#   Build:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-northeast-1
+#     steps:
+#       - name: Configure AWS credentials
+#         uses: aws-actions/configure-aws-credentials@v1
+#         with:
+#           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#           aws-region: ap-northeast-1
 
-      # checkout
-      - uses: actions/checkout@master
+#       # checkout
+#       - uses: actions/checkout@master
 
-      # install nodejs
-      - uses: actions/setup-node@master
-        with:
-          node-version: 12.x
+#       # install nodejs
+#       - uses: actions/setup-node@master
+#         with:
+#           node-version: 12.x
 
-      # Library install
-      - name: install and build
-        working-directory: ./docker
-        run: |
-          yarn install
-          yarn build
+#       # Library install
+#       - name: install and build
+#         working-directory: ./docker
+#         run: |
+#           yarn install
+#           yarn build
 
-      # Login to ECR
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
+#       # Login to ECR
+#       - name: Login to Amazon ECR
+#         id: login-ecr
+#         uses: aws-actions/amazon-ecr-login@v1
 
-      # Push to ECR
-      - name: ECR Push
-        run: |
-          docker tag $ECR_REPOSITORY:latest $ECR_REGISTRY/$ECR_REPOSITORY:latest
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: pocket-cards/backend-testing
+#       # Push to ECR
+#       - name: ECR Push
+#         run: |
+#           docker tag $ECR_REPOSITORY:latest $ECR_REGISTRY/$ECR_REPOSITORY:latest
+#           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+#         env:
+#           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+#           ECR_REPOSITORY: pocket-cards/backend-testing
 
-  Slack:
-    needs:
-      - Build
+#   Slack:
+#     needs:
+#       - Build
 
-    runs-on: ubuntu-latest
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Slack Notify
-        uses: rtCamp/action-slack-notify@v2.0.1
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_CHANNEL: build
-          SLACK_TITLE: Backend Testing Build
-          SLACK_COLOR: '#43a047'
-          SLACK_MESSAGE: ${{ github.repository }} Build Success
-          SLACK_USERNAME: ${{ github.repository }}
+#     steps:
+#       - name: Slack Notify
+#         uses: rtCamp/action-slack-notify@v2.0.1
+#         env:
+#           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+#           SLACK_CHANNEL: build
+#           SLACK_TITLE: Backend Testing Build
+#           SLACK_COLOR: '#43a047'
+#           SLACK_MESSAGE: ${{ github.repository }} Build Success
+#           SLACK_USERNAME: ${{ github.repository }}
 
-  BuildFailed:
-    runs-on: ubuntu-latest
+#   BuildFailed:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Build Failed Notify
-        uses: rtCamp/action-slack-notify@v2.0.1
-        if: failure()
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_CHANNEL: build
-          SLACK_TITLE: Build Failed
-          SLACK_COLOR: '#43a047'
-          SLACK_MESSAGE: ${{ github.repository }} Build Failed...
-          SLACK_USERNAME: ${{ github.repository }}
+#     steps:
+#       - name: Build Failed Notify
+#         uses: rtCamp/action-slack-notify@v2.0.1
+#         if: failure()
+#         env:
+#           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+#           SLACK_CHANNEL: build
+#           SLACK_TITLE: Build Failed
+#           SLACK_COLOR: '#43a047'
+#           SLACK_MESSAGE: ${{ github.repository }} Build Failed...
+#           SLACK_USERNAME: ${{ github.repository }}
