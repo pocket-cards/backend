@@ -14,6 +14,8 @@ env:
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   AWS_DEFAULT_REGION: ap-northeast-1
+  PULUMI_VERSION: v2.6.1
+  PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
 
 jobs:
   Pulumi:
@@ -26,9 +28,8 @@ jobs:
       # stack update
       - uses: docker://pulumi/actions
         with:
-          args: up -e -y -p 100 -s dev-backend
+          args: up -e -y -p 100 --skip-preview -s dev-backend
         env:
-          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
           PULUMI_CI: up
           PULUMI_ROOT: pulumi
 
