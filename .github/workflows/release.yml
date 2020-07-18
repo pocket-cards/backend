@@ -32,6 +32,8 @@ jobs:
   # Docker Build
   Build:
     name: Build and deploy
+    needs:
+      - Pulumi
     runs-on: ubuntu-latest
 
     steps:
