@@ -21,7 +21,7 @@
     "docker:restart": "yarn docker:down && yarn docker:up",
     "docker:runtest": "docker run --rm -d -p 8080:8080/tcp --env-file ./.env pocket-cards/backend",
     "test:init": "ts-node -r dotenv/config test/initialize.ts",
-    "test": "ts-mocha -r tsconfig-paths/register -r dotenv/config test/b0/**/index.ts --exit --timeout 10000",
+    "test": "ts-mocha -r tsconfig-paths/register -r dotenv/config test/b0/**/index.ts --exit --timeout 30000",
     "debug": "ts-mocha -r tsconfig-paths/register -r dotenv/config test/**/index1.ts --exit --timeout 10000",
     "coverage": "nyc npm run test",
     "valid": "tsc --noEmit"
