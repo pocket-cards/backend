@@ -46,9 +46,9 @@ app.get('/groups/:groupId/review', express.json(), (req, res) => entry(req, res,
 // 画像から単語に変換する
 app.post('/image2text', express.json(), (req, res) => entry(req, res, D001));
 
-app.listen(process.env.PORT || 8080, () => {
+app.listen(process.env.EXPOSE_PORT || 8080, () => {
   console.log('Started...');
-  console.log('Port: ', process.env.PORT || 8080);
+  console.log('Port: ', process.env.EXPOSE_PORT || 8080);
 });
 
 console.log(process.env);
