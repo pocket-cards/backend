@@ -36,8 +36,15 @@ jobs:
           yarn build
 
       # execute test
-      - name: test
+      - name: run test
         run: yarn coverage
+
+      # upload coverage report
+      - name: upload coverage report
+        uses: actions/upload-artifact@v1
+        with:
+          name: coverage
+          path: coverage
 
       # zip folders
       - name: zip folder
