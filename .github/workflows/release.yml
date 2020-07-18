@@ -4,6 +4,8 @@ on:
   release:
     types:
       - created
+      - edited
+      - published
 
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.PROD_AWS_ACCESS_KEY_ID }}
