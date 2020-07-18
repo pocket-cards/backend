@@ -12,7 +12,7 @@ chai.use(chaiHttp);
 chai.use(chaiExclude);
 chai.should();
 
-describe.skip('B005', () => {
+describe('B005', () => {
   it('Case001', async () => {
     // mock prepare
     AWSMock.mock('DynamoDB.DocumentClient', 'delete', (params: AWS.DynamoDB.DocumentClient.DeleteItemInput, callback: any) => {
