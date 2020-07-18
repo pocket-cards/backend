@@ -1,0 +1,126 @@
+name: Backend
+
+on:
+  release:
+    types:
+      - created
+
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.PROD_AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.PROD_AWS_SECRET_ACCESS_KEY }}
+  AWS_DEFAULT_REGION: ap-northeast-1
+
+jobs:
+  # Docker Build
+  Build:
+    name: Build and deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      # checkout
+      - uses: actions/checkout@master
+
+      # install nodejs
+      - uses: actions/setup-node@master
+        with:
+          node-version: 12.x
+
+      # install libraries and build
+      - name: install and build
+        run: |
+          yarn install
+          yarn build
+
+      # execute test
+      - name: run test
+        run: yarn coverage
+
+      # upload coverage report
+      - name: upload coverage report
+        uses: actions/upload-artifact@v1
+        with:
+          name: coverage
+          path: coverage
+
+      # zip folders
+      - name: zip folder
+        working-directory: build/lambda
+        run: |
+          zip -r -j start start/**
+          zip -r -j stop stop/**
+          zip -r -j status status/**
+          zip -r -j cognito cognito/**
+
+      # Lambda Deploy
+      - uses: docker://amazon/aws-cli
+        with:
+          args: lambda update-function-code --function-name PocketCards_ECS_Start --zip fileb://./build/lambda/start.zip
+
+      - uses: docker://amazon/aws-cli
+        with:
+          args: lambda update-function-code --function-name PocketCards_ECS_Stop --zip fileb://./build/lambda/stop.zip
+
+      - uses: docker://amazon/aws-cli
+        with:
+          args: lambda update-function-code --function-name PocketCards_ECS_Status --zip fileb://./build/lambda/status.zip
+
+      - uses: docker://amazon/aws-cli
+        with:
+          args: lambda update-function-code --function-name PocketCards_Cognito --zip fileb://./build/lambda/cognito.zip
+
+      # ECR Deploy
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-1
+
+      # Login to ECR
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      # Push to ECR
+      - name: ECR Push
+        run: |
+          docker tag $ECR_REPOSITORY:latest $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: pocket-cards/backend
+
+  Slack:
+    needs:
+      - Build
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Slack Notify
+        uses: rtCamp/action-slack-notify@v2.0.1
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_CHANNEL: build
+          SLACK_TITLE: Backend Release
+          SLACK_COLOR: '#43a047'
+          SLACK_MESSAGE: ${{ github.repository }} Release Success
+          SLACK_USERNAME: ${{ github.repository }}
+
+  BuildFailed:
+    needs:
+      - Build
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build Failed Notify
+        uses: rtCamp/action-slack-notify@v2.0.1
+        if: failure()
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_CHANNEL: build
+          SLACK_TITLE: Release Failed
+          SLACK_COLOR: '#43a047'
+          SLACK_MESSAGE: ${{ github.repository }} Release Failed...
+          SLACK_USERNAME: ${{ github.repository }}
