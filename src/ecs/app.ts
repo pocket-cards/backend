@@ -8,7 +8,6 @@ import entry from './entry';
 
 const app = express();
 
-app.use(cors());
 app.use((req: Request, res: Response, next: NextFunction) => {
   console.info(`${req.method} ${req.originalUrl}`);
   console.info('Headers', JSON.stringify(req.headers));
@@ -16,6 +15,8 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
   next();
 });
+
+app.use(cors());
 
 // health check
 app.get('/', (_, res) => res.send('v3.1.0'));
@@ -53,4 +54,12 @@ app.listen(process.env.EXPOSE_PORT || 8080, () => {
 
 console.log(process.env);
 
-export default app;
+// (async () => {
+//   const ngrok = require('ngrok');
+
+//   const url = await ngrok.connect(8080);
+
+//   console.log(url);
+// })();
+
+// export default app;
