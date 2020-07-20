@@ -6,6 +6,7 @@ ENV EXPOSE_PORT=80
 # Output Port
 EXPOSE ${EXPOSE_PORT}
 
+# source folder
 WORKDIR /usr/local/src
 
 # 既存データ
