@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - master
-    paths:
-      - .github/workflow/build.yml
     paths-ignore:
       - docker/**
       - pulumi/**
