@@ -1,0 +1,32 @@
+[
+  {
+    "id": "B002-1",
+    "userId": "B002",
+    "name": "GroupName001",
+    "description": "Group Description 001"
+  },
+  {
+    "id": "B002-2",
+    "userId": "B002",
+    "name": "GroupName002",
+    "description": "Group Description 002"
+  },
+  {
+    "id": "B003",
+    "userId": "B003",
+    "name": "GroupName001",
+    "description": "Group Description 001"
+  },
+  {
+    "id": "B004",
+    "userId": "B004",
+    "name": "GroupName001",
+    "description": "Group Description 001"
+  },
+  {
+    "id": "B005",
+    "userId": "B005",
+    "name": "GroupName001",
+    "description": "Group Description 001"
+  }
+]

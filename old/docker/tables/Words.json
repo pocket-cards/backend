@@ -1,0 +1,54 @@
+{
+  "TableName": "PocketCards_Words",
+  "KeySchema": [
+    {
+      "AttributeName": "id",
+      "KeyType": "HASH"
+    },
+    {
+      "AttributeName": "groupId",
+      "KeyType": "RANGE"
+    }
+  ],
+  "AttributeDefinitions": [
+    {
+      "AttributeName": "id",
+      "AttributeType": "S"
+    },
+    {
+      "AttributeName": "groupId",
+      "AttributeType": "S"
+    },
+    {
+      "AttributeName": "nextTime",
+      "AttributeType": "S"
+    }
+  ],
+  "BillingMode": "PROVISIONED",
+  "ProvisionedThroughput": {
+    "ReadCapacityUnits": 1000,
+    "WriteCapacityUnits": 1000
+  },
+  "GlobalSecondaryIndexes": [
+    {
+      "IndexName": "gsi1",
+      "KeySchema": [
+        {
+          "AttributeName": "groupId",
+          "KeyType": "HASH"
+        },
+        {
+          "AttributeName": "nextTime",
+          "KeyType": "RANGE"
+        }
+      ],
+      "Projection": {
+        "ProjectionType": "ALL"
+      },
+      "ProvisionedThroughput": {
+        "ReadCapacityUnits": 1000,
+        "WriteCapacityUnits": 1000
+      }
+    }
+  ]
+}
