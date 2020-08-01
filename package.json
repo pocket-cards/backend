@@ -47,13 +47,16 @@
     ],
     "execMap": {
       "ts": "ts-node -r tsconfig-paths/register -r dotenv/config"
+    },
+    "events": {
+      "crash": "sh -c 'lsof -i :${PORT:-8080} -t | xargs kill'"
     }
   },
   "dependencies": {
     "aws-sdk": "^2.713.0",
     "axios": "^0.19.0",
+    "body-parser": "^1.19.0",
     "cors": "^2.8.5",
-    "cross-env": "^7.0.2",
     "dynamodb-helper": "https://github.com/wwalpha/dynamodb-helper.git",
     "express": "^4.17.1",
     "lodash": "^4.17.19",
@@ -80,6 +83,7 @@
     "chai-http": "^4.3.0",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^6.0.3",
+    "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
     "dotenv-webpack": "^2.0.0",
     "glob": "^7.1.6",

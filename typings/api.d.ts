@@ -189,8 +189,8 @@ export interface C008Response {
 // D001
 // ------------------------------
 export interface D001Request {
-  type: string;
-  image: string;
+  content: string;
+  language?: string;
 }
 
 export interface D001Response {

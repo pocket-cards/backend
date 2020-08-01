@@ -49,10 +49,5 @@ export const getSSMValue = async (key: string) => {
     throw new Error('Can not get parameters.');
   }
 
-  if (process.env.ENVIRONMENT === 'local') {
-    const datas = result.Parameter.Value.split(':');
-    return datas[datas.length - 1];
-  }
-
   return result.Parameter.Value;
 };

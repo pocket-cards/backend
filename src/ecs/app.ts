@@ -1,5 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
+import BodyParser from 'body-parser';
 import { B001, B002, B003, B004, B005 } from '@src/b0';
 import { C001, C003, C005, C006, C007, C008 } from '@src/c0';
 import { D001 } from '@src/d0';
@@ -10,12 +11,14 @@ const app = express();
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   console.info(`${req.method} ${req.originalUrl}`);
-  console.info('Headers', JSON.stringify(req.headers));
-  console.info('Body', JSON.stringify(req.body));
+  // console.info('Headers', JSON.stringify(req.headers));
+  // console.info('Body', JSON.stringify(req.body));
 
   next();
 });
 
+app.use(BodyParser.json({ limit: '50mb' }));
+app.use(BodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
 // health check

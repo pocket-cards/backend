@@ -4,9 +4,6 @@ import { Callback } from 'typings/api';
 
 export default async (req: Request, res: Response, callback: Callback) => {
   // イベントログ;
-  Logger.info(req.headers);
-  Logger.info(req.body);
-
   try {
     // 認証
     // await validate(event);
