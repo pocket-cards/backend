@@ -13,9 +13,7 @@ let ssmClient: SSM;
 let lambdaClient: Lambda;
 
 /** Dynamodb Client初期化 */
-export const dynamoDB = (
-  options?: DynamoDB.DocumentClient.DocumentClientOptions & DynamoDB.Types.ClientConfiguration
-): DynamoDB.DocumentClient => {
+export const dynamoDB = (options?: DynamoDB.DocumentClient.DocumentClientOptions & DynamoDB.Types.ClientConfiguration): DynamoDB.DocumentClient => {
   // 初期化済
   if (dynamoDBClient) return dynamoDBClient;
 
@@ -79,7 +77,9 @@ export const ssm = (options?: SSM.ClientConfiguration): SSM => {
   if (options) return new AWS.SSM(options);
 
   // 初期化設定なし
-  return new AWS.SSM();
+  return new AWS.SSM({
+    region: process.env.DEFAULT_REGION,
+  });
 };
 
 export const lambda = (options?: Lambda.ClientConfiguration): Lambda => {
