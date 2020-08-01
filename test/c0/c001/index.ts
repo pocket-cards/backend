@@ -2,55 +2,78 @@ import chai from 'chai';
 import chaiExclude from 'chai-exclude';
 import chaiHttp from 'chai-http';
 import server from '@app';
-import { DBHelper, ClientUtils } from '@utils';
-import { WordMaster } from '@queries';
-import { C001Request } from 'typings/api';
+import AWS from 'aws-sdk';
+import AWSMock from 'aws-sdk-mock';
+import { HEADER_AUTH } from 'test/Commons';
 
 chai.use(chaiHttp);
 chai.use(chaiExclude);
 chai.should();
 
 describe('C001', () => {
-  it('Case001', async () => {
-    const URL = '/groups/C001/words';
-    const res = await chai
-      .request(server)
-      .post(URL)
-      .set('authorization', 'C001')
-      .send({
-        words: ['WORD-1', 'Japan', 'China'],
-      } as C001Request);
+  const URL = '/groups/group001/words';
 
+  it('Case001', async () => {
+    AWSMock.mock('DynamoDB.DocumentClient', 'put', (params: any, callback: any) => {
+      console.log(params);
+      callback(null, 'success');
+    });
+
+    AWSMock.mock('DynamoDB.DocumentClient', 'get', (params: AWS.DynamoDB.DocumentClient.GetItemInput, callback: any) => {
+      console.log(params);
+
+      let data = {};
+
+      if (params.Key.id === 'first' || params.Key.id === 'your') {
+        data = {
+          Item: {
+            id: params.Key.id,
+          },
+        };
+      }
+
+      callback(null, data);
+    });
+
+    // request
+    const req = require('./datas/req001.json');
+    const res = await chai.request(server).post(URL).set('authorization', HEADER_AUTH).send(req);
+
+    // response status
     chai.expect(res.status).to.be.eq(200);
 
-    // data regist
-    const words = [];
-    words.push((await DBHelper().get(WordMaster.get('Japan'))).Item);
-    words.push((await DBHelper().get(WordMaster.get('China'))).Item);
-
-    chai.expect(words).excluding('mp3').to.be.deep.eq(require('./datas/res001.json'));
-
-    // s3 file exists
-    const s3Ret = await ClientUtils.s3()
-      .listObjectsV2({
-        Bucket: process.env.MP3_BUCKET as string,
-      })
-      .promise();
-
-    const objectKeys = s3Ret.Contents.map((item) => item.Key);
-    chai.expect(objectKeys).to.include.members(words.map((item) => item.mp3));
+    AWSMock.restore();
   });
 
   it('Case002', async () => {
-    const URL = '/groups/C001/words';
-    const res = await chai
-      .request(server)
-      .post(URL)
-      .set('authorization', 'C001')
-      .send({
-        words: ['WORD-1', 'WORD-2', 'WORD-3'],
-      } as C001Request);
+    AWSMock.mock('DynamoDB.DocumentClient', 'put', (params: any, callback: any) => {
+      console.log(params);
+      callback(null, 'success');
+    });
 
+    AWSMock.mock('DynamoDB.DocumentClient', 'get', (params: AWS.DynamoDB.DocumentClient.GetItemInput, callback: any) => {
+      console.log(params);
+
+      let data = {};
+
+      if (params.Key.id === 'first' || params.Key.id === 'your') {
+        data = {
+          Item: {
+            id: params.Key.id,
+          },
+        };
+      }
+
+      callback(null, data);
+    });
+
+    // request
+    const req = require('./datas/req002.json');
+    const res = await chai.request(server).post(URL).set('authorization', HEADER_AUTH).send(req);
+
+    // response status
     chai.expect(res.status).to.be.eq(200);
+
+    AWSMock.restore();
   });
 });
