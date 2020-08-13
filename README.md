@@ -11,7 +11,7 @@
 |                | /groups/{groupId}              | PUT         | B004        | グループ情報変更         | ✓           |
 |                | /groups/{groupId}              | DELETE      | B005        | グループ情報削除         | ✓           |
 |                | /groups/{groupId}/words        | POST        | C001        | 単語一括登録             | ✓           |
-|                | /groups/{groupId}/words/{word} | GET         | C003        | 単語情報取得             |
+|                | /groups/{groupId}/words/{word} | GET         | C003        | 単語情報取得             | ✓           |
 |                | /groups/{groupId}/words/{word} | PUT         | C004        | 単語情報更新             |
 |                | /groups/{groupId}/words/{word} | DELETE      | C005        | 単語情報削除             |
 |                | /groups/{groupId}/new          | GET         | C006        | 新規学習モード単語一覧   |
