@@ -113,9 +113,11 @@ export interface C001Response {}
 // ------------------------------
 // C002
 // ------------------------------
-export interface C002Response {
-  word: string;
+export interface C002Params extends ParamsDictionary {
+  groupId: string;
 }
+
+export type C002Response = string[];
 
 // ------------------------------
 // C003

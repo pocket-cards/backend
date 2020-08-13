@@ -2,7 +2,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import BodyParser from 'body-parser';
 import { B001, B002, B003, B004, B005 } from '@src/b0';
-import { C001, C003, C005, C006, C007, C008 } from '@src/c0';
+import { C001, C002, C003, C005, C006, C007, C008 } from '@src/c0';
 import { D001 } from '@src/d0';
 
 import entry from './entry';
@@ -35,6 +35,8 @@ app.put('/groups/:groupId', express.json(), (req, res) => entry(req, res, B004))
 app.delete('/groups/:groupId', express.json(), (req, res) => entry(req, res, B005));
 // 単語一括登録
 app.post('/groups/:groupId/words', express.json(), (req, res) => entry(req, res, C001));
+// 単語一括取得
+app.get('/groups/:groupId/words', express.json(), (req, res) => entry(req, res, C002));
 // 単語情報取得
 app.get('/groups/:groupId/words/:word', express.json(), (req, res) => entry(req, res, C003));
 // 単語情報更新

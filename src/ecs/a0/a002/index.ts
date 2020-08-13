@@ -67,7 +67,7 @@ const queryRemaining = async (userId: string) => {
     const groupId = (userInfo.Items[idx] as TGroups).id;
 
     // 件数検索
-    let result = await DBHelper().query(Words.query.queryByGroupId01(groupId, DateUtils.getNow()));
+    let result = await DBHelper().query(Words.query.queryByDate(groupId, DateUtils.getNow()));
 
     // 検索成功の場合
     if (result.Count) {

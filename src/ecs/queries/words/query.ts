@@ -4,7 +4,7 @@ import { Environment } from '@consts';
 /**
  * 日付ごとの単語量を計算する
  */
-export const queryByGroupId01 = (groupId: string, nextTime: string): DynamoDB.DocumentClient.QueryInput => ({
+export const queryByDate = (groupId: string, nextTime: string): DynamoDB.DocumentClient.QueryInput => ({
   TableName: Environment.TABLE_WORDS,
   ProjectionExpression: 'word',
   KeyConditionExpression: '#id = :id and #nextTime = :nextTime',
@@ -57,7 +57,7 @@ export const lastStudyDate = (groupId: string): DynamoDB.DocumentClient.QueryInp
 });
 
 /** 単語一覧 */
-export const wordList = (groupId: string): DynamoDB.DocumentClient.QueryInput => ({
+export const listByGroup = (groupId: string): DynamoDB.DocumentClient.QueryInput => ({
   TableName: Environment.TABLE_WORDS,
   KeyConditionExpression: '#groupId = :groupId',
   ExpressionAttributeNames: {

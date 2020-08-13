@@ -10,8 +10,14 @@ chai.use(chaiHttp);
 chai.use(chaiExclude);
 chai.should();
 
+AWSMock.setSDKInstance(AWS);
+
 describe('C001', () => {
   const URL = '/groups/group001/words';
+
+  afterEach(() => {
+    AWSMock.restore('DynamoDB.DocumentClient');
+  });
 
   it('Case001', async () => {
     AWSMock.mock('DynamoDB.DocumentClient', 'put', (params: any, callback: any) => {
@@ -41,8 +47,6 @@ describe('C001', () => {
 
     // response status
     chai.expect(res.status).to.be.eq(200);
-
-    AWSMock.restore();
   });
 
   it('Case002', async () => {
@@ -73,7 +77,5 @@ describe('C001', () => {
 
     // response status
     chai.expect(res.status).to.be.eq(200);
-
-    AWSMock.restore();
   });
 });
