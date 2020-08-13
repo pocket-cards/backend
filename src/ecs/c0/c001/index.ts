@@ -5,8 +5,8 @@ import registWords from './lib/registWords';
 import checkDictExists from './lib/checkDictExists';
 import registDictionary from './lib/registDictionary';
 
-export default async (req: Request): Promise<void> => {
-  const input = req.body as C001Request;
+export default async (req: Request<any, any, C001Request, any>): Promise<void> => {
+  const input = req.body;
   const groupId = req.params['groupId'];
 
   // Wordsのデータ登録

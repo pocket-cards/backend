@@ -12,6 +12,8 @@ chai.use(chaiExclude);
 chai.should();
 
 describe('B004', () => {
+  AWSMock.setSDKInstance(AWS);
+
   it('Case001', async () => {
     // mock prepare
     AWSMock.mock('DynamoDB.DocumentClient', 'put', (params: AWS.DynamoDB.DocumentClient.PutItemInput, callback: any) => {

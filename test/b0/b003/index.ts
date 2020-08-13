@@ -10,19 +10,17 @@ chai.use(chaiExclude);
 chai.should();
 
 describe('B003', () => {
+  AWSMock.setSDKInstance(AWS);
+
   it('Case001', async () => {
     // mock prepare
-    AWSMock.mock(
-      'DynamoDB.DocumentClient',
-      'get',
-      (params: AWS.DynamoDB.DocumentClient.GetItemInput, callback: any) => {
-        const output: AWS.DynamoDB.DocumentClient.GetItemOutput = {
-          Item: require('./datas/db001.json'),
-        };
+    AWSMock.mock('DynamoDB.DocumentClient', 'get', (params: AWS.DynamoDB.DocumentClient.GetItemInput, callback: any) => {
+      const output: AWS.DynamoDB.DocumentClient.GetItemOutput = {
+        Item: require('./datas/db001.json'),
+      };
 
-        callback(null, output);
-      }
-    );
+      callback(null, output);
+    });
 
     const URL = '/groups/B003';
     const res = await chai.request(server).get(URL).set('authorization', 'B003').send();

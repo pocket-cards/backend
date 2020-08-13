@@ -13,6 +13,8 @@ chai.should();
 describe('B002', () => {
   const URL = '/groups';
 
+  AWSMock.setSDKInstance(AWS);
+
   it('Case001: Get List Success', async () => {
     // mock prepare
     AWSMock.mock('DynamoDB.DocumentClient', 'query', (params: AWS.DynamoDB.DocumentClient.QueryInput, callback: any) => {

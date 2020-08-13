@@ -1,5 +1,6 @@
 import { TGroups, TWords } from './tables';
 import { Request } from 'express';
+import { ParamsDictionary } from 'express-serve-static-core';
 
 // ------------------------------
 // Common
@@ -119,7 +120,7 @@ export interface C002Response {
 // ------------------------------
 // C003
 // ------------------------------
-export interface C003Params {
+export interface C003Params extends ParamsDictionary {
   groupId: string;
   word: string;
 }
