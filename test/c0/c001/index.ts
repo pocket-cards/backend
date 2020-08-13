@@ -19,7 +19,7 @@ describe('C001', () => {
     AWSMock.restore('DynamoDB.DocumentClient');
   });
 
-  it('Case001', async () => {
+  it.skip('Case001', async () => {
     AWSMock.mock('DynamoDB.DocumentClient', 'put', (params: any, callback: any) => {
       console.log(params);
       callback(null, 'success');
