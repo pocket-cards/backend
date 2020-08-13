@@ -1,21 +1,16 @@
 import { Request } from 'express';
-import { D001Response, D001Request } from 'typings/api';
 import Axios, { AxiosResponse } from 'axios';
+import { Environment } from '@consts';
 import { VisionRequest, VisionResponse } from 'typings/types';
-import { Commons } from '@src/utils';
+import { D001Response, D001Request } from 'typings/api';
 
-let visionUrl: string | undefined;
-let visionApiKey: string | undefined;
+const visionUrl = Environment.VISION_URL;
+const visionApiKey = Environment.VISION_API_KEY;
 
 export default async (req: Request<any, any, D001Request, any>): Promise<D001Response> => {
   const input = req.body;
 
-  // check api key
-  if (!visionApiKey || !visionUrl) {
-    visionUrl = await Commons.getSSMValue(process.env.VISION_URL as string);
-    visionApiKey = await Commons.getSSMValue(process.env.VISION_API_KEY as string);
-  }
-
+  console.log(visionUrl, visionApiKey);
   // get image words
   const res = await Axios.post<VisionRequest, AxiosResponse<VisionResponse>>(`${visionUrl}/image2words?key=${visionApiKey}`, {
     content: input.content,

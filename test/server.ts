@@ -12,6 +12,12 @@ app.post('/image2words', express.json(), (req, res) => {
   res.send(['First', 'Things', 'Lesson', 'Excuse', 'your', 'possessive', 'adjective', 'handbag', 'very', 'much', 'this', 'book', 'watch', 'dress', 'shirt']);
 });
 
+app.get('/ipa', express.json(), (req, res) => {
+  const word = req.query['word'];
+
+  res.send({});
+});
+
 app.use((req: Request, res: Response, next: NextFunction) => {
   console.info(`${req.method} ${req.originalUrl}`);
 

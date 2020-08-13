@@ -1,24 +1,16 @@
 import { Polly, S3 } from 'aws-sdk';
 import axios from 'axios';
 import * as short from 'short-uuid';
-import { DBHelper, ClientUtils, DateUtils, Logger, Commons } from '@utils';
+import { DBHelper, ClientUtils, DateUtils, Logger } from '@utils';
 import { WordMaster } from '@queries';
 import { Environment } from '@consts';
 
-let pronounceKey: string | undefined;
-let translateKey: string | undefined;
+const pronounceKey = Environment.IPA_API_KEY;
+const translateKey = Environment.TRANSLATION_API_KEY;
 
 export default async (words: string[]) => {
-  // API Key 初期化
-  if (!pronounceKey || !translateKey) {
-    pronounceKey = await Commons.getSSMValue(Environment.IPA_API_KEY);
-    translateKey = await Commons.getSSMValue(Environment.TRANSLATION_API_KEY);
-  }
-
   // 単語登録用の情報を収集する
-  const tasks = words.map((item) =>
-    Promise.all([getPronounce(item), saveWithMP3(item), getTranslate(item, 'zh'), getTranslate(item, 'ja')])
-  );
+  const tasks = words.map((item) => Promise.all([getPronounce(item), saveWithMP3(item), getTranslate(item, 'zh'), getTranslate(item, 'ja')]));
 
   const result = await Promise.all(tasks);
 

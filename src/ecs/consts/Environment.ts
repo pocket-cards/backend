@@ -11,6 +11,8 @@ export const MP3_BUCKET = process.env.MP3_BUCKET as string;
 export const PATH_PATTERN = process.env.PATH_PATTERN as string;
 export const TRANSLATION_URL = process.env.TRANSLATION_URL as string;
 export const TRANSLATION_API_KEY = process.env.TRANSLATION_API_KEY as string;
+export const VISION_URL = process.env.VISION_URL as string;
+export const VISION_API_KEY = process.env.VISION_API_KEY as string;
 
 // 最大単語数、default 10件
 export const WORDS_LIMIT = process.env.WORDS_LIMIT ? Number(process.env.WORDS_LIMIT) : 10;

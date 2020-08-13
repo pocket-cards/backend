@@ -5,6 +5,7 @@ import server from '@app';
 import AWS from 'aws-sdk';
 import AWSMock from 'aws-sdk-mock';
 import { HEADER_AUTH } from '@test/Commons';
+import App from '@test/server';
 
 chai.use(chaiHttp);
 chai.use(chaiExclude);
@@ -14,6 +15,14 @@ AWSMock.setSDKInstance(AWS);
 
 describe('C001', () => {
   const URL = '/groups/group001/words';
+
+  before(() => {
+    App.listen(9001, () => console.log('test server started...'));
+  });
+
+  after(() => {
+    App.removeAllListeners();
+  });
 
   afterEach(() => {
     AWSMock.restore('DynamoDB.DocumentClient');
