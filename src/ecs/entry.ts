@@ -11,12 +11,12 @@ export default async (req: Request, res: Response, callback: Callback) => {
     const result = await callback(req);
 
     // 本処理結果
-    Logger.info(result);
+    console.log(result);
 
     res.status(200).send(result);
   } catch (error) {
     // エラーログ
-    Logger.error(JSON.stringify(error));
+    console.log(error);
 
     res.status(500).send(error);
   }
