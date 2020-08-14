@@ -16,7 +16,7 @@ export default async (req: Request, res: Response, callback: Callback) => {
     res.status(200).send(result);
   } catch (error) {
     // エラーログ
-    Logger.error(error);
+    Logger.error(JSON.stringify(error));
 
     res.status(500).send(error);
   }
