@@ -68,7 +68,6 @@ export const listByGroup = (groupId: string): DynamoDB.DocumentClient.QueryInput
   },
   ScanIndexForward: false,
   IndexName: 'gsi1',
-  Limit: 10,
 });
 
 /**
