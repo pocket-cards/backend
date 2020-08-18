@@ -168,7 +168,7 @@ export interface C006Response {
 // ------------------------------------------------------------
 // C007
 // ------------------------------------------------------------
-export interface C007Params {
+export interface C007Params extends ParamsDictionary {
   groupId: string;
 }
 

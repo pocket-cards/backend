@@ -1,0 +1,71 @@
+{
+  "Count": 11,
+  "Items": [
+    {
+      "id": "WORD-1",
+      "groupId": "C006",
+      "nextTime": "20200818",
+      "times": 0
+    },
+    {
+      "id": "WORD-2",
+      "groupId": "C006",
+      "nextTime": "20200818",
+      "times": 0
+    },
+    {
+      "id": "WORD-3",
+      "groupId": "C006",
+      "nextTime": "20200818",
+      "times": 0
+    },
+    {
+      "id": "WORD-4",
+      "groupId": "C006",
+      "nextTime": "20200818",
+      "times": 0
+    },
+    {
+      "id": "WORD-5",
+      "groupId": "C006",
+      "nextTime": "20200818",
+      "times": 0
+    },
+    {
+      "id": "WORD-6",
+      "groupId": "C006",
+      "nextTime": "20200818",
+      "times": 0
+    },
+    {
+      "id": "WORD-7",
+      "groupId": "C006",
+      "nextTime": "20200818",
+      "times": 0
+    },
+    {
+      "id": "WORD-8",
+      "groupId": "C006",
+      "nextTime": "20200818",
+      "times": 0
+    },
+    {
+      "id": "WORD-9",
+      "groupId": "C006",
+      "nextTime": "20200818",
+      "times": 0
+    },
+    {
+      "id": "WORD-10",
+      "groupId": "C006",
+      "nextTime": "20200818",
+      "times": 0
+    },
+    {
+      "id": "WORD-11",
+      "groupId": "C006",
+      "nextTime": "20200818",
+      "times": 0
+    }
+  ]
+}

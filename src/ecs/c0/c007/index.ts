@@ -6,9 +6,8 @@ import { Words, WordMaster } from '@queries';
 import { TWordMaster, TWords } from 'typings/tables';
 import { C007Response, WordItem, C007Params } from 'typings/api';
 
-export default async (req: Request): Promise<C007Response> => {
-  const params = (req.params as unknown) as C007Params;
-  const groupId = params.groupId;
+export default async (req: Request<C007Params, any, any, any>): Promise<C007Response> => {
+  const groupId = req.params.groupId;
 
   // テスト単語一覧を取得する
   const queryResult = await DBHelper().query(Words.query.test(groupId, DateUtils.getNow()));
