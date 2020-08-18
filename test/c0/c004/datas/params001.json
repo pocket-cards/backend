@@ -1,0 +1,18 @@
+{
+  "TableName": "PocketCards_Words",
+  "Key": {
+    "id": "WORD-4",
+    "groupId": "C004"
+  },
+  "UpdateExpression": "set #times = :times, #lastTime = :lastTime, #nextTime = :nextTime",
+  "ExpressionAttributeNames": {
+    "#times": "times",
+    "#lastTime": "lastTime",
+    "#nextTime": "nextTime"
+  },
+  "ExpressionAttributeValues": {
+    ":times": 2,
+    ":lastTime": "20200818",
+    ":nextTime": "20200819"
+  }
+}

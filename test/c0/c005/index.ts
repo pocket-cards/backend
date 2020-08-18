@@ -12,7 +12,7 @@ AWSMock.setSDKInstance(AWS);
 
 describe('C005', () => {
   it('Case001', async () => {
-    AWSMock.mock('DynamoDB.DocumentClient', 'delete', (params: any, callback: any) => {
+    AWSMock.mock('DynamoDB.DocumentClient', 'delete', (params: AWS.DynamoDB.DocumentClient.DeleteItemInput, callback: any) => {
       chai.expect(require('./datas/input001.json')).to.be.deep.eq(params);
 
       callback(null, 'success');
