@@ -1,4 +1,10 @@
 [
-  "C002-1",
-  "C002-2"
+  {
+    "vocabulary": "中国",
+    "word": "china"
+  },
+  {
+    "vocabulary": "米国",
+    "word": "america"
+  }
 ]

@@ -13,11 +13,11 @@
 |                | /groups/{groupId}/words        | POST        | C001        | 単語一括登録             | ✓           |
 |                | /groups/{groupId}/words        | GET         | C002        | 単語一覧取得             | ✓           |
 |                | /groups/{groupId}/words/{word} | GET         | C003        | 単語情報取得             | ✓           |
-|                | /groups/{groupId}/words/{word} | PUT         | C004        | 単語情報更新             |
-|                | /groups/{groupId}/words/{word} | DELETE      | C005        | 単語情報削除             |
-|                | /groups/{groupId}/new          | GET         | C006        | 新規学習モード単語一覧   |
-|                | /groups/{groupId}/test         | GET         | C007        | テストモード単語一覧     |
-|                | /groups/{groupId}/review       | GET         | C008        | 復習モード単語一覧       |
+|                | /groups/{groupId}/words/{word} | PUT         | C004        | 単語情報更新             | ✓           |
+|                | /groups/{groupId}/words/{word} | DELETE      | C005        | 単語情報削除             | ✓           |
+|                | /groups/{groupId}/new          | GET         | C006        | 新規学習モード単語一覧   | ✓           |
+|                | /groups/{groupId}/test         | GET         | C007        | テストモード単語一覧     | ✓           |
+|                | /groups/{groupId}/review       | GET         | C008        | 復習モード単語一覧       | ✓           |
 |                | /image2text                    | POST        | D001        | 画像から単語に変換する   | ✓           |
 |                | /image2line                    | POST        | D002        | 画像から行に変換する     |
 |                | Cognito Sync Trigger           |             | S002        |                          |

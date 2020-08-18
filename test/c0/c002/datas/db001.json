@@ -1,13 +1,13 @@
 [
   {
-    "id": "C002-1",
+    "id": "china",
     "groupId": "C002",
     "nextTime": "20190402",
     "lastTime": "20190401",
     "times": 0
   },
   {
-    "id": "C002-2",
+    "id": "america",
     "groupId": "C002",
     "nextTime": "20190404",
     "lastTime": "20190403",

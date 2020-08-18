@@ -1,0 +1,10 @@
+{
+  "china": {
+    "id": "china",
+    "vocJpn": "中国"
+  },
+  "america": {
+    "id": "america",
+    "vocJpn": "米国"
+  }
+}

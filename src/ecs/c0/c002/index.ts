@@ -1,8 +1,8 @@
 import { Request } from 'express';
 import { DBHelper } from '@utils';
-import { Words } from '@queries';
-import { C002Response, C002Params } from 'typings/api';
-import { TWords } from 'typings/tables';
+import { Words, WordMaster } from '@queries';
+import { C002Response, C002Params, C002ResItem } from 'typings/api';
+import { TWords, TWordMaster } from 'typings/tables';
 
 export default async (req: Request<C002Params, any, any, any>): Promise<C002Response> => {
   const groupId = req.params.groupId;
@@ -14,6 +14,17 @@ export default async (req: Request<C002Params, any, any, any>): Promise<C002Resp
     return [] as C002Response;
   }
 
+  const tasks = queryResult.Items.map((item) => DBHelper().get(WordMaster.get((item as TWords).id)));
+
+  const results = await Promise.all(tasks);
+
   // 戻り値に変換する
-  return queryResult.Items.map((item) => (item as TWords).id);
+  return results.map((item) => {
+    const t = item.Item as TWordMaster;
+
+    return {
+      word: t.id,
+      vocabulary: t.vocJpn,
+    } as C002ResItem;
+  });
 };

@@ -117,7 +117,12 @@ export interface C002Params extends ParamsDictionary {
   groupId: string;
 }
 
-export type C002Response = string[];
+export interface C002ResItem {
+  word: string;
+  vocabulary?: string;
+}
+
+export type C002Response = C002ResItem[];
 
 // ------------------------------------------------------------
 // C003
