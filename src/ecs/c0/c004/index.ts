@@ -9,7 +9,7 @@ export default async (req: Request<C004Params, any, C004Request, any>): Promise<
 
   // 正解の場合
   const times = input.correct ? input.times + 1 : 0;
-  const nextTime = input.correct ? DateUtils.getNextTime(input.times) : DateUtils.getNextTime(0);
+  const nextTime = input.correct ? DateUtils.getNextTime(times) : DateUtils.getNextTime(0);
 
   // 単語学習情報更新
   await DBHelper().update(
