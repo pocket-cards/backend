@@ -132,14 +132,13 @@ export type C003Response = TWords;
 // ------------------------------------------------------------
 // C004
 // ------------------------------------------------------------
-export interface C004Params {
+export interface C004Params extends ParamsDictionary {
   groupId: string;
   word: string;
 }
 
 export interface C004Request {
-  nextTime: string;
-  lastTime: string;
+  correct: boolean;
   times: number;
 }
 

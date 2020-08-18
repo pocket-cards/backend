@@ -93,7 +93,7 @@ export default async (req: Request): Promise<void> => {
           // 新時間
           const newTime = moment(nextTime).add(diff, 'days').format('YYYYMMDD');
 
-          return DBHelper().update(Words.update.updateItem01(id, word, newTime));
+          return DBHelper().update(Words.update.nextTime(word, id, newTime));
         });
 
         await Promise.all(tasks);

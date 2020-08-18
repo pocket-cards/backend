@@ -1,43 +1,24 @@
 import { Request } from 'express';
-import { C004Params, C004Response } from 'typings/api';
-import { DBHelper } from '@utils';
+import { C004Params, C004Response, C004Request } from 'typings/api';
+import { DBHelper, DateUtils } from '@utils';
 import { Words } from '@queries';
-import { TWords } from 'typings/tables';
 
-export default async (req: Request): Promise<C004Response> => {
-  const params = (req.params as unknown) as C004Params;
-  // const request = req.body as C004Request;
+export default async (req: Request<C004Params, any, C004Request, any>): Promise<C004Response> => {
+  const { groupId, word } = req.params;
+  const input = req.body;
 
-  // const result = await DBHelper().put(Words.put({
-  //   id: params.word,
-  //   groupId: params.word,
-  //   nextTime:
-  // }));
+  // 正解の場合
+  const times = input.correct ? input.times + 1 : 0;
+  const nextTime = input.correct ? DateUtils.getNextTime(input.times) : DateUtils.getNextTime(0);
 
-  // return result.Item as TWords;
-  return;
+  // 単語学習情報更新
+  await DBHelper().update(
+    Words.update.info({
+      id: word,
+      groupId: groupId,
+      nextTime: nextTime,
+      times: times,
+      lastTime: DateUtils.getNow(),
+    })
+  );
 };
-
-// const EmptyResponse = (): C008Response => ({
-//   count: 0,
-//   words: [],
-// });
-
-// const getRandom = (items: DynamoDB.DocumentClient.AttributeMap[], maxItems: number) => {
-//   if (maxItems >= items.length) {
-//     return items;
-//   }
-
-//   const results: DynamoDB.DocumentClient.AttributeMap[] = [];
-
-//   while (results.length != maxItems) {
-//     const min = 0;
-//     const max = items.length - 1;
-
-//     const random = Math.floor(Math.random() * (max + 1 - min)) + min;
-
-//     results.push(items.splice(random, 1)[0]);
-//   }
-
-//   return results;
-// };
