@@ -5,18 +5,16 @@ import { Words } from '@queries';
 /** Wordsのデータ登録 */
 export default async (groupId: string, words: string[]) => {
   // 単語は全部小文字で処理する
-  const tasks = words
-    .map((item) => item.toLowerCase())
-    .map((item) =>
-      DBHelper().put(
-        Words.put({
-          id: item,
-          groupId: groupId,
-          nextTime: DateUtils.getNow(),
-          times: 0,
-        })
-      )
-    );
+  const tasks = words.map((item) =>
+    DBHelper().put(
+      Words.put({
+        id: item,
+        groupId: groupId,
+        nextTime: DateUtils.getNow(),
+        times: 0,
+      })
+    )
+  );
 
   try {
     // グループ単語登録

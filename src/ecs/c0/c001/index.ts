@@ -8,13 +8,14 @@ import registDictionary from './lib/registDictionary';
 export default async (req: Request<any, any, C001Request, any>): Promise<void> => {
   const input = req.body;
   const groupId = req.params['groupId'];
+  const words = input.words.map((item) => item.toLowerCase());
 
   // Wordsのデータ登録
-  await registWords(groupId, input.words);
+  await registWords(groupId, words);
 
   Logger.info('単語登録完了しました.');
 
-  const targets = await checkDictExists(input.words);
+  const targets = await checkDictExists(words);
 
   Logger.info('対象数:', targets.length);
 

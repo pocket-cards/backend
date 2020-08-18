@@ -4,7 +4,7 @@ import { WordMaster } from '@queries';
 /** 単語が辞書に存在するかのチェック */
 export default async (words: string[]) => {
   // 単語存在確認
-  const tasks = words.map((item) => DBHelper().get(WordMaster.get(item)));
+  const tasks = words.map((item) => DBHelper().get(WordMaster.get(item.toLowerCase())));
   const results = await Promise.all(tasks);
 
   Logger.info('検索結果', results);
