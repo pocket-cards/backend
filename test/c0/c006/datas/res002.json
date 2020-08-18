@@ -1,37 +1,4 @@
 {
-  "count": 4,
-  "words": [
-    {
-      "word": "WORD-1",
-      "mp3": "URL_MP3_1",
-      "pronounce": "Pronounce_1",
-      "vocChn": "WORD_ZH_1",
-      "vocJpn": "WORD_JA_1",
-      "times": 0
-    },
-    {
-      "word": "WORD-3",
-      "mp3": "URL_MP3_3",
-      "pronounce": "Pronounce_3",
-      "vocChn": "WORD_ZH_3",
-      "vocJpn": "WORD_JA_3",
-      "times": 0
-    },
-    {
-      "word": "WORD-4",
-      "mp3": "URL_MP3_4",
-      "pronounce": "Pronounce_4",
-      "vocChn": "WORD_ZH_4",
-      "vocJpn": "WORD_JA_4",
-      "times": 0
-    },
-    {
-      "word": "WORD-2",
-      "mp3": "URL_MP3_2",
-      "pronounce": "Pronounce_2",
-      "vocChn": "WORD_ZH_2",
-      "vocJpn": "WORD_JA_2",
-      "times": 0
-    }
-  ]
+  "count": 0,
+  "words": []
 }

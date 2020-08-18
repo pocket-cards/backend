@@ -6,9 +6,8 @@ import { Words, WordMaster } from '@queries';
 import { TWords, TWordMaster } from 'typings/tables';
 import { C006Response, WordItem, C006Params } from 'typings/api';
 
-export default async (req: Request): Promise<C006Response> => {
-  const params = (req.params as unknown) as C006Params;
-  const groupId = params.groupId;
+export default async (req: Request<C006Params, any, any, any>): Promise<C006Response> => {
+  const groupId = req.params.groupId;
 
   const queryResult = await DBHelper().query(Words.query.news(groupId, DateUtils.getNow()));
 

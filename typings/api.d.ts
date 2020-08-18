@@ -158,7 +158,7 @@ export type C005Response = void;
 // ------------------------------------------------------------
 // C006
 // ------------------------------------------------------------
-export interface C006Params {
+export interface C006Params extends ParamsDictionary {
   groupId: string;
 }
 
