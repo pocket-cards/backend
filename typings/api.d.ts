@@ -180,7 +180,7 @@ export interface C007Response {
 // ------------------------------------------------------------
 // C008
 // ------------------------------------------------------------
-export interface C008Params {
+export interface C008Params extends ParamsDictionary {
   groupId: string;
 }
 

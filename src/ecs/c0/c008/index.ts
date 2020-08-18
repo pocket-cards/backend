@@ -15,6 +15,7 @@ export default async (req: Request): Promise<C008Response> => {
   if (queryResult.Count === 0 || !queryResult.Items) {
     return EmptyResponse();
   }
+
   const items = queryResult.Items as TWords[];
   // 時間順で上位N件を対象とします
   const targets = getRandom(items, Environment.WORDS_LIMIT);

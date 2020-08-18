@@ -1,0 +1,10 @@
+{
+  "TableName": "PocketCards_Words",
+  "ProjectionExpression": "id, nextTime, times",
+  "KeyConditionExpression": "#groupId = :groupId",
+  "FilterExpression": "#times = :times",
+  "ExpressionAttributeNames": { "#groupId": "groupId", "#times": "times" },
+  "ExpressionAttributeValues": { ":groupId": "C999", ":times": 1 },
+  "IndexName": "gsi1",
+  "ScanIndexForward": false
+}
