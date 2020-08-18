@@ -19,12 +19,17 @@ export default async (req: Request<C002Params, any, any, any>): Promise<C002Resp
   const results = await Promise.all(tasks);
 
   // 戻り値に変換する
-  return results.map((item) => {
-    const t = item.Item as TWordMaster;
+  return results
+    .map((item) => {
+      // 単語存在しない
+      if (!item || !item.Item) return null;
 
-    return {
-      word: t.id,
-      vocabulary: t.vocJpn,
-    } as C002ResItem;
-  });
+      const wm = item.Item as TWordMaster;
+
+      return {
+        word: wm.id,
+        vocabulary: wm.vocJpn,
+      } as C002ResItem;
+    })
+    .filter((item) => item !== null);
 };
