@@ -20,8 +20,7 @@ describe('C007', () => {
   // 10件超え
   it('Case001', async () => {
     AWSMock.mock('DynamoDB.DocumentClient', 'query', (params: AWS.DynamoDB.DocumentClient.QueryInput, callback: any) => {
-      console.log(params);
-      chai.expect(params).to.be.deep.eq(require('./datas/query001.json'));
+      chai.expect(params).excluding('ExpressionAttributeValues').to.be.deep.eq(require('./datas/query001.json'));
 
       callback(null, require('./datas/queryResult001.json'));
     });
