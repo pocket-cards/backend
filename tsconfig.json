@@ -40,11 +40,10 @@
     "./typings/aws.d.ts"
   ],
   "include": [
-    "src/**/*",
-    "test/**/*.ts",
-    "docker/**/*.ts"
+    "src/**/*.ts",
+    "test/**/*.ts"
   ],
   "exclude": [
-    "node_modules",
+    "node_modules"
   ]
 }

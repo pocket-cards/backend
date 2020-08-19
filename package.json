@@ -25,7 +25,8 @@
     "debug": "ts-mocha -r tsconfig-paths/register -r dotenv/config test/**/index1.ts --exit --timeout 10000",
     "coverage": "nyc npm run test",
     "valid": "tsc --noEmit",
-    "kill": "lsof -i :${PORT:-8080} -t | xargs kill"
+    "kill": "lsof -i :${PORT:-8080} -t | xargs kill",
+    "patch": "ts-node -r tsconfig-paths/register -r dotenv/config src/patchs/20200819.ts"
   },
   "nyc": {
     "extends": "@istanbuljs/nyc-config-typescript",

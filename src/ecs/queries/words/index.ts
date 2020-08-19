@@ -15,6 +15,11 @@ export const get = (key: WordKey) =>
 export const put = (item: TWords): DynamoDB.DocumentClient.PutItemInput => ({
   TableName: Environment.TABLE_WORDS,
   Item: item,
+});
+
+export const putNotExist = (item: TWords): DynamoDB.DocumentClient.PutItemInput => ({
+  TableName: Environment.TABLE_WORDS,
+  Item: item,
   ConditionExpression: 'attribute_not_exists(id)',
 });
 
