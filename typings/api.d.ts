@@ -1,4 +1,4 @@
-import { TGroups, TWords } from './tables';
+import { TGroups, TWords, TWordMaster } from './tables';
 import { Request } from 'express';
 import { ParamsDictionary } from 'express-serve-static-core';
 
@@ -204,3 +204,12 @@ export interface D001Response {
   count: number;
   words: string[];
 }
+
+// ------------------------------------------------------------
+// E001
+// ------------------------------------------------------------
+export interface E001Params extends ParamsDictionary {
+  word: string;
+}
+
+export type E001Response = TWordMaster;

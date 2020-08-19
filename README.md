@@ -20,6 +20,7 @@
 |                | /groups/{groupId}/review       | GET         | C008        | 復習モード単語一覧       | ✓           |
 |                | /image2text                    | POST        | D001        | 画像から単語に変換する   | ✓           |
 |                | /image2line                    | POST        | D002        | 画像から行に変換する     |
+|                | /words/{word}                  | GET         | E001        | 単語詳細情報取得         |
 |                | Cognito Sync Trigger           |             | S002        |                          |
 
 ## Users
