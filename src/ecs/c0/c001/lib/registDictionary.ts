@@ -4,6 +4,7 @@ import * as short from 'short-uuid';
 import { DBHelper, ClientUtils, DateUtils, Logger } from '@utils';
 import { WordMaster } from '@queries';
 import { Environment } from '@consts';
+import { TWordMaster } from 'typings/tables';
 
 const pronounceKey = Environment.IPA_API_KEY;
 const translateKey = Environment.TRANSLATION_API_KEY;
@@ -16,28 +17,26 @@ export default async (words: string[]) => {
 
   Logger.info('単語情報を収集しました.');
 
-  // 単語辞書登録
-  const dictTasks = result.map((item) => {
-    const pronounce = item[0];
-    const mp3 = item[1];
-    const vocChn = item[2];
-    const vocJpn = item[3];
+  // 単語登録情報
+  const wordInfos = result.map(
+    (item) =>
+      ({
+        id: item[0]['word'],
+        pronounce: item[0]['pronounce'],
+        mp3: item[1],
+        vocChn: item[2],
+        vocJpn: item[3],
+      } as TWordMaster)
+  );
 
-    return DBHelper().put(
-      WordMaster.put({
-        id: pronounce['word'],
-        pronounce: pronounce['pronounce'],
-        mp3,
-        vocChn,
-        vocJpn,
-      })
-    );
-  });
-
-  // 辞書登録処理
-  await Promise.all(dictTasks);
+  // 単語登録タスク作成
+  const registTasks = wordInfos.map((item) => DBHelper().put(WordMaster.put(item)));
+  // 単語一括登録
+  await Promise.all(registTasks);
 
   Logger.info('単語辞書の登録は完了しました.');
+
+  return wordInfos;
 };
 
 /** 発音データ取得する */

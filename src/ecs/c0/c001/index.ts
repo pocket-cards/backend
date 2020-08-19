@@ -1,29 +1,25 @@
 import { Request } from 'express';
-import { Logger } from '@utils';
-import { C001Request } from 'typings/api';
+import { DBHelper } from '@utils';
 import registWords from './lib/registWords';
-import checkDictExists from './lib/checkDictExists';
 import registDictionary from './lib/registDictionary';
+import { WordMaster } from '@queries';
+import { TWordMaster } from 'typings/tables';
+import { C001Request } from 'typings/api';
 
 export default async (req: Request<any, any, C001Request, any>): Promise<void> => {
   const input = req.body;
   const groupId = req.params['groupId'];
   const words = input.words.map((item) => item.toLowerCase());
 
+  // 既存単語マスタを検索する
+  const tasks = words.map((item) => DBHelper().get(WordMaster.get(item)));
+  const dict = (await Promise.all(tasks)).filter((item) => item).map((item) => item.Item as TWordMaster);
+
+  // 新規追加の単語
+  const news = words.filter((item) => !dict.find((r) => r.id === item));
+  // 辞書に追加する
+  const newDict = await registDictionary(news);
+
   // Wordsのデータ登録
-  await registWords(groupId, words);
-
-  Logger.info('単語登録完了しました.');
-
-  const targets = await checkDictExists(words);
-
-  Logger.info('対象数:', targets.length);
-
-  // すでに辞書に存在しました
-  if (targets.length === 0) {
-    return;
-  }
-
-  // 辞書の登録
-  await registDictionary(targets);
+  await registWords(groupId, words, [...dict, ...newDict]);
 };

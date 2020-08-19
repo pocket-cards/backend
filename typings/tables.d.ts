@@ -12,6 +12,8 @@ export interface TWords extends WordKey {
   lastTime?: string;
   // 学習回数
   times: number;
+  // 語彙
+  vocabulary?: string;
 }
 
 export interface TWordMaster {
