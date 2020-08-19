@@ -1,0 +1,10 @@
+{
+  "TableName": "PocketCards_WordMaster",
+  "Item:": {
+    "id": "AAA",
+    "mp3": "URL_MP3_1",
+    "pronounce": "Pronounce_1",
+    "vocChn": "WORD_ZH_1",
+    "vocJpn": "WORD_JA_1"
+  }
+}

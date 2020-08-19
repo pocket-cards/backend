@@ -4,7 +4,7 @@ import BodyParser from 'body-parser';
 import { B001, B002, B003, B004, B005 } from '@src/b0';
 import { C001, C002, C003, C004, C005, C006, C007, C008 } from '@src/c0';
 import { D001 } from '@src/d0';
-import { E001 } from '@src/e0';
+import { E001, E002 } from '@src/e0';
 
 import entry from './entry';
 
@@ -54,6 +54,8 @@ app.get('/groups/:groupId/review', express.json(), (req, res) => entry(req, res,
 app.post('/image2text', express.json(), (req, res) => entry(req, res, D001));
 // 単語詳細情報取得
 app.get('/words/:word', express.json(), (req, res) => entry(req, res, E001));
+// 単語詳細情報取得
+app.put('/words/:word', express.json(), (req, res) => entry(req, res, E002));
 
 app.listen(process.env.EXPOSE_PORT || 8080, () => {
   console.log('Started...');

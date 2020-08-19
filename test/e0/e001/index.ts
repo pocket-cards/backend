@@ -12,7 +12,7 @@ chai.should();
 
 AWSMock.setSDKInstance(AWS);
 
-describe('C001', () => {
+describe('E001', () => {
   afterEach(() => {
     AWSMock.restore('DynamoDB.DocumentClient');
   });

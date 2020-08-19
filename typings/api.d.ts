@@ -213,3 +213,14 @@ export interface E001Params extends ParamsDictionary {
 }
 
 export type E001Response = TWordMaster;
+
+// ------------------------------------------------------------
+// E002
+// ------------------------------------------------------------
+export interface E002Params extends ParamsDictionary {
+  word: string;
+}
+
+export interface E002Request extends TWordMaster {}
+
+export type E002Response = void;
