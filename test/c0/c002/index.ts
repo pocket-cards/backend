@@ -27,14 +27,6 @@ describe('C002', () => {
       });
     });
 
-    AWSMock.mock('DynamoDB.DocumentClient', 'get', (params: AWS.DynamoDB.DocumentClient.GetItemInput, callback: any) => {
-      const db = require('./datas/master001.json');
-
-      callback(null, {
-        Item: db[params.Key.id],
-      });
-    });
-
     // URL
     const URL = '/groups/C002/words';
     // request

@@ -4,20 +4,15 @@
     "groupId": "C002",
     "nextTime": "20190402",
     "lastTime": "20190401",
-    "times": 0
+    "times": 0,
+    "vocabulary": "中国"
   },
   {
     "id": "america",
     "groupId": "C002",
     "nextTime": "20190404",
     "lastTime": "20190403",
-    "times": 1
-  },
-  {
-    "id": "notexist",
-    "groupId": "C002",
-    "nextTime": "20190404",
-    "lastTime": "20190403",
-    "times": 1
+    "times": 1,
+    "vocabulary": "米国"
   }
 ]
