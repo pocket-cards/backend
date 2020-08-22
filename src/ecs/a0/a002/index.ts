@@ -1,7 +1,7 @@
 import { Request } from 'express';
 import moment from 'moment';
 import { A002Response } from 'typings/api';
-import { TGroups, THistory } from 'typings/tables';
+import { TGroups, THistories } from 'typings/tables';
 import { DBHelper, DateUtils, Commons } from '@utils';
 import { Histories, Groups, Words } from '@queries';
 
@@ -21,9 +21,10 @@ export default async (req: Request): Promise<A002Response> => {
   // 月次
   const day3 = `${moment().add(-1, 'months').format('YYYYMMDD')}${TIMESTAMP_ENDFIX}`;
 
-  const results = null; //await DBHelper().query(History.queryByUserId(userId, `${day3}`));
+  const results = await DBHelper().query(Histories.query.byUserId(userId, `${day3}`));
 
-  const items = (results.Items as unknown) as THistory[];
+  const items = (results.Items as unknown) as THistories[];
+
   // 検索結果なし
   if (results.Count === 0 || !items) {
     return EmptyResponse();

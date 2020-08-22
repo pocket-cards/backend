@@ -4,17 +4,17 @@ import { Environment } from '@consts';
 /**
  * グループIDより、ユーザIDを検索する
  */
-export const byUserId = (userId: string, timestamp: string) =>
+export const byUserId = (user: string, timestamp: string) =>
   ({
-    TableName: Environment.TABLE_HISTORY,
-    ProjectionExpression: 'userId, #timestamp, times, lastTime',
-    KeyConditionExpression: '#userId = :userId and #timestamp >= :timestamp',
+    TableName: Environment.TABLE_HISTORIES,
+    ProjectionExpression: 'user, #timestamp, times, lastTime',
+    KeyConditionExpression: '#user = :user and #timestamp >= :timestamp',
     ExpressionAttributeNames: {
-      '#userId': 'userId',
+      '#user': 'user',
       '#timestamp': 'timestamp',
     },
     ExpressionAttributeValues: {
-      ':userId': userId,
+      ':user': user,
       ':timestamp': timestamp,
     },
   } as DynamoDB.DocumentClient.QueryInput);
