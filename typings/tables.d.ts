@@ -60,7 +60,7 @@ export interface TGroups extends GroupsKey {
   description?: string;
 }
 
-export interface THistory {
+export interface THistories {
   // ユーザID
   user: string;
   // Timestamp

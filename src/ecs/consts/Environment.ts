@@ -3,7 +3,7 @@ export const TABLE_USERS = process.env.TABLE_USERS as string;
 export const TABLE_GROUPS = process.env.TABLE_GROUPS as string;
 export const TABLE_WORDS = process.env.TABLE_WORDS as string;
 export const TABLE_WORD_MASTER = process.env.TABLE_WORD_MASTER as string;
-export const TABLE_HISTORY = process.env.TABLE_HISTORY as string;
+export const TABLE_HISTORIES = process.env.TABLE_HISTORIES as string;
 
 export const IPA_URL = process.env.IPA_URL as string;
 export const IPA_API_KEY = process.env.IPA_API_KEY as string;
