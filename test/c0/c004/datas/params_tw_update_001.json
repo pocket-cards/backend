@@ -11,8 +11,6 @@
     "#nextTime": "nextTime"
   },
   "ExpressionAttributeValues": {
-    ":times": 2,
-    ":lastTime": "20200818",
-    ":nextTime": "20200819"
+    ":times": 2
   }
 }

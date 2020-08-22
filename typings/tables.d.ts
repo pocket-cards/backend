@@ -62,15 +62,15 @@ export interface TGroups extends GroupsKey {
 
 export interface THistory {
   // ユーザID
-  userId: string;
+  user: string;
   // Timestamp
   timestamp: string;
   // グループID
-  groupId?: string;
-  // 最後の学習時間
-  lastTime?: string;
+  group?: string;
   // 単語
   word?: string;
+  // 最後の学習時間
+  lastTime?: string;
   // 学習回数
   times?: number;
 }

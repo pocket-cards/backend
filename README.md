@@ -113,18 +113,20 @@
 
 | Item      | Key   | LSI1 | LSI2 | GSI1 | GSI2 |
 | --------- | ----- | ---- | ---- | ---- | ---- |
-| userId    | Hash  |      |      |      |      |
+| user      | Hash  |      |      |      |      |
 | timestamp | Range |      |      |      |      |
+| group     |       |      |      |      |      |
 | word      |       |      |      |      |      |
 | times     |       |      |      |      |      |
+| lastTime  |       |      |      |      |      |
 
 ### Search Conditions
 
-| Status      | Conditions                                   |
-| ----------- | -------------------------------------------- |
-| Get Daily   | UserId = xxx, Timestamp begin_with YYYYMMDD  |
-| Get Weekly  | UserId = xxx, Timestamp >= YYYYMMDD000000000 |
-| Get Monthly | UserId = xxx, Timestamp >= YYYYMMDD000000000 |
+| Status      | Conditions                                 |
+| ----------- | ------------------------------------------ |
+| Get Daily   | User = xxx, Timestamp begin_with YYYYMMDD  |
+| Get Weekly  | User = xxx, Timestamp >= YYYYMMDD000000000 |
+| Get Monthly | User = xxx, Timestamp >= YYYYMMDD000000000 |
 
 <!-- ## Maintenance Functions
 
