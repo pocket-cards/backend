@@ -2,6 +2,7 @@ import { DynamoDB } from 'aws-sdk';
 import { Environment } from '@consts';
 import { TGroups, GroupsKey } from 'typings/tables';
 import * as query from './query';
+import * as update from './update';
 
 /** データ取得 */
 export const get = (key: GroupsKey): DynamoDB.DocumentClient.GetItemInput => ({
@@ -24,4 +25,4 @@ export const del = (key: GroupsKey): DynamoDB.DocumentClient.DeleteItemInput => 
   },
 });
 
-export { query };
+export { query, update };

@@ -52,6 +52,7 @@
 | userId      | Range |      |      | Hash  |      |
 | name        |       |      |      | 〇    |      |
 | description |       |      |      | 〇    |      |
+| count       |       |      |      |       |      |
 
 ### Search Conditions
 

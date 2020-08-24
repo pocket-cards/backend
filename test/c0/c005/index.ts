@@ -12,8 +12,12 @@ AWSMock.setSDKInstance(AWS);
 
 describe('C005', () => {
   it('Case001', async () => {
-    AWSMock.mock('DynamoDB.DocumentClient', 'delete', (params: AWS.DynamoDB.DocumentClient.DeleteItemInput, callback: any) => {
-      chai.expect(require('./datas/input001.json')).to.be.deep.eq(params);
+    AWSMock.mock('DynamoDB.DocumentClient', 'transactWrite', (params: AWS.DynamoDB.DocumentClient.TransactWriteItemsInput, callback: any) => {
+      const del = params.TransactItems[0].Delete;
+      const upd = params.TransactItems[1].Update;
+
+      chai.expect(require('./datas/001_params_del.json')).to.be.deep.eq(del);
+      chai.expect(require('./datas/001_params_upd.json')).to.be.deep.eq(upd);
 
       callback(null, 'success');
     });
