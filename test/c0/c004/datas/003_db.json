@@ -1,0 +1,14 @@
+{
+  "WORD4": {
+    "id": "WORD4",
+    "groupId": "C004",
+    "times": 0,
+    "vocabulary": "中国"
+  },
+  "WORD999": {
+    "id": "WORD999",
+    "groupId": "C004",
+    "times": 1,
+    "vocabulary": "九"
+  }
+}

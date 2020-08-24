@@ -143,8 +143,10 @@ export interface C004Params extends ParamsDictionary {
 }
 
 export interface C004Request {
-  correct: boolean;
-  times: number;
+  type: string;
+  correct?: boolean;
+  times?: number;
+  newWord?: string;
 }
 
 export type C004Response = void;
