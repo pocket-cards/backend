@@ -2,20 +2,11 @@ import chai from 'chai';
 import chaiHttp from 'chai-http';
 import server from '@app';
 import { HEADER_AUTH } from '../../Commons';
-import App from '@test/server';
 
 chai.use(chaiHttp);
 chai.should();
 
 describe('C001', () => {
-  before(() => {
-    App.listen(9000, () => console.log('test server started...'));
-  });
-
-  after(() => {
-    App.removeAllListeners();
-  });
-
   it('Case001', async () => {
     const URL = '/image2text';
     // request

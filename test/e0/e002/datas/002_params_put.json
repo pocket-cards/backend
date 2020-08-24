@@ -1,0 +1,10 @@
+{
+  "TableName": "PocketCards_WordMaster",
+  "Item": {
+    "id": "Text",
+    "pronounce": "text_pro",
+    "mp3": "audio/20200824/q7wHufakWze85SHV3hFCf2.mp3",
+    "vocChn": "TEXT",
+    "vocJpn": "TEXT"
+  }
+}

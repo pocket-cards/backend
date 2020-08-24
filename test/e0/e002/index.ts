@@ -18,7 +18,7 @@ describe('E002', () => {
     AWSMock.restore('DynamoDB.DocumentClient');
   });
 
-  it('Case001', async () => {
+  it.skip('Case001', async () => {
     AWSMock.mock('DynamoDB.DocumentClient', 'get', (params: AWS.DynamoDB.DocumentClient.GetItemInput, callback: any) => {
       chai.expect(params.Key).to.be.deep.eq({ id: 'AAA' });
 
@@ -59,7 +59,7 @@ describe('E002', () => {
 
   it('Case002', async () => {
     AWSMock.mock('DynamoDB.DocumentClient', 'get', (params: AWS.DynamoDB.DocumentClient.GetItemInput, callback: any) => {
-      chai.expect(params.Key).to.be.deep.eq({ id: 'BBB' });
+      chai.expect(params.Key).to.be.deep.eq({ id: 'Text' });
 
       const ret: AWS.DynamoDB.DocumentClient.GetItemOutput = {
         Item: undefined,
@@ -68,22 +68,18 @@ describe('E002', () => {
       callback(null, ret);
     });
 
+    AWSMock.mock('DynamoDB.DocumentClient', 'put', (params: AWS.DynamoDB.DocumentClient.PutItemInput, callback: any) => {
+      chai.expect(params).excludingEvery('mp3').to.be.deep.eq(require('./datas/002_params_put.json'));
+
+      callback(null, 'success');
+    });
+
     // URL
-    const URL = '/words/BBB';
+    const URL = '/words/Text';
     // request
-    const res = await chai
-      .request(server)
-      .put(URL)
-      .set('authorization', HEADER_AUTH)
-      .send({
-        id: 'BBB',
-        mp3: 'URL_MP3_1',
-        pronounce: 'Pronounce_1',
-        vocJpn: 'WORD_JA_1',
-        vocChn: 'WORD_ZH_1',
-      } as E002Request);
+    const res = await chai.request(server).put(URL).set('authorization', HEADER_AUTH).send();
 
     // response status
-    chai.expect(res.status).to.be.eq(500);
+    chai.expect(res.status).to.be.eq(200);
   });
 });

@@ -13,9 +13,25 @@ app.post('/image2words', express.json(), (req, res) => {
 });
 
 app.get('/ipa', express.json(), (req, res) => {
-  const word = req.query['word'];
+  const datas = require('./datas/ipa.json');
 
-  res.send({});
+  res.send({
+    pronounce: datas[`${req.query['word']}`],
+  });
+});
+
+app.post('/translate', express.json(), (req, res) => {
+  const datas = require('./datas/translate.json');
+
+  res.send({
+    data: {
+      translations: [
+        {
+          translatedText: datas[req.body.q],
+        },
+      ],
+    },
+  });
 });
 
 app.use((req: Request, res: Response, next: NextFunction) => {
